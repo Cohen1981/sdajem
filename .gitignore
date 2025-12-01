@@ -1,9 +1,7 @@
-/vendor/
-/db_data/*
-/joomla_data/*
-/db_data
+/resources/config/.dev_env_build
+/resources/vendor
+/resources/packages
+/resources/composer.lock
 /joomla_data
-/target
-/temp
+/db_data
 composer.lock
-.idea
