@@ -6,15 +6,6 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_sdajem.admin-locations-modal",
-      "type": "script",
-      "uri": "com_sdajem/admin-locations-modal.js",
-      "dependencies": ["core"],
-      "attributes": {
-        "defer": true
-      }
-    },
-    {
       "name": "com_sdajem.planing",
       "type": "style",
       "uri": "com_sdajem/planing.css"

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <config>
+        <inlinehelp button="show"/>
+    </config>
+    <fieldset name="eventdetails" addfieldprefix="Sda\Component\Sdajem\Administrator\Field">
+        <field
+                name="id"
+                type="number"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                default="0"
+                class="readonly"
+                readonly="true"
+        />
+        <field
+                name="title"
+                type="text"
+                label="COM_SDAJEM_FIELD_TITLE_LABEL"
+                size="40"
+                required="true"
+        />
+        <field
+                name="alias"
+                type="text"
+                label="JFIELD_ALIAS_LABEL"
+                size="45"
+                hint="JFIELD_ALIAS_PLACEHOLDER"
+        />
+        <field name="eventStatus"
+               type="Eventstatuslist"
+               label="COM_SDAJEM_FIELD_EVENT_STATUS_LABEL"
+               desc="COM_SDAJEM_FIELD_EVENT_STATUS_DESC"
+        />
+        <field
+                name="description"
+                type="editor"
+                label="COM_SDAJEM_FIELD_EVENTDESC_LABEL"
+        />
+        <field
+                name="image"
+                type="media"
+                label="COM_SDAJEM_EVENT_IMAGE_LABEL"
+        />
+        <field
+                name="url"
+                type="text"
+                label="COM_SDAJEM_FIELD_URL_LABEL"
+                size="255"
+        />
+        <field
+                name="sdajem_location_id"
+                type="ModalSelect"
+                label="COM_SDAJEM_SELECT_LOCATION_LABEL"
+                select="true"
+                urlSelect="index.php?option=com_sdajem&amp;view=locations&amp;layout=modal&amp;tmpl=component"
+                clear="true"
+                new="true"
+                sql_title_table="#__sdajem_locations"
+                sql_title_column="title"
+                sql_title_key="id"
+        />
+        <field
+                name="allDayEvent"
+                type="list"
+                label="COM_SDAJEM_FIELD_ALLDAYEVENT_LABEL"
+                default="1"
+                validate="options"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="startDateTime"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_STARTDATETIME_LABEL"
+                showtime="true"
+                translateformat="true"
+                todaybutton="true"
+                required="true"
+                size="22"
+        />
+        <field
+                name="endDateTime"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_ENDDATETIME_LABEL"
+                showtime="true"
+                translateformat="true"
+                todaybutton="true"
+                required="true"
+                size="22"
+        />
+        <field name="organizerId"
+               type="Userlist"
+               label="COM_SDAJEM_FIELD_ORGANIZER_LABEL"
+               desc=""
+        />
+        <field name="hostId"
+               type="Contactlist"
+               label="COM_SDAJEM_FIELD_HOST_LABEL"
+               desc=""
+        />
+        <field
+                name="featured"
+                type="radio"
+                layout="joomla.form.field.radio.switcher"
+                label="JFEATURED"
+                default="0"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <field
+                name="published"
+                type="list"
+                label="JSTATUS"
+                default="1"
+                id="published"
+                class="custom-select-color-state"
+                size="1"
+        >
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+
+        <field
+                name="publish_up"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_PUBLISH_UP_LABEL"
+                translateformat="true"
+                showtime="true"
+                size="22"
+                filter="user_utc"
+        />
+
+        <field
+                name="publish_down"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_PUBLISH_DOWN_LABEL"
+                translateformat="true"
+                showtime="true"
+                size="22"
+                filter="user_utc"
+        />
+
+        <field
+                name="access"
+                type="accesslevel"
+                label="JFIELD_ACCESS_LABEL"
+                size="1"
+        />
+
+        <field
+                name="ordering"
+                type="ordering"
+                label="JFIELD_ORDERING_LABEL"
+                content_type="com_foos.foo"
+        />
+        <fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+            <fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+                <field
+                        name="sda_use_attending"
+                        type="list"
+                        label="COM_SDAJEM_FIELD_USE_ATTENDING_LABEL"
+                        default="1"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+            </fieldset>
+        </fields>
+    </fieldset>
+</form>

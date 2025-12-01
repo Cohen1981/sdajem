@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="component" method="upgrade">
+    <name>COM_SDAJEM</name>
+    <author>Alexander Bahlo</author>
+    <creationDate>23.01.2023</creationDate>
+    <authorEmail>abahlo@hotmail.de</authorEmail>
+    <copyright>(C) 2006 Open Source Matters, Inc.</copyright>
+    <license>GNU General Public License version 2 or later;</license>
+    <version>1.5.3</version>
+    <description>COM_SDAJEM_XML_DESCRIPTION</description>
+    <namespace path="src">Sda\Component\Sdajem</namespace>
+
+    <scriptfile>script.php</scriptfile>
+
+    <install> <!-- Runs on install -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+    <uninstall> <!-- Runs on uninstall -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+        </sql>
+    </uninstall>
+    <update>  <!-- Runs on update -->
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+    <!-- Frond-end files -->
+    <files folder="components/com_sdajem">
+        <folder>forms</folder>
+        <folder>language</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+    </files>
+    <media folder="media/com_sdajem" destination="com_sdajem">
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>css</folder>
+        <filename>joomla.asset.json</filename>
+    </media>
+
+    <!-- Back-end files -->
+    <administration>
+        <!-- Menu entries -->
+        <menu view="events">COM_SDAJEM</menu>
+        <submenu>
+            <menu link="option=com_sdajem">COM_SDAJEM_MENU_EVENTS</menu>
+            <menu link="option=com_sdajem&amp;view=locations">COM_SDAJEM_MENU_LOCATIONS</menu>
+        </submenu>
+
+        <files folder="administrator/components/com_sdajem">
+            <filename>sdajem.xml</filename>
+            <filename>script.php</filename>
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <folder>forms</folder>
+            <folder>language</folder>
+            <folder>services</folder>
+            <folder>sql</folder>
+            <folder>src</folder>
+        </files>
+    </administration>
+    <!--
+    <api>
+        <files folder="api/components/com_sdajem">
+            <folder>src</folder>
+        </files>
+    </api>
+    <changelogurl></changelogurl>
+    <updateservers>
+        <server type="extension" name="Sdajem Updates"></server>
+    </updateservers>
+    <dlid prefix="dlid=" suffix="" />
+    -->
+</extension>

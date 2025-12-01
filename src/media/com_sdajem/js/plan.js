@@ -211,6 +211,7 @@
                 if (this.readyState === 4 && this.status === 200) {
                     let html = xhttp.response;
                     let message = '';
+
                     if (html.toString() === "error") {
                         message = document.createElement('p');
                         message.innerHTML = 'An error occured';

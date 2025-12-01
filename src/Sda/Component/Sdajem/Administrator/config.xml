@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset
+            name="general"
+            label="COM_SDAJEM_FIELDS_CONFIG"
+            description="COM_SDAJEM_FIELD_CONFIG_DESC"
+    >
+        <field
+                name="sda_use_avatar"
+                type="list"
+                label="COM_SDAJEM_FIELD_USE_AVATAR_LABEL"
+                description="COM_SDAJEM_FIELD_USE_AVATAR_DESC"
+                default="0"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_avatar_field_name"
+                type="sql"
+                label="COM_SDAJEM_FIELD_AVATAR_FIELD_NAME"
+                sql_select="f.*"
+                sql_from="#__fields AS f"
+                sql_where="f.context = 'com_users.user'"
+                key_field="name"
+                value_field="title"
+                showon="sda_use_avatar:1"
+                description="COM_SDAJEM_FIELD_AVATAR_FIELD_DESC"
+                default=""
+        />
+        <field
+            name="sda_events_new_location"
+            type="list"
+            label="COM_SDAJEM_FIELD_EVENTS_NEW_LOCATION_LABEL"
+            default="1"
+            description="COM_SDAJEM_FIELD_EVENTS_NEW_LOCATION_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_events_use_fittings"
+                type="list"
+                label="COM_SDAJEM_FIELD_USE_FITTINGS_LABEL"
+                default="0"
+                description="COM_SDAJEM_FIELD_USE_FITTINGS_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_planing_x"
+                type="number"
+                default="40"
+                label="COM_SDAJEM_CONFIG_PLANING_X"
+                showon="sda_events_use_fittings:1"
+                description="COM_SDAJEM_CONFIG_PLANING_X_DESC"
+        >
+        </field>
+        <field
+                name="sda_planing_y"
+                type="number"
+                default="30"
+                label="COM_SDAJEM_CONFIG_PLANING_Y"
+                showon="sda_events_use_fittings:1"
+                description="COM_SDAJEM_CONFIG_PLANING_Y_DESC"
+        >
+        </field>
+    </fieldset>
+    <fieldset
+            name="event"
+            label="COM_SDAJEM_FIELDS_EVENT_CONFIG"
+            description="COM_SDAJEM_FIELDS_EVENT_CONFIG_DESC"
+    >
+        <field
+                name="sda_public_planing"
+                type="sql"
+                label="COM_SDAJEM_VIEWLEVEL_NAME"
+                sql_select="vl.*"
+                sql_from="#__viewlevels AS vl"
+                key_field="id"
+                value_field="title"
+                description="COM_SDAJEM_VIEWLEVEL_DESC"
+                default="2"
+        />
+        <field
+                name="sda_use_attending"
+                type="list"
+                label="COM_SDAJEM_FIELD_USE_ATTENDING_LABEL"
+                default="1"
+                description="COM_SDAJEM_FIELD_USE_ATTENDING_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_use_organizer"
+                type="list"
+                label="COM_SDAJEM_FIELD_USE_ORGANIZER_LABEL"
+                default="1"
+                description="COM_SDAJEM_FIELD_USE_ORGANIZER_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_user_group_name"
+                type="sql"
+                label="COM_SDAJEM_FIELD_USER_FIELD_NAME"
+                sql_select="ug.*"
+                sql_from="#__usergroups AS ug"
+                key_field="id"
+                value_field="title"
+                showon="sda_use_organizer:1"
+                description="COM_SDAJEM_FIELD_USER_FIELD_DESC"
+        />
+        <field
+                name="sda_use_host"
+                type="list"
+                label="COM_SDAJEM_FIELD_USE_HOST_LABEL"
+                default="0"
+                description="COM_SDAJEM_FIELD_USE_HOST_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_host_category_name"
+                type="sql"
+                label="COM_SDAJEM_FIELD_HOST_FIELD_NAME"
+                sql_select="cat.*"
+                sql_from="#__categories AS cat"
+                sql_where="cat.extension = 'com_contact'"
+                key_field="id"
+                value_field="title"
+                showon="sda_use_host:1"
+                description="COM_SDAJEM_FIELD_HOST_FIELD_DESC"
+        />
+        <field
+                name="sda_use_location"
+                type="list"
+                label="COM_SDAJEM_FIELD_USE_LOCATION_LABEL"
+                default="1"
+                description="COM_SDAJEM_FIELD_USE_LOCATION_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_show_old_events"
+                type="list"
+                label="COM_SDAJEM_FIELD_SHOW_OLD_EVENTS_LABEL"
+                default="0"
+                description="COM_SDAJEM_FIELD_SHOW_OLD_EVENTS_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_events_use_comments"
+                type="list"
+                label="COM_SDAJEM_FIELD_EVENTS_USE_COMMENTS_LABEL"
+                default="0"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_mail_on_new_event"
+                type="list"
+                label="COM_SDAJEM_FIELD_MAIL_NEW_EVENT_LABEL"
+                default="0"
+                description="COM_SDAJEM_FIELD_MAIL_NEW_EVENT_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="sda_usergroup_mail"
+                type="sql"
+                label="COM_SDAJEM_USERGROUP_MAIL"
+                sql_select="ug.*"
+                sql_from="#__usergroups AS ug"
+                key_field="id"
+                value_field="title"
+                description="COM_SDAJEM_USERGROUP_MAIL_DESC"
+                default="2"
+                showon="sda_mail_on_new_event:1"
+        />
+    </fieldset>
+    <fieldset
+            name="attendings"
+            label="COM_SDAJEM_FIELDS_ATTENDING_CONFIG"
+            description="COM_SDAJEM_FIELDS_ATTENDING_CONFIG_DESC">
+        <field
+                name="sda_show_all_users"
+                type="list"
+                label="COM_SDAJEM_FIELD_SHOW_ALL_USERS_LABEL"
+                default="0"
+                description="COM_SDAJEM_FIELD_SHOW_ALL_USERS_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+    </fieldset>
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL"
+            description="JCONFIG_PERMISSIONS_DESC"
+    >
+        <field
+                name="rules"
+                type="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                validate="rules"
+                filter="rules"
+                component="com_sdajem"
+                section="component"
+        />
+    </fieldset>
+</config>

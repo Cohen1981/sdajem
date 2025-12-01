@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="general" addfieldprefix="Sda\Component\Sdajem\Administrator\Field">
+        <field
+                name="id"
+                type="number"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                default="0"
+                class="readonly"
+                readonly="true"
+                hidden="true"
+        />
+        <field
+                name="title"
+                type="text"
+                label="COM_SDAJEM_FIELD_TITLE_LABEL"
+                size="40"
+                required="true"
+        />
+        <field
+                name="alias"
+                type="text"
+                label="JFIELD_ALIAS_LABEL"
+                size="45"
+                hint="JFIELD_ALIAS_PLACEHOLDER"
+                class="hidden"
+                hidden="true"
+        />
+        <field name="eventStatus"
+               type="Eventstatuslist"
+               label="COM_SDAJEM_FIELD_EVENT_STATUS_LABEL"
+               desc="COM_SDAJEM_FIELD_EVENT_STATUS_DESC"
+               default="0"
+        />
+    </fieldset>
+    <fieldset name="details" addfieldprefix="Sda\Component\Sdajem\Administrator\Field">
+        <field
+                name="description"
+                type="editor"
+                label="COM_SDAJEM_FIELD_EVENTDESC_LABEL"
+                filter="safehtml"
+        />
+        <field
+                name="image"
+                type="media"
+                label="COM_SDAJEM_EVENT_IMAGE_LABEL"
+                />
+        <field
+                name="url"
+                type="text"
+                label="COM_SDAJEM_FIELD_URL_LABEL"
+                size="255"
+        />
+        <field
+                name="sdajem_location_id"
+                type="ModalSelect"
+                label="COM_SDAJEM_SELECT_LOCATION_LABEL"
+                select="true"
+                urlSelect="index.php?option=com_sdajem&amp;view=locations&amp;layout=modal&amp;tmpl=component"
+                clear="true"
+                new="true"
+                urlNew="index.php?option=com_sdajem&amp;view=locationform&amp;layout=modal&amp;id=0&amp;tmpl=component"
+                sql_title_table="#__sdajem_locations"
+                sql_title_column="title"
+                sql_title_key="id"
+        />
+        <field
+                name="allDayEvent"
+                type="list"
+                label="COM_SDAJEM_FIELD_ALLDAYEVENT_LABEL"
+                default="1"
+                validate="options"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="startDateTime"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_STARTDATETIME_LABEL"
+                showtime="true"
+                translateformat="true"
+                todaybutton="true"
+                required="true"
+                size="22"
+                description="COM_SDAJEM_FIELD_STARTDATETIME_DESC"
+        />
+        <field
+                name="endDateTime"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_ENDDATETIME_LABEL"
+                showtime="true"
+                translateformat="true"
+                todaybutton="true"
+                required="true"
+                size="22"
+                description="COM_SDAJEM_FIELD_STARTDATETIME_DESC"
+        />
+        <!--
+        <field
+                name="catid"
+                type="categoryedit"
+                label="JCATEGORY"
+                extension="com_sdajem.events"
+                addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+                required=""
+                default=""
+        />
+        -->
+        <field name="organizerId"
+               type="Userlist"
+               label="COM_SDAJEM_FIELD_ORGANIZER_LABEL"
+               desc=""
+        />
+        <field
+                name="registerUntil"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_REGISTERUNTIL_LABEL"
+                showtime="false"
+                translateformat="true"
+                todaybutton="true"
+                required="false"
+                size="22"
+                description="COM_SDAJEM_FIELD_REGISTERUNTIL_DESC"
+        />
+        <field name="hostId"
+               type="Contactlist"
+               label="COM_SDAJEM_FIELD_HOST_LABEL"
+               desc=""
+        />
+        <fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+            <fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+                <field
+                        name="sda_use_attending"
+                        type="list"
+                        label="COM_SDAJEM_FIELD_USE_ATTENDING_LABEL"
+                        default="1"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+            </fieldset>
+        </fields>
+    </fieldset>
+
+    <fieldset name="language" label="JFIELD_LANGUAGE_LABEL">
+        <field
+                name="language"
+                type="contentlanguage"
+                label="JFIELD_LANGUAGE_LABEL"
+        >
+            <option value="*">JALL</option>
+        </field>
+    </fieldset>
+    <fieldset name="publishing" label="JGLOBAL_FIELDSET_PUBLISHING">
+        <field
+                name="published"
+                type="list"
+                label="JSTATUS"
+                default="1"
+                id="published"
+                class="custom-select-color-state"
+                size="1"
+        >
+            <option value="1">JPUBLISHED</option>
+            <option value="0">JUNPUBLISHED</option>
+            <option value="2">JARCHIVED</option>
+            <option value="-2">JTRASHED</option>
+        </field>
+        <field
+                name="publish_up"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_PUBLISH_UP_LABEL"
+                translateformat="true"
+                showtime="true"
+                size="22"
+                filter="user_utc"
+        />
+        <field
+                name="publish_down"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_PUBLISH_DOWN_LABEL"
+                translateformat="true"
+                showtime="true"
+                size="22"
+                filter="user_utc"
+        />
+        <field
+                name="access"
+                type="accesslevel"
+                label="JFIELD_ACCESS_LABEL"
+                size="1"
+        />
+        <field
+                name="checked_out"
+                type="hidden"
+                filter="unset"
+        />
+        <field
+                name="checked_out_time"
+                type="hidden"
+                filter="unset"
+        />
+        <field
+                name="ordering"
+                type="ordering"
+                label="JFIELD_ORDERING_LABEL"
+                content_type="com_sdajem.event"
+        />
+    </fieldset>
+</form>

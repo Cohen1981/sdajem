@@ -6,3 +6,4 @@
 /target
 /temp
 composer.lock
+.idea

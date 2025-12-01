@@ -128,7 +128,7 @@ html[dir=rtl] #toolbar #toolbar-help {
     }
     .btn-toolbar .btn-wrapper {
         display: block;
-        margin: 0px 10px 5px 10px;
+        margin: 0 10 5 10px;
     }
     .btn-toolbar .btn-wrapper .btn {
         width: 100% !important;

@@ -1,18 +1,18 @@
 .EXPORT_ALL_VARIABLES:
-vpath ./config
--include ./config/.env
+-include .env
 
 config:
 	@UID=$$(id -u) GID=$$(id -g) docker compose config
 
 down: stop
-	-@UID=$$(id -u) GID=$$(id -g) docker compose down
+	-@UID=$$(id -u) GID=$$(id -g) docker compose down --remove-orphans
 
 log:
 	-@UID=$$(id -u) GID=$$(id -g) docker compose logs
 
 reset: down
 	-@rm -rf db_data joomla_data
+	-@docker system prune --volumes
 
 start: up
 	@clear
@@ -45,10 +45,11 @@ stop:
 	-@UID=$$(id -u) GID=$$(id -g) docker compose stop
 
 up:
-	-@mkdir -p db_data joomla_data
-	@UID=$$(id -u) GID=$$(id -g) docker compose up --detach --build
-	-@if [ -L ./joomla_data/administrator/components/com_${COMPONENT_NAME} ] ; then echo "already linked";else sleep 10;ln -sr ./src/administrator/components/com_${COMPONENT_NAME} ./joomla_data/administrator/components/com_${COMPONENT_NAME};echo "admin now linked";fi
-	-@if [ -L ./joomla_data/components/com_${COMPONENT_NAME} ] ; then echo "already linked";else ln -sr ./src/components/com_${COMPONENT_NAME} ./joomla_data/components/com_${COMPONENT_NAME};echo "component now linked";fi
+	-@mkdir -p db_data joomla_data vendor
+	@UID=$$(id -u) GID=$$(id -g) docker compose up --detach --build --remove-orphans
+
+	-@if [ -L ./joomla_data/administrator/components/com_${COMPONENT_NAME} ] ; then echo "already linked";else sleep 10;ln -sr ./src/Sda/Component/${CAP_COMPONENT_NAME}/Administrator ./joomla_data/administrator/components/com_${COMPONENT_NAME};echo "admin now linked";fi
+	-@if [ -L ./joomla_data/components/com_${COMPONENT_NAME} ] ; then echo "already linked";else ln -sr ./src/Sda/Component/${CAP_COMPONENT_NAME}/Site ./joomla_data/components/com_${COMPONENT_NAME};echo "component now linked";fi
 	-@if [ -L ./joomla_data/media/com_${COMPONENT_NAME} ] ; then echo "already linked";else ln -sr ./src/media/com_${COMPONENT_NAME} ./joomla_data/media/com_${COMPONENT_NAME};echo "component media now linked";fi
 	-@if [ -L ./joomla_data/templates/${TEMPLATE_NAME} ] ; then echo "already linked";else ln -sr ./src/templates/${TEMPLATE_NAME} ./joomla_data/templates/${TEMPLATE_NAME};echo "template now linked";fi
 	-@if [ -L ./joomla_data/media/templates/site/${TEMPLATE_NAME} ] ; then echo "already linked";else ln -sr ./src/media/templates/site/${TEMPLATE_NAME} ./joomla_data/media/templates/site/${TEMPLATE_NAME};echo "template media now linked";fi
@@ -63,11 +64,11 @@ build:
 	@cp -Rf ./src/media/templates/site/${TEMPLATE_NAME}/* ./temp/template/media
 	@cd temp/template; zip -r ../../target/${TEMPLATE_NAME}.zip *
 
-	@mkdir -p temp/comp temp/comp/media temp/comp/components temp/comp/administrator temp/comp/administrator/components
-	@cp -Rf ./src/administrator/components/com_${COMPONENT_NAME} ./temp/comp/administrator/components
-	@cp -Rf ./src/components/com_${COMPONENT_NAME} ./temp/comp/components
+	@mkdir -p temp/comp temp/comp/media temp/comp/components temp/comp/administrator temp/comp/administrator/components temp/comp/administrator/components/com_${COMPONENT_NAME} temp/comp/components/com_${COMPONENT_NAME}
+	@cp -Rf ./src/Sda/Component/${CAP_COMPONENT_NAME}/Administrator/* ./temp/comp/administrator/components/com_${COMPONENT_NAME}
+	@cp -Rf ./src/Sda/Component/${CAP_COMPONENT_NAME}/Site/* ./temp/comp/components/com_${COMPONENT_NAME}
 	@cp -Rf ./src/media/com_${COMPONENT_NAME} ./temp/comp/media
-	@cp -Rf ./temp/comp/administrator/components/com_${COMPONENT_NAME}/${COMPONENT_NAME}.xml ./temp/comp/*
+	@cp -f ./temp/comp/administrator/components/com_${COMPONENT_NAME}/${COMPONENT_NAME}.xml ./temp/comp/${COMPONENT_NAME}.xml
 
 	@cd temp/comp; zip -r ../../target/${COMPONENT_NAME}.zip *
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="comment" addfieldprefix="Sda\Component\Sdajem\Administrator\Field">
+        <field
+                name="id"
+                type="number"
+                label="JGLOBAL_FIELD_ID_LABEL"
+                default="0"
+                class="readonly"
+                readonly="true"
+                showon="id!:0"
+        />
+        <field
+                name="users_user_id"
+                type="Userlist"
+                label="COM_SDAJEM_FIELD_USER_TITLE_LABEL"
+                description="COM_SDAJEM_FIELD_USER_DESC_LABEL"
+                showon="id!:0"
+        />
+        <field
+                name="sdajem_event_id"
+                type="Eventlist"
+                label="COM_SDAJEM_FIELD_EVENT_TITLE_LABEL"
+                showon="id!:0"
+        />
+        <field
+                name="comment"
+                type="editor"
+                label="COM_SDAJEM_FIELD_FITTING_TITLE_LABEL"
+                buttons="true"
+                editor="TinyMCE"
+                required="true"
+                filter="raw"
+        />
+        <field
+                name="timestamp"
+                type="calendar"
+                label="COM_SDAJEM_FIELD_TIMESTAMP_LABEL"
+                showtime="true"
+                translateformat="true"
+                todaybutton="true"
+                required="false"
+                size="22"
+                description="COM_SDAJEM_FIELD_TIMESTAMP_DESC"
+                showon="id!:0"
+        />
+    </fieldset>
+</form>

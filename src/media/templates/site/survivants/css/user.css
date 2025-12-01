@@ -1,0 +1,152 @@
+:root {
+  --survivants-color-primary: hsl(210deg, 9%, 31%);
+  --survivants-color-link: #A62C40;
+  --survivants-color-menu: #f5f5f5;
+}
+
+a {
+  color: var(--survivants-color-link);
+}
+
+.sda_hidden {
+  display: none;
+}
+
+#sda_user_label {
+  padding: 10px 15px;
+  background-color: #FFFFFF;
+  border-radius: 6px;
+  width: fit-content;
+  font-size: 1.3rem;
+  justify-self: end;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.icon-spacer {
+  padding-right: 0.5em;
+}
+
+.js-stools-container-bar .btn-toolbar {
+  justify-content: flex-start !important;
+}
+
+.sda_header.container-header .grid-child {
+  padding: 0;
+}
+
+main .sda_content_container {
+  padding: 0 15px;
+}
+
+div#collapseSearch {
+  padding: 1em;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+header {
+  padding-bottom: 1em;
+}
+
+.container-header {
+  background-color: var(--survivants-color-primary);
+  background-image: var(--survivants-color-primary);
+}
+.container-header .container-nav {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.container-header .grid-child {
+  padding: 0.5em;
+  background-color: #000;
+}
+
+.site-grid {
+  margin-bottom: auto;
+  background-color: var(--survivants-color-primary);
+}
+.site-grid .grid-child {
+  background-color: #fff;
+}
+
+.footer {
+  margin-top: 0;
+}
+
+footer, .footer {
+  background-color: var(--survivants-color-primary);
+  background-image: var(--survivants-color-primary);
+  padding: 1em 0 0 0;
+}
+footer .grid-child, .footer .grid-child {
+  background-color: #000;
+  padding: 0.5em;
+  border-radius: 6px;
+}
+
+.grid-child-search {
+  display: flex;
+  width: 100%;
+  max-width: 1320px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: var(--white);
+}
+
+.container-component, .container-sidebar-left, .container-sidebar-right {
+  border-radius: 6px;
+}
+
+.btn-primary {
+  background-color: var(--survivants-color-primary);
+  border-color: var(--survivants-color-primary);
+}
+
+.btn-secondary {
+  background-color: hsl(210, 7%, 46%);
+  border-color: hsl(210, 14%, 83%);
+  color: hsl(0, 0%, 100%);
+}
+
+.btn-light {
+  border-color: #000000;
+}
+
+.btn-light:hover {
+  border-color: #009ff1;
+}
+
+body.site {
+  background-color: var(--survivants-color-primary);
+}
+
+nav.navbar a {
+  font-size: 1.2rem;
+}
+
+.com-users-profile img {
+  max-width: 200px;
+}
+
+.img-thumbnail-100 {
+  max-width: 100px;
+}
+
+.img-thumbnail-200 {
+  max-width: 200px;
+}
+
+.img-thumbnail-300 {
+  max-width: 300px;
+}
+
+.img-thumbnail-400 {
+  max-width: 400px;
+}
+
+.com-contact .com-contact__user-fields img.card-img-top {
+  max-width: 200px;
+}
+
+/*# sourceMappingURL=user.css.map */

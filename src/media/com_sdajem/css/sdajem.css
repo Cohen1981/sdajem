@@ -1,50 +1,119 @@
+.sdajem_content_container .accordion-button {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
 .sdajem_content_container .sda_row {
   display: block;
   padding-top: 0.5em;
-  padding-bottom: 0.5em; }
+  padding-bottom: 0.5em;
+}
 .sdajem_content_container .sda_event_head {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  border-bottom: #000 2px solid; }
+  border-bottom: #000 2px solid;
+}
 .sdajem_content_container .sda_attendee_container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: left; }
-  .sdajem_content_container .sda_attendee_container .card {
-    margin-right: 10px; }
+  justify-content: left;
+}
+.sdajem_content_container .sda_attendee_container .card {
+  margin-right: 10px;
+}
 .sdajem_content_container .sda_attendee {
   display: block;
-  padding: 10px; }
+  padding: 10px;
+}
 .sdajem_content_container .sda_avatar {
-  width: 100px; }
+  width: 100px;
+}
 .sdajem_content_container .sda_button_spacer {
-  margin-right: 0.5em; }
+  margin-right: 0.5em;
+}
 .sdajem_content_container thead {
-  font-size: 1.1em; }
+  font-size: 1.1em;
+}
 .sdajem_content_container a {
-  color: #A62C40; }
+  color: #A62C40;
+}
 .sdajem_content_container .sdajem_teaser_image {
-  max-width: 200px; }
+  max-width: 200px;
+}
 .sdajem_content_container .loc_address {
-  display: inline-block; }
+  display: inline-block;
+}
 .sdajem_content_container .color-ok {
   background-color: #4f914f;
-  color: #ffffff; }
+  color: #ffffff;
+}
 .sdajem_content_container .color-nok {
   background-color: #A62C40;
-  color: #ffffff; }
+  color: #ffffff;
+}
 .sdajem_content_container .color-neutral {
   background-color: #d2d2d2;
-  color: #000000; }
+  color: #000000;
+}
 .sdajem_content_container .color-warning {
   background-color: #fcc019;
-  color: #000000; }
+  color: #000000;
+}
 .sdajem_content_container .eventbatch {
   margin-bottom: 0.5em;
-  padding: 0.5em; }
+  padding: 0.5em;
+}
 .sdajem_content_container .icon-text {
   font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 100; }
+  font-weight: 100;
+}
+.sdajem_content_container .card-header a {
+  text-decoration: none;
+}
+.sdajem_content_container .card-header a h5 {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+.sdajem_content_container .card-header .sda_float_right {
+  float: right;
+}
+.sdajem_content_container .accordion-header button {
+  font-weight: normal;
+  font-size: 1rem;
+}
+.sdajem_content_container .accordion-header button h5 {
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin-bottom: 0;
+}
+.sdajem_content_container .accordion-header .sda_events_accordion {
+  padding: 0.5rem 1.25rem;
+}
+.sdajem_content_container .sda-padding-top-bottom {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+.sdajem_content_container a.no-decor {
+  text-decoration: none;
+  color: #000;
+}
+.sdajem_content_container a.no-decor :hover {
+  text-decoration: none;
+  color: #000;
+}
+.sdajem_content_container .sda_comment_row {
+  padding-top: 0.5em;
+  margin-top: 0.5em;
+  border-top: rgba(0, 0, 0, 0.3) 1px solid;
+}
+.sdajem_content_container .sda_comment_user {
+  font-weight: 600;
+  text-decoration: underline;
+  padding-bottom: 0.5em;
+}
+.sdajem_content_container .card [class^=col-] {
+  padding-bottom: 0.5em;
+}
 
 /*# sourceMappingURL=sdajem.css.map */

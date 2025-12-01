@@ -46,7 +46,7 @@ if ($paramsFontScheme) {
 
         if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
             $fontStyles = '--survivants-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--survivants-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+			--survivants-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
 			--survivants-font-weight-normal: 400;
 			--survivants-font-weight-headings: 700;';
         }
