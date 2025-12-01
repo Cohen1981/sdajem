@@ -8,6 +8,7 @@
                 default="0"
                 class="readonly"
                 readonly="true"
+                hidden="true"
         />
         <field
                 name="event_id"

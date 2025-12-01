@@ -109,6 +109,14 @@ class Event extends EventTableItem
 	public ?int $feedbackCount;
 
 	/**
+	 * @var integer|null
+	 * commentsCount
+	 * The number of comments for the event.
+	 * @since 1.5.3
+	 */
+	public ?int $commentsCount;
+
+	/**
 	 * @var string|null
 	 * accessLevel
 	 * The access level of the event.
@@ -144,6 +152,7 @@ class Event extends EventTableItem
 		$item->attendeeFeedbackCount = $data['attendeeFeedbackCount'];
 		$item->interestCount         = $data['interestCount'];
 		$item->feedbackCount         = $data['feedbackCount'];
+		$item->commentsCount = $data['commentsCount'];
 		$item->svgs = (isset($data['svg'])) ? (array) json_decode($data['svg']) : [];
 
 		return $item;
@@ -279,6 +288,12 @@ class Event extends EventTableItem
 				]
 			);
 		$query->select('(' . $feedback . ') AS ' . $db->quoteName('feedbackCount'));
+
+		$commentsCount = $db->getQuery(true)
+			->select('COUNT(' . $db->quoteName('com.id') . ')')
+			->from($db->quoteName('#__sdajem_comments', 'com'))
+			->where($db->quoteName('com.sdajem_event_id') . ' = ' . $db->quoteName('a.id'));
+		$query->select('(' . $commentsCount . ') AS ' . $db->quoteName('commentsCount'));
 
 		// Join over the asset groups.
 		$query->select($db->quoteName('ag.title', 'accessLevel'))

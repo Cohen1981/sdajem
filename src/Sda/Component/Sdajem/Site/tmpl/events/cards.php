@@ -415,6 +415,20 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 								<?php
 								endif; ?>
 
+                                <?php
+                                if ($params->get('sda_events_use_comments') && !$currentUser->guest) :
+                                    ?>
+                                    <div class="col-1">
+                                        <span class="fa fa-comments-o" aria-hidden="true"></span>&nbsp;
+                                    </div>
+                                    <div class="col-11">
+                                        <?php
+                                        echo $event->commentsCount;
+                                        ?>
+                                    </div>
+                                <?php
+                                endif; ?>
+
 							</a>
 
 							<?php

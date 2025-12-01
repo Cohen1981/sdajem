@@ -48,7 +48,7 @@ up:
 	-@mkdir -p db_data joomla_data vendor
 	@UID=$$(id -u) GID=$$(id -g) docker compose up --detach --build --remove-orphans
 
-	-@if [ -L ./joomla_data/administrator/components/com_${COMPONENT_NAME}/Administrator ] ; then echo "already linked";else sleep 10;ln -sr ./src/Sda/Component/${CAP_COMPONENT_NAME}/Administrator ./joomla_data/administrator/components/com_${COMPONENT_NAME};echo "admin now linked";fi
+	-@if [ -L ./joomla_data/administrator/components/com_${COMPONENT_NAME} ] ; then echo "already linked";else sleep 10;ln -sr ./src/Sda/Component/${CAP_COMPONENT_NAME}/Administrator ./joomla_data/administrator/components/com_${COMPONENT_NAME};echo "admin now linked";fi
 	-@if [ -L ./joomla_data/components/com_${COMPONENT_NAME} ] ; then echo "already linked";else ln -sr ./src/Sda/Component/${CAP_COMPONENT_NAME}/Site ./joomla_data/components/com_${COMPONENT_NAME};echo "component now linked";fi
 	-@if [ -L ./joomla_data/media/com_${COMPONENT_NAME} ] ; then echo "already linked";else ln -sr ./src/media/com_${COMPONENT_NAME} ./joomla_data/media/com_${COMPONENT_NAME};echo "component media now linked";fi
 	-@if [ -L ./joomla_data/templates/${TEMPLATE_NAME} ] ; then echo "already linked";else ln -sr ./src/templates/${TEMPLATE_NAME} ./joomla_data/templates/${TEMPLATE_NAME};echo "template now linked";fi
