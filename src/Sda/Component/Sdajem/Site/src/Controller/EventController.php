@@ -188,7 +188,7 @@ class EventController extends FormController
 
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
 
-		return $eventFormModel->delete($pks);;
+		return $eventFormModel->delete($pks);
 	}
 
 	/**
