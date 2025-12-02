@@ -105,7 +105,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 										<div class="btn-group sda_button_spacer d-sm-inline-block d-none" role="group"
 											 aria-label="Attending group">
 											<button type="button" class="btn btn-danger"
-													onclick="Joomla.submitbutton('event.delete')">
+                                                    onclick="Joomla.submitbutton('event.delete', 'adminForm')">
 												<span class="fas fa-trash" aria-hidden="true"></span>
 												<?php
 												echo Text::_('COM_SDAJEM_EVENT_DELETE'); ?>
@@ -189,7 +189,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 							</div>
 						<?php
 						else : ?>
-							<table class="table table-striped" id="eventList">
+                            <table class="table table-striped" id="eventList" name="eventTable">
 								<caption class="visually-hidden">
 									<?php
 									echo Text::_('COM_SDAJEM_TABLE_CAPTION'); ?>, <?php

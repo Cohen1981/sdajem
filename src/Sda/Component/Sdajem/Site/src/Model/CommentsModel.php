@@ -58,31 +58,4 @@ class CommentsModel extends \Sda\Component\Sdajem\Administrator\Model\CommentsMo
 
 		return new CommentsCollection($data);
 	}
-
-	/**
-	 * Retrieves the IDs of comments associated with a specific event.
-	 *
-	 * @param   int|null  $eventId  The ID of the event for which the comment IDs are to be fetched. Defaults to null.
-	 *
-	 * @return array An array of comment IDs related to the specified event.
-	 * @since 1.5.3
-	 */
-	public function getCommentIdsToEvent(int $eventId = null):array
-	{
-		// Create a new query object.
-		$db = $this->getDatabase();
-		$query = $db->getQuery(true);
-
-		// Select the required fields from the table.
-		$query->select($db->quoteName('a.id'));
-
-		$query->from($db->quoteName('#__sdajem_comments', 'a'));
-
-		$query->where($db->quoteName('a.sdajem_event_id') . '=' . $eventId);
-
-		$db->setQuery($query);
-		$data = ($db->loadColumn() ?? []);
-
-		return $data;
-	}
 }

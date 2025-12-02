@@ -151,9 +151,7 @@ class EventController extends FormController
 
 		$this->app->input->post->set('jform', $data);
 
-		$result = parent::save($key, $urlVar = null);
-
-		return $result;
+		return parent::save($key, $urlVar = null);
 	}
 
 	/**
@@ -186,35 +184,11 @@ class EventController extends FormController
 			$pks = [$pks];
 		}
 
-		$attendingFormModel = new AttendingformModel;
-		$attendingsModel    = new AttendingsModel;
-
-		$commentsModel    = new CommentsModel;
-		$commentFormModel = new CommentformModel;
-
-		foreach ($pks as &$pk)
-		{
-			$attendings = $attendingsModel->getAttendingIdsToEvent($pk);
-			$attResult  = $attendingFormModel->delete($attendings);
-
-			$comments      = $commentsModel->getCommentIdsToEvent($pk);
-			$commentResult = $commentFormModel->delete($comments);
-		}
-
 		$eventFormModel = new EventformModel;
-
-		if ($attResult && $commentResult)
-		{
-			$result = $eventFormModel->delete($pks);
-		}
-		else
-		{
-			$this->app->enqueueMessage(Text::_('COM_SDAJEM_EVENTS_DELETE_ERROR'), 'error');
-		}
 
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
 
-		return $result;
+		return $eventFormModel->delete($pks);;
 	}
 
 	/**

@@ -35,7 +35,7 @@ services:
       - ./resources/config/php/php.ini:/usr/local/etc/php/php.ini
       - ./resources/config/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
     networks:
-      - joomla_dev_network
+      - joomla_network
 
   joomladb:
     image: mysql:${MYSQL_VERSION:-latest}
@@ -57,7 +57,7 @@ services:
     volumes:
       - ./${DB_FOLDER:-db_data}:/var/lib/mysql
     networks:
-      - joomla_dev_network
+      - joomla_network
 
   composer:
     image: composer:${COMPOSER_VERSION:-2.8.12}
@@ -67,4 +67,4 @@ services:
       - ./resources:/app
 
 networks:
-  joomla_dev_network:
+  joomla_network:

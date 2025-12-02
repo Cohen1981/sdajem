@@ -10,7 +10,9 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
+use JText;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use Sda\Component\Sdajem\Administrator\Table\EventTable;
@@ -119,5 +121,34 @@ class EventModel extends AdminModel
 	{
 		$table->check();
 		$table->generateAlias();
+	}
+
+	public function delete(&$pks)
+	{
+		$pks = ArrayHelper::toInteger((array) $pks);
+
+		$attendingModel  = new AttendingModel;
+		$attendingsModel = new AttendingsModel;
+
+		$commentsModel = new CommentsModel;
+		$commentModel  = new CommentModel;
+
+		foreach ($pks as $pk)
+		{
+			$attendings = $attendingsModel->getAttendingIdsToEvent($pk);
+			$result[]   = $attendingModel->delete($attendings);
+
+			$comments = $commentsModel->getCommentIdsToEvent($pk);
+			$result[] = $commentModel->delete($comments);
+		}
+
+		if (\in_array(false, $result, true))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_SDAJEM_ERROR_DELETE_EVENT'), 'error');
+
+			return false;
+		}
+
+		return parent::delete($pks);
 	}
 }

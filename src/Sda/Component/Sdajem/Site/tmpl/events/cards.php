@@ -195,7 +195,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 								<a href="<?php
 								echo Route::_(
 										'index.php?view=event&id='
-										. $event->id . '&task=event.display'
+										. $event->id
 								); ?>">
 									<h5>
 										<p>
