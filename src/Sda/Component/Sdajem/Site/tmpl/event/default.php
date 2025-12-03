@@ -225,7 +225,7 @@ $currentUser = Factory::getApplication()->getIdentity();
         </div>
         <div class="accordion-item d-sm-none">
             <button class="accordion-button collapsed" type="button"
-                    data-joomla-dialog='{"popupType": "iframe", "width":"90vw", "height": "90vh", "src":"index.php?option=com_sdajem&view=event&tmpl=component&layout=planning_modal&id=<?php echo $event->id; ?>"}'>
+                    data-joomla-dialog='{"popupType": "iframe", "width":"90vw", "height": "90vh", "src":"index.php?option=com_sdajem&view=event&tmpl=component&layout=planing_modal&id=<?php echo $event->id; ?>"}'>
                 <?php echo Text::_('COM_SDAJEM_PLANING_AREA_LABEL'); ?>
             </button>
         </div>

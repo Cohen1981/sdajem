@@ -11,8 +11,10 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Database\DatabaseInterface;
 use Sda\Component\Sdajem\Administrator\Library\Collection\AttendingTableItemsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
+use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use Sda\Component\Sdajem\Administrator\Table\AttendingTable;
 use function defined;
@@ -111,5 +113,50 @@ class AttendingModel extends AdminModel
 	public function getItem($pk = null): AttendingTableItem
 	{
 		return AttendingTableItem::createFromObject(parent::getItem($pk));
+	}
+
+	/**
+	 * @param   int|null  $userId   The user id.
+	 * @param   int       $eventId  The event id.
+	 *
+	 * @return AttendingTableItem
+	 *
+	 * @throws Exception
+	 * @since 1.5.3
+	 */
+	public static function getAttendingToEvent(int $userId = null, int $eventId): Attending
+	{
+		if (!$userId)
+		{
+			$userId = Factory::getApplication()->getIdentity()->id;
+		}
+
+		try
+		{
+			$db    = Factory::getContainer()->get(DatabaseInterface::class);
+			$query = $db->getQuery(true);
+
+			$query = Attending::getBaseQuery($query, $db);
+
+			$query->where($db->quoteName('a.users_user_id') . ' = :userId')
+				->extendWhere('AND', $db->quoteName('a.event_id') . ' = :eventId');
+
+			$query->bind(':userId', $userId)
+				->bind(':eventId', $eventId);
+
+			$db->setQuery($query);
+			$data = $db->loadObject();
+
+			if (empty($data))
+			{
+				$data = new \stdClass;
+			}
+		}
+		catch (Exception $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return Attending::createFromObject($data);
 	}
 }

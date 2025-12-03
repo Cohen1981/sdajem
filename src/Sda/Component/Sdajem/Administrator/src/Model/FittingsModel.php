@@ -148,6 +148,46 @@ class FittingsModel extends ListModel
 	 */
 	public function getFittingsForEvent(int $eventId): ?FittingsCollection
 	{
+		$pks = $this->getFittingIdsForEvent($eventId);
+
+		$db = $this->getDatabase();
+
+		if (count($pks) > 0)
+		{
+			$query = $db->getQuery(true);
+
+			$query = FittingTableItem::getBaseQuery($query, $db);
+			$query->select($db->quoteName('u.username', 'userName'))
+				->join(
+					'LEFT',
+					$db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName(
+						'a.user_id'
+					)
+				);
+			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
+		}
+		else
+		{
+			$data = [];
+		}
+
+		return new FittingsCollection($data);
+	}
+
+	/**
+	 * Retrieves the fitting IDs associated with a specific event.
+	 *
+	 * @param   int  $eventId  The ID of the event for which the fitting IDs are to be fetched.
+	 *
+	 * @return  array  An array of fitting IDs associated with the event.
+	 *
+	 * @throws  \RuntimeException  If a database error occurs.
+	 * @since   1.6.0
+	 */
+	public function getFittingIdsForEvent($eventId): array
+	{
 		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
@@ -178,27 +218,6 @@ class FittingsModel extends ListModel
 			}
 		}
 
-		if (count($pks) > 0)
-		{
-			$query = $db->getQuery(true);
-
-			$query = FittingTableItem::getBaseQuery($query, $db);
-			$query->select($db->quoteName('u.username', 'userName'))
-				->join(
-					'LEFT',
-					$db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName(
-						'a.user_id'
-					)
-				);
-			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
-			$db->setQuery($query);
-			$data = $db->loadObjectList();
-		}
-		else
-		{
-			$data = [];
-		}
-
-		return new FittingsCollection($data);
+		return $pks;
 	}
 }

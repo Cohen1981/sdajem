@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 
@@ -24,12 +24,13 @@ $wa->useStyle('com_sdajem.sdajem');
 $wa->useStyle('com_sdajem.planing');
 $wa->getRegistry()->addExtensionRegistryFile('vendor');
 $wa->useScript('jquery');
-$tparams = $this->item->paramsRegistry;
+$tparams = $this->getItem()->paramsRegistry;
 
 $boxX = $tparams->get('sda_planing_x');
 $boxY = $tparams->get('sda_planing_y');
 
-$event = $this->item;
+$event         = $this->getItem();
+$eventFittings = $this->getEventFittings();
 ?>
 
 <div id="planingTool">
@@ -86,17 +87,20 @@ $event = $this->item;
 	$svgString = '';
 	// Do we have a saved setup
 
-	if (count($event->svg) > 0)
-	{
-		foreach ($event->svg as $element)
-		{
-			echo $element;
-			$svgString = $svgString . $element;
-		}
-	}
+    if (isset($event->svg))
+    {
+        if (count($event->svg) > 0)
+        {
+            foreach ($event->svg as $element)
+            {
+                echo $element;
+                $svgString = $svgString . $element;
+            }
+        }
+    }
 
 	// Do we have fittings
-	if (isset($this->eventFittings))
+    if (isset($eventFittings))
 	{
 		$by = 0;
 
@@ -107,7 +111,7 @@ $event = $this->item;
 		$wx = 0;
 
         /** @var FittingModel $fitting */
-		foreach ($this->eventFittings as $fitting)
+        foreach ($eventFittings as $fitting)
 		{
 			if ((bool) $fitting->needSpace) {
                 if ($by + $fitting->width > $boxY) {

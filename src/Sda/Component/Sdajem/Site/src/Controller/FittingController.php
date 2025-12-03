@@ -16,8 +16,15 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
+use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
+use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
+use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
+use Sda\Component\Sdajem\Administrator\Library\Item\Event;
 use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Administrator\Model\AttendingModel;
+use Sda\Component\Sdajem\Administrator\Model\FittingsModel;
+use Sda\Component\Sdajem\Site\Model\EventModel;
 use Sda\Component\Sdajem\Site\Model\FittingformModel;
 use function defined;
 
@@ -270,5 +277,59 @@ class FittingController extends FormController
 		}
 
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
+	}
+
+	/**
+	 * Adds fittings to a specific event by associating fitting IDs with the supplied event ID.
+	 *
+	 * Retrieves fitting IDs and event ID from user input, prepares the event and attending model objects,
+	 * and creates or updates the necessary data to associate the fittings with the event. Additionally,
+	 * sets up a redirect URL upon completion to a modal return layout.
+	 *
+	 * @return void
+	 * @since 1.6.0
+	 */
+	public function addFittingToEvent(): void
+	{
+		// Get fitting IDs and event ID from user input.
+		$fittingIds = $this->input->get('cid', null, 'int');
+		$eventId    = $this->input->get('eventId', null, 'int');
+		// Set up the callContext for the redirect URL to the modal return layout.
+		$this->app->setUserState('com_sdajem.event.callContext', $this->input->get('callContext', ''));
+
+		// Ensure fitting IDs are an array, even if only one ID was submitted.
+		if (!is_array($fittingIds))
+		{
+			$fittingIds = [$fittingIds];
+		}
+
+		// Prepare the attending model and create or update the necessary data.
+		$attending = new AttendingModel();
+
+		// Get all fittings associated with the event ID.
+		$regFittings = (new FittingsModel())->getFittingIdsForEvent($eventId);
+
+		// Get fittings that are not already associated with the event.
+		$fIds = array_filter($fittingIds, function ($fittingId) use ($regFittings) {
+			return !in_array($fittingId, $regFittings);
+		});
+
+		// Create an attending object with the necessary data. Usage of the AttendingTableItem class ensures type safety.
+		$data                = new AttendingTableItem;
+		$data->id            = 0;
+		$data->event_id      = $eventId;
+		$data->users_user_id = null;
+		$data->status        = IntAttStatusEnum::POSITIVE->value;
+		$data->event_status  = EventStatusEnum::OPEN->value;
+		$data->fittings      = json_encode($fIds);
+
+		// Set up the redirect URL to the modal return layout.
+		$this->input->set('layout', 'modalreturn');
+		$return = 'index.php?option=com_sdajem&view=fittings&tmpl=component&layout=modalreturn&id=' . $attending->id . '&callContext=' . $this->input->get('callContext', '');
+
+		$this->setRedirect(Route::_($return));
+
+		// Save the attending object to the database.
+		$attending->save($data->toArray());
 	}
 }

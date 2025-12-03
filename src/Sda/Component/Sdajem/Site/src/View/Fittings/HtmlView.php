@@ -12,6 +12,7 @@ namespace Sda\Component\Sdajem\Site\View\Fittings;
 defined('_JEXEC') or die();
 
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Collection\FittingsCollection;
@@ -73,6 +74,12 @@ class HtmlView extends \Joomla\CMS\MVC\View\HtmlView implements HtmlListViewInte
 		$this->activeFilters = $model->getActiveFilters();
 		$this->state = $model->getState();
 		$this->return_page = base64_encode(Uri::getInstance());
+
+		$app = Factory::getApplication();
+
+		$this->eventId     = $app->input->getInt('eventId', null);
+		$this->callContext = $app->input->get('callContext', null);
+		$app->setUserState('com_sdajem.event.callContext', $app->input->get('callContext', null));
 
 		parent::display($tpl);
 	}

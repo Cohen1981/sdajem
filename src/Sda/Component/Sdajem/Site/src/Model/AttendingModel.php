@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
  * @since  1.5.3
  *
  */
-class AttendingModel extends BaseDatabaseModel implements ItemModelInterface
+class AttendingModel extends \Sda\Component\Sdajem\Administrator\Model\AttendingModel implements ItemModelInterface
 {
 	/**
 	 * @param   int|null  $pk  Pk for the event
@@ -38,7 +38,7 @@ class AttendingModel extends BaseDatabaseModel implements ItemModelInterface
 	 * @throws Exception
 	 * @since   1.0.0
 	 */
-	public function getItem(int $pk = null):Attending
+	public function getItem($pk = null): Attending
 	{
 		$app = Factory::getApplication();
 		$pk  = ($pk) ?: $app->input->getInt('id');
@@ -66,51 +66,6 @@ class AttendingModel extends BaseDatabaseModel implements ItemModelInterface
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 			$this->item = new Attending;
-		}
-
-		return Attending::createFromObject($data);
-	}
-
-	/**
-	 * @param   int|null  $userId   The user id.
-	 * @param   int       $eventId  The event id.
-	 *
-	 * @return AttendingTableItem
-	 *
-	 * @throws Exception
-	 * @since 1.5.3
-	 */
-	public static function getAttendingToEvent(int $userId = null, int $eventId): Attending
-	{
-		if (!$userId)
-		{
-			$userId = Factory::getApplication()->getIdentity()->id;
-		}
-
-		try
-		{
-			$db    = Factory::getContainer()->get(DatabaseInterface::class);
-			$query = $db->getQuery(true);
-
-			$query = Attending::getBaseQuery($query, $db);
-
-			$query->where($db->quoteName('a.users_user_id') . ' = :userId')
-				->extendWhere('AND', $db->quoteName('a.event_id') . ' = :eventId');
-
-			$query->bind(':userId', $userId)
-				->bind(':eventId', $eventId);
-
-			$db->setQuery($query);
-			$data = $db->loadObject();
-
-			if (empty($data))
-			{
-				$data = new \stdClass;
-			}
-		}
-		catch (Exception $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return Attending::createFromObject($data);

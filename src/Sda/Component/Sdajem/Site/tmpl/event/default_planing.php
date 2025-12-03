@@ -36,6 +36,13 @@ $eventFittings = $this->getEventFittings();
         <div class="buttonContainer">
 			<button id="toSvg" class="btn me-2 btn-primary col-auto"><?php echo Text::_('COM_SDAJEM_TO_SVG') ?></button>
 			<button id="save" class="btn me-2 btn-primary col-auto"><?php echo Text::_('COM_SDAJEM_PLANING_SAVE') ?></button>
+            <button class='btn me-2 btn-primary col-auto'
+                    type='button'
+                    data-close-on-message
+                    data-reload-on-close
+                    data-joomla-dialog='{"popupType": "iframe","width":"90vw", "height": "90vh", "src":"index.php?option=com_sdajem&tmpl=component&view=fittings&layout=modal&eventId=<?php echo $event->id; ?>&callContext=event.planing"}'>
+                <?php echo Text::_('COM_SDAJEM_ADD_EVENT_FITTING'); ?>
+            </button>
 		</div>
 
 		<div id="messages">
@@ -112,7 +119,8 @@ $eventFittings = $this->getEventFittings();
                     $bx = $wx + 1;
                 }
 
-				if (strpos($svgString, 'img_' . $fitting->id) === false) {
+                if (!str_contains($svgString, 'img_' . $fitting->id))
+                {
                     echo "<svg id=\"index_$fitting->id\" class='dragMe confine' width=\"$fitting->length\" height=\"$fitting->width\" x=\"$bx\" y=\"$by\">";
 					echo "<g id=\"g_index_$fitting->id\" class='rotateMe'>";
 

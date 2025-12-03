@@ -181,12 +181,27 @@ class CommentController extends FormController
 		return base64_decode($return);
 	}
 
+	/**
+	 * Executes additional logic after saving the model data.
+	 * Updates the state and determines the redirection URL based on the
+	 * current context.
+	 *
+	 * @param   BaseDatabaseModel  $model      The model being saved.
+	 * @param   array              $validData  The validated data being saved.
+	 *
+	 * @return  void
+	 * @since   1.5.0
+	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
 	{
-		// ToDo: Vermutlich werden wir nicht immer aus einem Modal Kontext kommen
 		$id = $model->state->get('commentform.id');
 		$model->state->set('commentform.id', $id);
-		$this->input->set('layout', 'modalreturn');
+
+		if ($this->app->getUserState('com_sdajem.event.callContext') == 'event.comment')
+		{
+			$this->input->set('layout', 'modalreturn');
+		}
+
 		$return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(
 				$id
 			);

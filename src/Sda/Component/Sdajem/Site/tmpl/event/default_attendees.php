@@ -48,11 +48,13 @@ if (isset($event->registerUntil))
 		<?php if (!$user->guest) : ?>
 			<div class="sda_attendee_container">
 				<?php foreach ($interests as $i => $attending) : ?>
+                    <?php if ($attending->users_user_id) : ?>
 					<?php if ($tparams->get('sda_avatar_field_name') && $tparams->get('sda_use_avatar')): ?>
 						<?php EventHtmlHelper::renderAttendee(new EventAttendeeModel($attending), $tparams->get('sda_avatar_field_name')); ?>
 					<?php else: ?>
 						<?php EventHtmlHelper::renderAttendee(new EventAttendeeModel($attending)); ?>
 					<?php endif; ?>
+                    <?php endif; ?>
 				<?php endforeach; ?>
 			</div>
 		<?php endif; ?>

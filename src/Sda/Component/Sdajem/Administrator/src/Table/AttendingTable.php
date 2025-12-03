@@ -86,11 +86,6 @@ class AttendingTable extends Table
 			return false;
 		}
 
-		if (!$this->users_user_id)
-		{
-			$this->users_user_id = $app->getIdentity()->id;
-		}
-
 		return true;
 	}
 

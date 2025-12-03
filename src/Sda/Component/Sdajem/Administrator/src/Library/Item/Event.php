@@ -231,7 +231,8 @@ class Event extends EventTableItem
 				[
 					$db->quoteName('att.event_id') . ' = ' . $db->quoteName('a.id'),
 					$db->quoteName('att.status') . ' = ' . IntAttStatusEnum::POSITIVE->value,
-					$db->quoteName('att.event_status') . ' = ' . EventStatusEnum::OPEN->value
+					$db->quoteName('att.event_status') . ' = ' . EventStatusEnum::OPEN->value,
+					$db->quoteName('att.users_user_id') . ' IS NOT NULL'
 				]
 			);
 		$query->select('(' . $attendees . ') AS ' . $db->quoteName('attendeeCount'));
@@ -244,7 +245,8 @@ class Event extends EventTableItem
 				[
 					$db->quoteName('g.event_id') . ' = ' . $db->quoteName('a.id'),
 					$db->quoteName('g.status') . ' = ' . IntAttStatusEnum::GUEST->value,
-					$db->quoteName('g.event_status') . ' = ' . EventStatusEnum::OPEN->value
+					$db->quoteName('g.event_status') . ' = ' . EventStatusEnum::OPEN->value,
+					$db->quoteName('g.users_user_id') . ' IS NOT NULL'
 				]
 			);
 		$query->select('(' . $guests . ') AS ' . $db->quoteName('guestCount'));
@@ -261,7 +263,8 @@ class Event extends EventTableItem
 					) . ' IN( ' . IntAttStatusEnum::POSITIVE->value . ',
 							 ' . IntAttStatusEnum::NEGATIVE->value . ',
 							  ' . IntAttStatusEnum::GUEST->value . ')',
-					$db->quoteName('atte.event_status') . ' = ' . EventStatusEnum::OPEN->value
+					$db->quoteName('atte.event_status') . ' = ' . EventStatusEnum::OPEN->value,
+					$db->quoteName('atte.users_user_id') . ' IS NOT NULL'
 				]
 			);
 		$query->select('(' . $attendeesf . ') AS ' . $db->quoteName('attendeeFeedbackCount'));
@@ -273,7 +276,8 @@ class Event extends EventTableItem
 				[
 					$db->quoteName('int.event_id') . ' = ' . $db->quoteName('a.id'),
 					$db->quoteName('int.status') . ' = ' . IntAttStatusEnum::POSITIVE->value,
-					$db->quoteName('int.event_status') . ' = ' . EventStatusEnum::PLANING->value
+					$db->quoteName('int.event_status') . ' = ' . EventStatusEnum::PLANING->value,
+					$db->quoteName('int.users_user_id') . ' IS NOT NULL'
 				]
 			);
 		$query->select('(' . $interestCount . ') AS ' . $db->quoteName('interestCount'));
@@ -284,7 +288,8 @@ class Event extends EventTableItem
 			->where(
 				[
 					$db->quoteName('i.event_id') . ' = ' . $db->quoteName('a.id'),
-					$db->quoteName('i.event_status') . ' = ' . EventStatusEnum::PLANING->value
+					$db->quoteName('i.event_status') . ' = ' . EventStatusEnum::PLANING->value,
+					$db->quoteName('i.users_user_id') . ' IS NOT NULL'
 				]
 			);
 		$query->select('(' . $feedback . ') AS ' . $db->quoteName('feedbackCount'));

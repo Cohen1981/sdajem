@@ -108,7 +108,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 
 	<!--New Buttons and Template switch-->
 	<div class="row justify-content-between sda-padding-top-bottom">
-		<!-- New buttons -->
+        <!-- New button -->
 		<?php
 		if ($canDo->get('core.create')) :
 			?>

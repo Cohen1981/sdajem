@@ -219,9 +219,9 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 			$this->setLayout($active->query['layout']);
 		}
 
-		if ($this->_layout === 'planning_modal')
+		if ($this->_layout === 'planing_modal')
 		{
-			$this->setLayout('planning_modal');
+			$this->setLayout('planing_modal');
 		}
 
 		$contentEventArguments = [
