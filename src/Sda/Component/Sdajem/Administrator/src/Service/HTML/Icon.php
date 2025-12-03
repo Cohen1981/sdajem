@@ -439,8 +439,8 @@ class Icon
 		// Set the link class
 		$attribs['class'] = 'dropdown-item';
 
-		$attendingUrl = 'index.php?option=com_sdajem&view=fitting&layout=edit&id=' . $fitting->id;
-		$url          = $attendingUrl . '&task=fitting.edit&id=' . $fitting->id . '&return=' . base64_encode($uri);
+		$fittingUrl = 'index.php?option=com_sdajem';
+		$url        = $fittingUrl . '&task=fitting.edit&id=' . $fitting->id . '&return=' . base64_encode($uri);
 
 		$icon = 'edit';
 

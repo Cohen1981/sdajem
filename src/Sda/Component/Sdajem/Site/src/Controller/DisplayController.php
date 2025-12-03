@@ -77,6 +77,11 @@ class DisplayController extends BaseController
 			case 'attendings':
 				$view = $this->getView('attendings', $viewType);
 				$view->setModel($this->getModel('attendings', 'administrator'), true);
+				break;
+			case 'events':
+				$view = $this->getView('events', $viewType);
+				$view->setModel($this->getModel('events', 'administrator'), true);
+				break;
 			default:
 				break;
 		}

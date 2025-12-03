@@ -29,10 +29,6 @@ use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Administrator\Model\AttendingModel as AttendingModelAdmin;
-use Sda\Component\Sdajem\Site\Model\AttendingformModel;
-use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
-use Sda\Component\Sdajem\Site\Model\CommentformModel;
-use Sda\Component\Sdajem\Site\Model\CommentsModel;
 use Sda\Component\Sdajem\Site\Model\EventformModel;
 use Sda\Component\Sdajem\Site\Model\EventModel;
 
@@ -498,12 +494,35 @@ class EventController extends FormController
 		}
 	}
 
+	/**
+	 * @return void
+	 * @throws Exception
+	 * @since 1.5.0
+	 */
 	public function changeTpl(): void
 	{
-		$user     = Factory::getApplication()->getIdentity();
-		$template = ($user->getParam('events_tpl', 'default') === 'default') ? 'cards' : 'default';
-		$user->setParam('events_tpl', $template);
-		$user->save();
+		$app      = Factory::getApplication();
+		$currTmpl = $this->input->get('currTmpl', 'default');
+
+		if ($currTmpl == 'cards')
+		{
+			$template = 'default';
+		}
+		else
+		{
+			$template = 'cards';
+		}
+
+		$app->setUserState('com_sdajem.events.event_tpl', $template);
+
+		$user = $app->getIdentity();
+
+		if (!$user->guest)
+		{
+			$user->setParam('events_tpl', $template);
+			$user->save();
+		}
+
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
 	}
 

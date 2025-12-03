@@ -111,24 +111,18 @@ class FittingController extends FormController
 			return parent::allowEdit($data, $key);
 		}
 
-		// Check edit on the record asset (explicit or inherited)
+		// Need to do a lookup from the model.
+		$record = $this->getModel()->getItem($recordId);
+
 		if ($user->authorise('core.edit', 'com_sdajem'))
 		{
 			return true;
 		}
 
+		// Fallback on edit.own.
 		if ($user->authorise('core.edit.own', 'com_sdajem'))
 		{
-			// Existing record already has an owner, get it
-			$record = $this->getModel()->getItem($recordId);
-
-			if (empty($record))
-			{
-				return false;
-			}
-
-			// Grant if current user is owner of the record
-			return $user->id == $record->user_id;
+			return ($record->user_id == $user->id);
 		}
 
 		return false;
@@ -145,7 +139,7 @@ class FittingController extends FormController
 	 *
 	 * @since   1.6
 	 */
-	public function edit($key = null, $urlVar = 'id')
+	public function edit($key = null, $urlVar = 'id'): bool
 	{
 		$result = parent::edit($key, $urlVar);
 

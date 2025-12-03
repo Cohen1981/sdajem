@@ -170,6 +170,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 						</label>
 					</div>
 					<input type="hidden" name="task" value/>
+                    <input type='hidden' name='currTmpl' value="<?php echo $this->getLayout(); ?>"/>
 					<input type="hidden" name="return" value="<?php
 					echo $this->return_page; ?>"/>
 					<?php
@@ -247,7 +248,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 								$n = count($items);
 								foreach ($items as $i => $item) : ?>
 									<?php
-									if ($item->eventStatusEnum == EventStatusEnum::CONFIRMED->value || in_array(
+                                    if ($item->eventStatusEnum == EventStatusEnum::CONFIRMED || in_array(
 													$params->get('sda_public_planing'),
 													$userAuthorizedViewLevels
 											)) : ?>

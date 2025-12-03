@@ -161,6 +161,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 				<input type="hidden" name="task" value/>
 				<input type="hidden" name="return" value="<?php
 				echo $this->return_page; ?>"/>
+                <input type="hidden" name="currTmpl" value="<?php echo $this->getLayout(); ?>"/>
 				<?php
 				echo HTMLHelper::_('form.token'); ?>
 			</form>

@@ -11,7 +11,7 @@ namespace Sda\Component\Sdajem\Site\Model;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
-use Sda\Component\Sdajem\Administrator\Library\Item\Fitting;
+use Sda\Component\Sdajem\Administrator\Library\Item\FittingTableItem;
 use Sda\Component\Sdajem\Administrator\Model\FittingModel;
 use function defined;
 
@@ -25,6 +25,7 @@ defined('_JEXEC') or die;
  */
 class FittingformModel extends FittingModel
 {
+	public $typeAlias = 'com_sdajem.fitting';
 	/**
 	 * @var string
 	 * @since 1.1.5
@@ -40,6 +41,23 @@ class FittingformModel extends FittingModel
 	public function getReturnPage()
 	{
 		return base64_encode($this->getState('return_page'));
+	}
+
+	/**
+	 * Method to get event data.
+	 *
+	 * @param   int  $pk  The id of the event.
+	 *
+	 * @return  mixed  Event item data object on success, false on failure.
+	 * @throws  Exception
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 */
+	public function getItem($pk = null): FittingTableItem
+	{
+		$pk = (int) (!empty($pk)) ? $pk : $this->getState('fitting.id');
+
+		return parent::getItem($pk);
 	}
 
 	/**

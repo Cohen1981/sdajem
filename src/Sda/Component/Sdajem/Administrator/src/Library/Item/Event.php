@@ -203,10 +203,10 @@ class Event extends EventTableItem
 		$query->from($db->quoteName('#__sdajem_events', 'a'));
 
 		// Join over locations
-		$query->select(
+		$query->select([
 			$db->quoteName('loc.title', 'locationName'),
 			$db->quoteName('loc.postalCode', 'postalCode')
-		)
+		])
 			->join(
 				'LEFT',
 				$db->quoteName('#__sdajem_locations', 'loc') . ' ON ' . $db->quoteName(

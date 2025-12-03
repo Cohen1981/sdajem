@@ -67,13 +67,19 @@ class HtmlView extends BaseHtmlView implements HtmlListViewInterface
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getApplication()->getIdentity();
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
 
-		if ($user)
+		if ($user->guest)
+		{
+			$template = Factory::getApplication()->getUserState('com_sdajem.events.event_tpl', 'default');
+		}
+		else
 		{
 			$template = $user->getParam('events_tpl', 'default');
-			$this->setLayout($template);
 		}
+
+		$this->setLayout($template);
 
 		$model = $this->getModel();
 		$this->items = $model->getItems();

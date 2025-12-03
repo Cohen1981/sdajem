@@ -41,7 +41,7 @@ if [ "${components}" != "__UNDEFINED__" ]; then
     # copy component media to build directory
     cp -rf "${sources}"/media/com_"${component}" "${tmpDir}"/media;
     # copy the component.xml
-    cp -f "${sources}"/administrator/components/com_"${component}"/"${component}".xml "${tmpDir}"/;
+    cp -f "${tmpDir}"/administrator/components/com_"${component}"/"${component}".xml "${tmpDir}"/;
 
     # make the zip
     cd "${tmpDir}" || exit;

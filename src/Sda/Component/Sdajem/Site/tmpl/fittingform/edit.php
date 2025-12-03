@@ -25,6 +25,7 @@ $this->useCoreUI = true;
 $canDo = ContentHelper::getActions('com_sdajem');
 
 $item = $this->getItem();
+$form = $this->getForm();
 ?>
 <div class="sdajem_content_container">
 	<form action="<?php echo Route::_('index.php?option=com_sdajem&id=' . (int) $item->id); ?>" method="post" name="fittingForm" id="fittingForm" class="form-validate form-vertical">
@@ -32,7 +33,15 @@ $item = $this->getItem();
 			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'details']); ?>
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'details', empty($item->id) ? Text::_('COM_SDAJEM_NEW_FITTING') : Text::_('COM_SDAJEM_EDIT_FITTING')); ?>
 
-			<?php echo $this->getForm()->renderFieldset('details'); ?>
+            <?php
+            echo $form->renderField('title');
+            echo $form->renderField('image');
+            echo $form->renderField('description');
+            echo $form->renderField('needSpace');
+            echo $form->renderField('length');
+            echo $form->renderField('width');
+            echo $form->renderField('standard');
+            ?>
 
             <?php if($canDo->get('core.manage')): ?>
 	            <?php echo $this->getForm()->renderFieldset('admin'); ?>
