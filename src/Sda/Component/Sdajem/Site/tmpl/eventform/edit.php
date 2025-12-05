@@ -28,7 +28,7 @@ $wa->useScript('com_sdajem.calendar');
 ?>
 <div class="sdajem_content_container">
     <form action="<?php echo Route::_(
-        'index.php?option=com_sdajem&id=' . (int) $this->item->id); ?>"
+            '?option=com_sdajem&id=' . (int) $this->item->id); ?>"
           method="post"
           name="adminForm"
           id="adminForm"
@@ -93,7 +93,8 @@ $wa->useScript('com_sdajem.calendar');
             <input type="hidden" name="return" value="<?php echo $this->returnPage; ?>"/>
         </div>
     </form>
-    <form action="<?php echo Route::_('index.php?option=com_sdajem&id=' . (int) $this->item->id); ?>" method="post" name="locForm" id="locForm">
+    <form action="<?php echo Route::_('?option=com_sdajem&id=' . (int) $this->item->id); ?>" method="post"
+          name="locForm" id="locForm">
         <div class="mb-2 row g-4">
             <input type="hidden" name="return" value="<?php echo $this->returnPageEdit; ?>">
             <input type="hidden" name="task" value=""/>

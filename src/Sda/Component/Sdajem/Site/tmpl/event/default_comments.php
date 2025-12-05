@@ -69,7 +69,8 @@ $event = $this->getItem();
                 <?php if (($canDo->get('core.edit.own') && $comment->users_user_id == $user->id) || $canDo->get('core.delete')): ?>
 
                 <div class="col-auto">
-                    <form action="<?php echo Route::_('index.php?option=com_sdajem'); ?>" method="post" name="commentForm<?php echo $comment->id; ?>" id="commentForm<?php echo $comment->id; ?>">
+                    <form action="<?php echo Route::_('?option=com_sdajem'); ?>" method="post"
+                          name="commentForm<?php echo $comment->id; ?>" id="commentForm<?php echo $comment->id; ?>">
                         <button type="button" class="btn btn-danger" onclick="Joomla.submitbutton('comment.delete', 'commentForm<?php echo $comment->id; ?>')">
                             <span class="fas fa-trash" aria-hidden="true"></span>
                         </button>

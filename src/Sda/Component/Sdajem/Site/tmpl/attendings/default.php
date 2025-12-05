@@ -35,7 +35,7 @@ $items = $this->getItems();
 ?>
 
 <div class="sdajem_content_container">
-	<form action="<?php echo Route::_('index.php?view=attendings'); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_('?view=attendings'); ?>" method="post" name="adminForm" id="adminForm">
 		<div>
 			<?php if ($canDo->get('core.create')) : ?>
 				<div class="mb-2">

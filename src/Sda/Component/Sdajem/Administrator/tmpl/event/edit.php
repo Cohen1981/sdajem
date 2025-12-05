@@ -33,7 +33,7 @@ $form = $this->getForm();
 ?>
 
 <form action="<?php
-echo Route::_('index.php?option=com_sdajem&layout=' . $layout . $tmpl . '&id=' . (int) $this->getItem()->id); ?>"
+echo Route::_('?option=com_sdajem&layout=' . $layout . $tmpl . '&id=' . (int) $this->getItem()->id); ?>"
 	  method="post" name="adminForm" id="event-form" class="form-validate">
 	<div class="row title-alias form-vertical mb-3">
 		<div class="col-12 col-md-6">

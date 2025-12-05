@@ -52,7 +52,7 @@
                 type="ModalSelect"
                 label="COM_SDAJEM_SELECT_LOCATION_LABEL"
                 select="true"
-                urlSelect="index.php?option=com_sdajem&amp;view=locations&amp;layout=modal&amp;tmpl=component"
+                urlSelect="?option=com_sdajem&amp;view=locations&amp;layout=modal&amp;tmpl=component"
                 clear="true"
                 new="true"
                 sql_title_table="#__sdajem_locations"

@@ -138,6 +138,31 @@ class FittingsModel extends ListModel
 	}
 
 	/**
+	 * @param   int|null  $userId  The unique identifier of the user whose standard fittings are to be retrieved.
+	 *
+	 * @return array
+	 * @since 1.6.0
+	 */
+	public function getStandardFittingIdsForUser(int $userId = null): array
+	{
+		$userId = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
+
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('a.id', 'id'));
+		$query->from($db->quoteName('#__sdajem_fittings', 'a'));
+
+		$query->where($db->quoteName('a.user_id') . '= :userId')
+			->extendWhere('AND', $db->quoteName('a.standard') . ' = 1');
+		$query->bind(':userId', $userId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Get all fittings for a given event
 	 *
 	 * @since   1.1.4

@@ -325,7 +325,7 @@ class FittingController extends FormController
 
 		// Set up the redirect URL to the modal return layout.
 		$this->input->set('layout', 'modalreturn');
-		$return = 'index.php?option=com_sdajem&view=fittings&tmpl=component&layout=modalreturn&id=' . $attending->id . '&callContext=' . $this->input->get('callContext', '');
+		$return = '?option=com_sdajem&view=fittings&tmpl=component&layout=modalreturn&id=' . $attending->id . '&callContext=' . $this->input->get('callContext', '');
 
 		$this->setRedirect(Route::_($return));
 

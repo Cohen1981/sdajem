@@ -14,14 +14,14 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
 	'textPrefix' => 'COM_SDAJEM',
-	'formURL' => 'index.php?option=com_sdajem',
+	'formURL' => '?option=com_sdajem',
 	'icon' => 'icon-copy',
 ];
 
 $user = Factory::getApplication()->getIdentity();
 
 if ($user->authorise('core.create', 'com_sdajem') || count($user->getAuthorisedCategories('com_sdajem', 'core.create')) > 0) {
-	$displayData['createURL'] = 'index.php?option=com_sdajem&task=event.add';
+	$displayData['createURL'] = '?option=com_sdajem&task=event.add';
 }
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

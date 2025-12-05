@@ -15,7 +15,7 @@ $app = Factory::getApplication();
 ?>
 
 <div class="container-popup">
-    <form action="<?php echo Route::_('index.php?option=com_sdajem&task=fitting.addFittingToEvent&eventId=' . $this->eventId); ?>"
+    <form action="<?php echo Route::_('?option=com_sdajem&task=fitting.addFittingToEvent&eventId=' . $this->eventId); ?>"
           method="post" name="adminForm" id="adminForm" class="form-inline">
         <?php if (empty($items)) : ?>
             <div class="alert alert-warning">

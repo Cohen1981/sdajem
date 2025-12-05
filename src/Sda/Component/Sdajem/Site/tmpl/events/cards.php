@@ -42,7 +42,7 @@ $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder && !empty($items))
 {
-	$saveOrderingUrl = 'index.php?option=com_sdajem&task=events.saveOrderAjax&tmpl=component&'
+    $saveOrderingUrl = '?option=com_sdajem&task=events.saveOrderAjax&tmpl=component&'
 			. Session::getFormToken() . '=1';
 }
 
@@ -75,7 +75,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 					<!-- Joomla searchtools -->
 					<div class="col">
 						<form action="<?php
-						echo Route::_('index.php?view=events'); ?>"
+                        echo Route::_('?view=events'); ?>"
 							  method="post"
 							  name="adminForm1"
 							  id="adminForm1">
@@ -114,7 +114,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 			?>
 			<div class="col-sm-3">
 				<form action="<?php
-				echo Route::_('index.php?view=events'); ?>"
+                echo Route::_('?view=events'); ?>"
 					  method="post"
 					  name="adminForm"
 					  id="adminForm"
@@ -144,7 +144,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 			$checked = ($currentUser->getParam('events_tpl', 'default') === 'default') ? '' : 'checked';
 			?>
 			<form action="<?php
-			echo Route::_('index.php?view=events'); ?>" method="post" name="tplForm" id="tplForm">
+            echo Route::_('?view=events'); ?>" method="post" name="tplForm" id="tplForm">
 				<div class="form-check form-switch float-right">
 					<input class="form-check-input"
 						   type="checkbox"
@@ -195,7 +195,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 							<div class="col">
 								<a href="<?php
 								echo Route::_(
-										'index.php?view=event&id='
+                                        '?view=event&id='
 										. $event->id
 								); ?>">
 									<h5>
@@ -291,7 +291,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 						<!-- card body -->
 						<div class="card-body row justify-content-between">
 							<a class="col-sm row justify-content-between align-content-center no-decor" href="<?php
-							echo Route::_('index.php?view=event&id=' . $event->id); ?>">
+                            echo Route::_('?view=event&id=' . $event->id); ?>">
 
 								<!-- register until-->
 								<?php
@@ -438,7 +438,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 								<div class="collapse multi-collapse col-sm-auto" id="cdelete<?php
 								echo $event->id; ?>">
 									<form action="<?php
-									echo Route::_('index.php?view=events'); ?>" method="post" name="eventForm<?php
+                                    echo Route::_('?view=events'); ?>" method="post" name="eventForm<?php
 									echo $event->id; ?>" id="eventForm<?php
 									echo $event->id; ?>">
 

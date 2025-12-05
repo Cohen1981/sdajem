@@ -29,7 +29,7 @@ $saveOrder = $listOrder == 'a.ordering';
 
 if ($saveOrder && !empty($items))
 {
-	$saveOrderingUrl = 'index.php?option=com_sdajem&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = '?option=com_sdajem&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 }
 
 $params = ComponentHelper::getParams('com_sdajem');
@@ -37,7 +37,7 @@ $params = ComponentHelper::getParams('com_sdajem');
 $items = $this->getItems();
 ?>
 <form action="<?php
-echo Route::_('index.php?option=com_sdajem'); ?>" method="post" name="adminForm" id="adminForm">
+echo Route::_('?option=com_sdajem'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
@@ -152,7 +152,7 @@ echo Route::_('index.php?option=com_sdajem'); ?>" method="post" name="adminForm"
 									$editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 									<a class="hasTooltip" href="<?php
 									echo Route::_(
-											'index.php?option=com_sdajem&task=event.edit&id=' . (int) $item->id
+                                            '?option=com_sdajem&task=event.edit&id=' . (int) $item->id
 									); ?>" title="<?php
 									echo Text::_('JACTION_EDIT'); ?> <?php
 									echo $this->escape(addslashes($item->title)); ?>">

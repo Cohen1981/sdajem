@@ -202,7 +202,7 @@ class CommentController extends FormController
 			$this->input->set('layout', 'modalreturn');
 		}
 
-		$return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(
+		$return = '?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(
 				$id
 			);
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 /**
@@ -35,7 +35,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 if ($saveOrder && !empty($this->items)) {
-	$saveOrderingUrl = 'index.php?option=com_sdajem&task=locations.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = '?option=com_sdajem&task=locations.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 }
 
 $params = $this->get('State')->get('params');
@@ -44,7 +44,7 @@ $params = $this->get('State')->get('params');
 ?>
 
 <div class="sdajem_content_container">
-	<form action="<?php echo Route::_('index.php?view=locations'); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_('?view=locations'); ?>" method="post" name="adminForm" id="adminForm">
 		<div>
             <div class="mb-2">
                 <div class="sda_button_group sda_button_group_right" role="group" aria-label="basic group">
@@ -107,7 +107,7 @@ $params = $this->get('State')->get('params');
                                     <?php endif; ?>
 									<th scope="row" class="has-context col-4">
 										<div>
-											<a href="<?php echo Route::_('index.php?option=com_sdajem&view=location&id=' . (int) $item->id); ?>">
+                                            <a href="<?php echo Route::_('?option=com_sdajem&view=location&id=' . (int) $item->id); ?>">
 												<?php echo $this->escape($item->title); ?>
 											</a>
 										</div>

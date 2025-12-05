@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		if ($authorised !== true) {
-			$app->redirect('index.php?option=com_users&view=login');
+			$app->redirect('?option=com_users&view=login');
 		}
 		// Create a shortcut to the parameters.
 		$this->params = $this->state->params;

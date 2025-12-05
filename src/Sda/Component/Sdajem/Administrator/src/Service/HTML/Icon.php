@@ -270,7 +270,7 @@ class Icon
 			$attending->slug = "";
 		}
 
-		$attendingUrl = 'index.php?option=com_sdajem&view=attending&id=' . $attending->id;
+		$attendingUrl = '?option=com_sdajem&view=attending&id=' . $attending->id;
 		$url          = $attendingUrl . '&task=attending.edit&id=' . $attending->id . '&return=' . base64_encode($uri);
 
 		$icon = 'edit';
@@ -326,7 +326,7 @@ class Icon
 			$event->slug = "";
 		}
 
-		$url = Route::_('index.php?option=com_sdajem');
+		$url = Route::_('?option=com_sdajem');
 
 		$text = '<form action="' . $url . '" method="post" id="adminForm" name="adminForm">';
 		$text .= '<input type="hidden" name="event_id" value="' . $event->id . '"/>'
@@ -439,7 +439,7 @@ class Icon
 		// Set the link class
 		$attribs['class'] = 'dropdown-item';
 
-		$fittingUrl = 'index.php?option=com_sdajem';
+		$fittingUrl = '?option=com_sdajem';
 		$url        = $fittingUrl . '&task=fitting.edit&id=' . $fitting->id . '&return=' . base64_encode($uri);
 
 		$icon = 'edit';
@@ -461,7 +461,7 @@ class Icon
 		// $attribs['class'] = 'sda_button_spacer btn btn-light';
 		$attribs['class'] = 'dropdown-item';
 
-		$eventUrl = 'index.php?option=com_sdajem&view=events';
+		$eventUrl = '?option=com_sdajem&view=events';
 		$url      = $eventUrl . '&task=' . $action->getEventAction(
 		) . '&eventId=' . $event->id . '&return=' . base64_encode($uri);
 

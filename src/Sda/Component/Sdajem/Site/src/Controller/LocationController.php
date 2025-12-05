@@ -201,15 +201,15 @@ class LocationController extends FormController
 			$id = $model->state->get('locationform.id');
 			$model->state->set('locationform.id', $id);
 			$this->input->set('layout', 'modalreturn');
-			$return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id);
+			$return = '?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($id);
 		}
 		elseif ($this->input->get('task') === 'save2new')
 		{
-			$return = 'index.php?option=' . $this->option . '&view=locations&task=location.add';
+			$return = '?option=' . $this->option . '&view=locations&task=location.add';
 		}
 		else
 		{
-			$return = 'index.php?option=' . $this->option . '&view=locations';
+			$return = '?option=' . $this->option . '&view=locations';
 		}
 
 		$this->setRedirect(Route::_($return, false));

@@ -30,7 +30,7 @@ $tmpl   = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '
 ?>
 
 <form action="<?php
-echo Route::_('index.php?option=com_sdajem&layout=' . $layout . $tmpl . '&id=' . (int) $item->id); ?>"
+echo Route::_('?option=com_sdajem&layout=' . $layout . $tmpl . '&id=' . (int) $item->id); ?>"
 	  method="post" name="adminForm" id="location-form" class="form-validate">
 	<div class="row title-alias form-vertical mb-3">
 		<div class="col-12 col-md-6">

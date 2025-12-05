@@ -26,7 +26,7 @@ $onclick  = $this->escape($function);
 <div class="container-popup">
 	<form action="<?php
 	echo Route::_(
-			'index.php?option=com_sdajem&view=locations&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken(
+            '?option=com_sdajem&view=locations&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken(
 			) . '=1'
 	); ?>"
 		  method="post"

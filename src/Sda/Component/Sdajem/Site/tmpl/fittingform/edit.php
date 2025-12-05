@@ -28,7 +28,8 @@ $item = $this->getItem();
 $form = $this->getForm();
 ?>
 <div class="sdajem_content_container">
-	<form action="<?php echo Route::_('index.php?option=com_sdajem&id=' . (int) $item->id); ?>" method="post" name="fittingForm" id="fittingForm" class="form-validate form-vertical">
+    <form action="<?php echo Route::_('?option=com_sdajem&id=' . (int) $item->id); ?>" method="post" name="fittingForm"
+          id="fittingForm" class="form-validate form-vertical">
 		<fieldset>
 			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'details']); ?>
 			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'details', empty($item->id) ? Text::_('COM_SDAJEM_NEW_FITTING') : Text::_('COM_SDAJEM_EDIT_FITTING')); ?>

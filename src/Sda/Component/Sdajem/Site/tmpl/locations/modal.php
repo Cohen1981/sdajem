@@ -15,7 +15,8 @@ $onclick   = $this->escape($function);
 ?>
 
 <div class="container-popup">
-	<form action="<?php echo Route::_('index.php?option=com_sdajem&view=locations&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+    <form action="<?php echo Route::_('?option=com_sdajem&view=locations&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>"
+          method="post" name="adminForm" id="adminForm" class="form-inline">
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-warning">
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>

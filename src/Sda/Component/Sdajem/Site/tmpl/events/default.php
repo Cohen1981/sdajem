@@ -41,7 +41,7 @@ $listDirn  = $this->escape($state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 if ($saveOrder && !empty($items))
 {
-    $saveOrderingUrl = 'index.php?view=events&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken(
+    $saveOrderingUrl = '?view=events&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken(
 			) . '=1';
 }
 
@@ -56,7 +56,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 	<div class="accordion" id="accordionEvents">
 
 		<form action="<?php
-        echo Route::_('index.php?option=com_sdajem&view=events'); ?>" method="post" name="adminForm" id="adminForm">
+        echo Route::_('?option=com_sdajem&view=events'); ?>" method="post" name="adminForm" id="adminForm">
 			<div>
 				<div class="accordion-item">
 					<h5 class="accordion-header" id="headingControls">
@@ -139,7 +139,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 							<div class="row justify-content-between">
 								<div class="col">
 									<form action="<?php
-									echo Route::_('index.php?view=events'); ?>" method="post" name="adminForm1"
+                                    echo Route::_('?view=events'); ?>" method="post" name="adminForm1"
 										  id="adminForm1">
 										<?php
 										echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>

@@ -208,6 +208,11 @@ class AttendingModel extends AdminModel
 				}
 			}
 		}
+		elseif ($data->status == IntAttStatusEnum::POSITIVE->value && (empty($data->fittings) || $data->fittings == '[]'))
+		{
+			$userFittings   = (new FittingsModel)->getStandardFittingIdsForUser($data->users_user_id);
+			$data->fittings = json_encode($userFittings);
+		}
 
 		if ($data->users_user_id)
 		{
