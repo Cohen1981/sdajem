@@ -28,17 +28,17 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $locatio
 
 $lAddressString = '';
 
-if (!$location === null)
+if ($location !== null)
 {
-	if (isset($location->latlng))
+    if (!empty($location->latlng))
 	{
 		$lAddressString = urlencode($location->latlng);
 	}
 	else
 	{
-		$lAddressString = $lAddressString . (isset($location->street)) ? urlencode($location->street) : '';
-		$lAddressString = $lAddressString . '+' . (isset($location->postalCode)) ? urlencode($location->postalCode) : '';
-		$lAddressString = $lAddressString . '+' . (isset($location->city)) ? urlencode($location->city) : '';
+        $lAddressString = $lAddressString . (!empty($location->street)) ? urlencode($location->street) : '';
+        $lAddressString .= (!empty($location->postalCode)) ? '+' . urlencode($location->postalCode) : '';
+        $lAddressString .= (!empty($location->city)) ? '+' . urlencode($location->city) : '';
 	}
 }
 

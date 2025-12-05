@@ -12,7 +12,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\DatabaseInterface;
+use Joomla\CMS\Language\Text;
 use Sda\Component\Sdajem\Administrator\Library\Collection\AttendingTableItemsCollection;
+use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
@@ -158,5 +160,69 @@ class AttendingModel extends AdminModel
 		}
 
 		return Attending::createFromObject($data);
+	}
+
+	/**
+	 * Saves the given data, updating related event SVG data if specific conditions are met.
+	 *
+	 * @param   array  $data  The data to be saved, including details about the user and event.
+	 *
+	 * @return  bool  True on success, false on failure.
+	 *
+	 * @throws  Exception
+	 * @since   1.6.0
+	 */
+	public function save($data)
+	{
+		$data = AttendingTableItem::createFromArray($data);
+
+		$task = Factory::getApplication()->input->getCmd('task');
+
+		if ($data->status == IntAttStatusEnum::NEGATIVE->value || $data->status == IntAttStatusEnum::GUEST->value || $task == 'deleteFitting')
+		{
+			$eventModel = new EventModel;
+			$event      = $eventModel->getItem($data->event_id);
+
+			$userFittings = (new FittingsModel)->getFittingsForUser($data->users_user_id);
+
+			if ($event->svg)
+			{
+				$svg = (array) json_decode($event->svg);
+
+				foreach ($svg as $key => $value)
+				{
+					foreach ($userFittings as $fitting)
+					{
+						if (str_contains($value, 'img_' . $fitting->id))
+						{
+							unset($svg[$key]);
+						}
+					}
+				}
+
+				$event->svg = (count($svg) > 0) ? json_encode($svg) : null;
+
+				if (!$eventModel->save($event->toArray()))
+				{
+					Factory::getApplication()->enqueueMessage(Text::_('COM_SDAJEM_EVENT_SAVE_ERROR'), 'error');
+				}
+			}
+		}
+
+		if ($data->users_user_id)
+		{
+			return parent::save($data->toArray());
+		}
+		elseif ($data->fittings)
+		{
+			return parent::save($data->toArray());
+		}
+		else
+		{
+			$pks = (array) $data->id;
+
+			return $this->delete($pks);
+		}
+
 	}
 }

@@ -131,9 +131,9 @@ class HtmlView extends BaseHtmlView
 		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', Text::_('COM_FOOS_FORM_EDIT_ATTENDING'));
+			$this->params->def('page_heading', Text::_('COM_SDAJEM_FORM_EDIT_ATTENDING'));
 		}
-		$title = $this->params->def('page_title', Text::_('COM_FOOS_FORM_EDIT_ATTENDING'));
+		$title = $this->params->def('page_title', Text::_('COM_SDAJEM_FORM_EDIT_ATTENDING'));
 		if ($app->get('sitename_pagetitles', 0) == 1) {
 			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		} else if ($app->get('sitename_pagetitles', 0) == 2) {

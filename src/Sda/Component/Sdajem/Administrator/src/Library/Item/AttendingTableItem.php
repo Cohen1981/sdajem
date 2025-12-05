@@ -6,6 +6,7 @@
 
 namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
+use Joomla\CMS\HTML\Registry;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;

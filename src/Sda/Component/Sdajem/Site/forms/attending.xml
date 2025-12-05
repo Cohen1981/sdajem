@@ -20,6 +20,18 @@
                 type="Attendeestatuslist"
                 label="COM_SDAJEM_FIELD_ATTENDING_STATUS_LABEL"
         />
+        <field
+                name="event_status"
+                type="number"
+                readonly="true"
+                hidden="true"
+        />
+        <field
+                name="fittings"
+                type="text"
+                readonly="true"
+                hidden="true"
+        />
     </fieldset>
     <fieldset name="admin" addfieldprefix="Sda\Component\Sdajem\Administrator\Field">
         <field

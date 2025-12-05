@@ -19,6 +19,7 @@ use Joomla\CMS\Uri\Uri;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Item\Event;
+use Sda\Component\Sdajem\Administrator\Model\FittingsModel;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\Model\EventModel;
 
@@ -94,6 +95,30 @@ class AttendingController extends FormController
 			{
 				$this->input->set('id', $data->id);
 			}
+
+			if (empty($input['event_status']))
+			{
+				$event                 = (new EventModel())->getItem($input['event_id']);
+				$input['event_status'] = ($event->eventStatusEnum == EventStatusEnum::PLANING) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
+			}
+
+			$fittings = (new FittingsModel())->getFittingsForUser($data->users_user_id);
+			$ids      = [];
+
+			if ($fittings)
+			{
+				foreach ($fittings as $fitting)
+				{
+					if ($fitting->standard)
+					{
+						$ids[] = $fitting->id;
+					}
+				}
+
+				$input['fittings'] = json_encode($ids);
+			}
+
+			$this->input->post->set('jform', $input);
 		}
 
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
@@ -113,16 +138,13 @@ class AttendingController extends FormController
 		{
 			$pks[0] = $this->input->get('event_id');
 		}
+		elseif ($eventId !== null)
+		{
+			$pks[0] = $eventId;
+		}
 		else
 		{
-			if ($eventId !== null)
-			{
-				$pks[0] = $eventId;
-			}
-			else
-			{
-				$pks = $this->input->get('cid');
-			}
+			$pks = $this->input->get('cid');
 		}
 
 		if (count($pks) >= 0)

@@ -146,6 +146,28 @@ class EventTable extends Table
 			$this->registerUntil = null;
 		}
 
+		if (!$this->access)
+		{
+			if ($this->eventStatus == EventStatusEnum::PLANING->value)
+			{
+				$this->access = 2;
+			}
+			else
+			{
+				$this->access = 1;
+			}
+		}
+
+		if (!$this->state)
+		{
+			$this->state = 0;
+		}
+
+		if (!$this->ordering)
+		{
+			$this->ordering = 0;
+		}
+
 		return true;
 	}
 

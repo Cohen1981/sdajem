@@ -17,6 +17,7 @@
 
     const dragBoxes = $('.draggable');
     const rotators = $('.rotator');
+    const deleteButtons = $('.delete');
 
     let dragging = false;
     let rotating = false;
@@ -29,6 +30,10 @@
     rotators.each(function (){
         this.addEventListener('mousedown', startRotate);
         this.addEventListener('touchstart', startRotate);
+    });
+
+    deleteButtons.each(function () {
+        this.addEventListener('click', deleteFitting)
     });
 
     document.addEventListener('mouseup', stopAll);
@@ -144,6 +149,38 @@
         el = false;
     }
 
+    function deleteFitting(evt) {
+        let fitting = evt.target.parentElement;
+
+        let data = new FormData;
+
+        data.append('id', fitting.id);
+        data.append('eventId', document.getElementById('eventId').value);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                let html = xhttp.response;
+                let message = '';
+
+                if (html.toString() === "error") {
+                    message = document.createElement('p');
+                    message.innerHTML = 'An error occured';
+                    document.getElementById('messages').classList.add('failed');
+                } else {
+                    fitting.remove();
+                }
+
+                document.getElementById('messages').insertAdjacentElement('afterbegin', message);
+                document.getElementById('messages').hidden = false;
+            }
+        };
+
+        xhttp.open("POST", "?option=com_sdajem&view=event&task=event.deleteFitting");
+        xhttp.send(data);
+        // fitting.remove();
+    }
+
     /**
      * Generate a download link and click it
      *
@@ -228,7 +265,7 @@
                 }
             };
 
-            xhttp.open("POST", "index.php?option=com_sdajem&view=event&task=event.savePlan");
+            xhttp.open("POST", "?option=com_sdajem&view=event&task=event.savePlan");
             xhttp.send(data);
         }
     }

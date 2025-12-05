@@ -15,11 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\View\Events\HtmlView;
 
@@ -27,7 +25,6 @@ use Sda\Component\Sdajem\Site\View\Events\HtmlView;
 
 $items = $this->getItems();
 $state = $this->getState();
-/* @var WebAssetManager $wa */
 $wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('bootstrap.dropdown');
 $wa->useScript('bootstrap.collapse');
@@ -44,7 +41,7 @@ $listDirn  = $this->escape($state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 if ($saveOrder && !empty($items))
 {
-	$saveOrderingUrl = 'index.php?option=com_sdajem&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken(
+    $saveOrderingUrl = 'index.php?view=events&task=events.saveOrderAjax&tmpl=component&' . Session::getFormToken(
 			) . '=1';
 }
 
@@ -59,7 +56,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 	<div class="accordion" id="accordionEvents">
 
 		<form action="<?php
-		echo Route::_('index.php?view=events'); ?>" method="post" name="adminForm" id="adminForm">
+        echo Route::_('index.php?option=com_sdajem&view=events'); ?>" method="post" name="adminForm" id="adminForm">
 			<div>
 				<div class="accordion-item">
 					<h5 class="accordion-header" id="headingControls">
@@ -157,25 +154,19 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 				<?php
 				$checked = ($currentUser->getParam('events_tpl', 'default') === 'default') ? '' : 'checked';
 				?>
-				<form action="<?php
-				echo Route::_('index.php?view=events'); ?>" method="post" name="tplForm" id="tplForm">
+
 					<div class="col"></div>
 					<div class="form-check form-switch col-auto">
-						<input class="form-check-input" type="checkbox" value="" id="default_tpl" switch
-							   onclick="Joomla.submitbutton('event.changeTpl', 'tplForm')" <?php
+                        <input class="form-check-input" type="checkbox" value="" id="default_tpl"
+                               onclick="Joomla.submitbutton('event.changeTpl')" <?php
 						echo $checked; ?>
 						<label class="form-check-label" for="default_tpl">
 							<?php
 							echo Text::_('COM_SDAJEM_EVENTS_TPL_CARDS'); ?>
 						</label>
 					</div>
-					<input type="hidden" name="task" value/>
                     <input type='hidden' name='currTmpl' value="<?php echo $this->getLayout(); ?>"/>
-					<input type="hidden" name="return" value="<?php
-					echo $this->return_page; ?>"/>
-					<?php
-					echo HTMLHelper::_('form.token'); ?>
-				</form>
+
 			</div>
 
 			<div class="row">
@@ -190,7 +181,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 							</div>
 						<?php
 						else : ?>
-                            <table class="table table-striped" id="eventList" name="eventTable">
+                            <table class="table table-striped" id="eventList">
 								<caption class="visually-hidden">
 									<?php
 									echo Text::_('COM_SDAJEM_TABLE_CAPTION'); ?>, <?php
@@ -321,18 +312,9 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 											<td class="col-3">
 												<div>
 													<?php
-													if ($item->allDayEvent)
-													{
-														echo HTMLHelper::date($item->startDateTime, 'd.m.Y', true);
+                                                    echo $item->getStart();
 														echo ' - ';
-														echo HTMLHelper::date($item->endDateTime, 'd.m.Y', true);
-													}
-													else
-													{
-														echo HTMLHelper::date($item->startDateTime, 'd.m.Y H:i', true);
-														echo ' - ';
-														echo HTMLHelper::date($item->endDateTime, 'd.m.Y H:i', true);
-													}
+                                                    echo $item->getEnd();
 													?>
 												</div>
 												<div>

@@ -52,11 +52,6 @@
             <option value="0">JNO</option>
             <option value="1">JYES</option>
         </field>
-        <field
-                name="fittingType"
-                type="Fittingtypelist"
-                label="COM_SDAJEM_FIELD_FITTING_TYPE_LABEL"
-        />
     </fieldset>
     <fieldset name="publishing" label="JGLOBAL_FIELDSET_PUBLISHING">
         <field

@@ -4,6 +4,9 @@
 .sdajem_content_container .draggable {
   cursor: move;
 }
+.sdajem_content_container .delete {
+  cursor: pointer;
+}
 .sdajem_content_container svg {
   overflow: visible;
 }

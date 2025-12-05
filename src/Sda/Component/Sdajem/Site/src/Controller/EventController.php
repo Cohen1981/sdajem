@@ -27,6 +27,9 @@ use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
+use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
+use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
+use Sda\Component\Sdajem\Site\Model\AttendingformModel;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Administrator\Model\AttendingModel as AttendingModelAdmin;
 use Sda\Component\Sdajem\Site\Model\EventformModel;
@@ -320,41 +323,6 @@ class EventController extends FormController
 		}
 	}
 
-	public function addCategory(): bool
-	{
-		$input         = Factory::getApplication()->input;
-		$app           = Factory::getApplication();
-		$user          = $app->getIdentity();
-		$extension     = 'com_sdajem';
-		$data          = array();
-		$data['title'] = $input->get('newCat', '');
-
-		if (($user->authorise('core.create', $extension)
-				|| count($user->getAuthorisedCategories($extension, 'core.create')))
-			&& $data['title'] != '')
-		{
-			$data['id']        = '';
-			$data['alias']     = $input->get('categoryalias', '');
-			$data['extension'] = 'com_sdajem.events';
-			$data['parent_id'] = 1;
-			$data['published'] = 1;
-
-			$catModel = new CategoryModel();
-
-			$return = $this->input->get('returnEdit', null, 'base64');
-			if (empty($return) || !Uri::isInternal(base64_decode($return)))
-			{
-				$return = Uri::base();
-			}
-
-			$this->setRedirect(Route::_(base64_decode($return), false));
-
-			return $catModel->save($data);
-		}
-
-		return true;
-	}
-
 	/**
 	 * @since 1.1.3
 	 *
@@ -441,21 +409,20 @@ class EventController extends FormController
 				$attending = AttendingModel::getAttendingToEvent($currUser->id, $id);
 				$model     = new AttendingModelAdmin;
 
-				$data = array(
-					'id'            => (isset($attending->id)) ? $attending->id : null,
-					'event_id'      => $id,
-					'users_user_id' => $currUser->id,
-					'status'        => $attStatus->value,
-					'event_status'  => ($event->eventStatus !== EventStatusEnum::PLANING->value) ? EventStatusEnum::OPEN->value : EventStatusEnum::PLANING->value
-				);
+				$data                = new AttendingTableItem;
+				$data->id            = (isset($attending->id)) ? $attending->id : null;
+				$data->event_id      = $id;
+				$data->users_user_id = $currUser->id;
+				$data->status        = $attStatus->value;
+				$data->event_status  = ($event->eventStatus !== EventStatusEnum::PLANING->value) ? EventStatusEnum::OPEN->value : EventStatusEnum::PLANING->value;
 
-				if (!$event->eventStatus == EventStatusEnum::PLANING->value)
+				if ($event->eventStatus !== EventStatusEnum::PLANING->value)
 				{
-					$data['fittings'] = $this->input->get('fittings', '');
+					$data->fittings = json_encode($this->input->get('fittings', []));
 				}
 
 				$this->setRedirect(Route::_($this->getReturnPage(), false));
-				$model->save($data);
+				$model->save($data->toArray());
 			}
 		}
 	}
@@ -491,6 +458,39 @@ class EventController extends FormController
 		catch (Exception $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+	}
+
+	public function deleteFitting()
+	{
+		$input     = $this->input;
+		$fittingId = $input->getInt('id');
+		$eventId   = $input->getInt('eventId');
+
+		$attendings    = (new AttendingsModel)->getAttendingsToEvent($eventId);
+		$attendingForm = new AttendingFormModel();
+
+		foreach ($attendings as $attending)
+		{
+			if (isset($attending->fittings))
+			{
+				$attFittings = (array) json_decode($attending->fittings, false);
+
+				foreach ($attFittings as $key => $value)
+				{
+					if ($value == $fittingId)
+					{
+						unset($attFittings[$key]);
+					}
+				}
+
+				$attending->fittings = (count($attFittings) > 0) ? json_encode($attFittings) : null;
+
+				if (!$attendingForm->save($attending->toArray()))
+				{
+					Factory::getApplication()->enqueueMessage(Text::_('COM_SDAJEM_ATTENDING_SAVE_ERROR'), 'error');
+				}
+			}
 		}
 	}
 

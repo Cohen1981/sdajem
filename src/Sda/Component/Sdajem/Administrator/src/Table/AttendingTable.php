@@ -86,6 +86,21 @@ class AttendingTable extends Table
 			return false;
 		}
 
+		if (!$this->access)
+		{
+			$this->access = 0;
+		}
+
+		if (!$this->state)
+		{
+			$this->state = 0;
+		}
+
+		if (!$this->ordering)
+		{
+			$this->ordering = 0;
+		}
+
 		return true;
 	}
 

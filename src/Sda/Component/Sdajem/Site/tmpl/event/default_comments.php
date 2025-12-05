@@ -35,7 +35,7 @@ $event = $this->getItem();
     <button class="button btn-primary col-auto" type="button"
             data-close-on-message
             data-reload-on-close
-            data-joomla-dialog='{"popupType": "iframe","width":"90vw", "height": "90vh", "src":"index.php?option=com_sdajem&tmpl=component&task=comment.addCommentToEvent&view=modal&eventId=<?php echo $event->id; ?>&callContext=event.comment"}'>
+            data-joomla-dialog='{"popupType": "iframe","width":"90vw", "height": "90vh", "src":"?option=com_sdajem&tmpl=component&task=comment.addCommentToEvent&view=modal&eventId=<?php echo $event->id; ?>&callContext=event.comment"}'>
         <?php echo Text::_('COM_SDAJEM_NEW_COMMENT'); ?>
     </button>
 
