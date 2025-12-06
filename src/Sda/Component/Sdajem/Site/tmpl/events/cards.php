@@ -195,7 +195,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 							<div class="col">
 								<a href="<?php
 								echo Route::_(
-                                        '?view=event&id='
+                                        '?option=com_sdajem&view=event&id='
 										. $event->id
 								); ?>">
 									<h5>
@@ -291,7 +291,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 						<!-- card body -->
 						<div class="card-body row justify-content-between">
 							<a class="col-sm row justify-content-between align-content-center no-decor" href="<?php
-                            echo Route::_('?view=event&id=' . $event->id); ?>">
+                            echo Route::_('?option=com_sdajem&view=event&id=' . $event->id); ?>">
 
 								<!-- register until-->
 								<?php

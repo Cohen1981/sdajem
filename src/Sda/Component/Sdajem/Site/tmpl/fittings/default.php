@@ -36,7 +36,8 @@ $items = $this->getItems();
 ?>
 
 <div class="sdajem_content_container">
-    <form action="<?php echo Route::_('?view=fittings'); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo Route::_('?option=com_sdajem&view=fittings'); ?>" method="post" name="adminForm"
+          id="adminForm">
 		<div>
             <div class="mb-2">
                 <?php if ($canDo->get('core.create')) : ?>

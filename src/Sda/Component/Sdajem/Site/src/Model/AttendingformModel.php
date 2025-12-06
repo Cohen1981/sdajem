@@ -41,6 +41,7 @@ class AttendingformModel extends \Sda\Component\Sdajem\Administrator\Model\Atten
 	 */
 	protected $formName = 'form';
 
+	protected $list_view = 'attendings';
 
 	/**
 	 * Get the return URL.
