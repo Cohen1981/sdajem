@@ -176,11 +176,11 @@ class EventTableItem extends ItemClass
 	public int $eventCancelled = 0;
 
 	/**
-	 * @var string|null
+	 * @var string|array|null
 	 * @since 1.5.3
 	 * Holds configuration parameters for the event. For example, if users can register for the event.
 	 */
-	public string|null $params;
+	public string|array|null $params;
 
 	/**
 	 * @var string|null

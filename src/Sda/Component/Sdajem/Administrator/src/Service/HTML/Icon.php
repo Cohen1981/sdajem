@@ -375,7 +375,15 @@ class Icon
 		$params = ComponentHelper::getParams('com_sdajem');
 		$uf     = $params->get('sda_events_use_fittings');
 
-		if ($uf && isset($fittings) && $interest->statusEnum != IntAttStatusEnum::POSITIVE && $event->eventStatusEnum != EventStatusEnum::PLANING)
+		/*
+		 * sda_use_fittings have to be true and event status has to be everything but plning.
+		 * If the has until now only shown interests, we show the fittings.
+		 */
+		if ($uf && isset($fittings) && $event->eventStatusEnum != EventStatusEnum::PLANING &&
+			($interest->statusEnum != IntAttStatusEnum::POSITIVE ||
+				($interest->statusEnum == IntAttStatusEnum::POSITIVE && $interest->eventStatusEnum == EventStatusEnum::PLANING)
+			)
+		)
 		{
 			$text .= '<div class="sda_row"> <div class="sda_attendee_container">';
 

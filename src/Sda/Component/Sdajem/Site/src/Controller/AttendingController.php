@@ -88,9 +88,9 @@ class AttendingController extends FormController
 			$input['users_user_id'] = Factory::getApplication()->getIdentity()->id;
 		}
 
-		if (empty($input('id')))
+		if (empty($input['id']))
 		{
-			$data = AttendingModel::getAttendingToEvent($input['users_user_id'], $input['event_id']);
+			$data = AttendingModel::getAttendingToEvent((int) $input['users_user_id'], (int) $input['event_id']);
 		}
 		else
 		{
@@ -107,8 +107,8 @@ class AttendingController extends FormController
 		$event                 = (new EventModel())->getItem($input['event_id']);
 		$input['event_status'] = ($event->eventStatusEnum == EventStatusEnum::PLANING) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
 
-		// if the user is attending, we need to get the standard fittings
-		if ($input['status'] == IntAttStatusEnum::POSITIVE->value)
+		// if the user is attending and event_status is open, we need to get the standard fittings
+		if ($input['status'] == IntAttStatusEnum::POSITIVE->value && $input['event_status'] == EventStatusEnum::OPEN->value)
 		{
 			$fittings = (new FittingsModel())->getFittingsForUser($data->users_user_id);
 			$ids      = [];

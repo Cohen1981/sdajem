@@ -18,11 +18,11 @@ use Joomla\Registry\Registry;
 trait HtmlViewTrait
 {
 	/**
-	 * @var Registry|null
+	 * @var Registry
 	 * Represents the state or status, used to track or indicate conditions.
 	 * @since 1.5.3
 	 */
-	protected ?Registry $state;
+	protected Registry $state;
 
 	/**
 	 * Retrieves the state.

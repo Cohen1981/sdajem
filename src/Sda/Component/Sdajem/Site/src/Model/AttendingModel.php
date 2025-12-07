@@ -41,7 +41,7 @@ class AttendingModel extends \Sda\Component\Sdajem\Administrator\Model\Attending
 	public function getItem($pk = null): Attending
 	{
 		$app = Factory::getApplication();
-		$pk  = ($pk) ?: $app->input->getInt('id');
+		$pk = (int) ($pk) ?: $app->input->getInt('id');
 
 		try
 		{
@@ -52,7 +52,7 @@ class AttendingModel extends \Sda\Component\Sdajem\Administrator\Model\Attending
 
 			$query->where($db->quoteName('a.id') . ' = :attendingId');
 
-			$query->bind(':attendingID', $pk);
+			$query->bind(':attendingId', $pk, 'int');
 
 			$db->setQuery($query);
 			$data = $db->loadObject();

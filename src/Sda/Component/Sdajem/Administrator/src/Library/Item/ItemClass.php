@@ -62,7 +62,8 @@ class ItemClass extends stdClass implements ItemInterface
 		{
 			if ($selfReflection->hasProperty($key))
 			{
-				$item->$key = $value;
+				$defaultValue = $selfReflection->getProperty($key)->getDefaultValue();
+				$item->$key   = (!isset($value)) ? $defaultValue : $value;
 			}
 		}
 

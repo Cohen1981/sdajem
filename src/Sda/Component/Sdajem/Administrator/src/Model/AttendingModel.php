@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Language\Text;
 use Sda\Component\Sdajem\Administrator\Library\Collection\AttendingTableItemsCollection;
+use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
@@ -180,11 +181,11 @@ class AttendingModel extends AdminModel
 
 		$task = Factory::getApplication()->input->getCmd('task');
 
+		$eventModel = new EventModel;
+		$event      = $eventModel->getItem($data->event_id);
+
 		if ($data->status == IntAttStatusEnum::NEGATIVE->value || $data->status == IntAttStatusEnum::GUEST->value || $task == 'deleteFitting')
 		{
-			$eventModel = new EventModel;
-			$event      = $eventModel->getItem($data->event_id);
-
 			$userFittings = (new FittingsModel)->getFittingsForUser($data->users_user_id);
 
 			if ($event->svg)
@@ -210,10 +211,15 @@ class AttendingModel extends AdminModel
 				}
 			}
 		}
-		elseif ($data->status == IntAttStatusEnum::POSITIVE->value && (empty($data->fittings) || $data->fittings == '[]'))
+		elseif ($data->status == IntAttStatusEnum::POSITIVE->value && $data->event_status == EventStatusEnum::OPEN->value && (empty($data->fittings) || $data->fittings == '[]'))
 		{
 			$userFittings   = (new FittingsModel)->getStandardFittingIdsForUser($data->users_user_id);
 			$data->fittings = json_encode($userFittings);
+		}
+
+		if (empty($data->event_status))
+		{
+			$data->event_status = ($event->eventStatusEnum == EventStatusEnum::PLANING) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
 		}
 
 		if ($data->users_user_id)
