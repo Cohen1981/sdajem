@@ -149,14 +149,17 @@ class AttendingController extends FormController
 	): void {
 		$pks = $this->getPks();
 
+		// if called from event page, we get the event_id from input
 		if ($this->input->get('event_id'))
 		{
 			$pks[0] = $this->input->get('event_id');
 		}
+		// if called from another function we assume $ecentId is set
 		elseif ($eventId !== null)
 		{
 			$pks[0] = $eventId;
 		}
+		// if called from list page, we get the event_id from the input
 		else
 		{
 			$pks = $this->input->get('cid');

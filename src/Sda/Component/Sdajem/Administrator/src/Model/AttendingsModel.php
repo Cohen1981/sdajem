@@ -119,11 +119,11 @@ class AttendingsModel extends ListModel
 	/**
 	 * @param   int|null  $eventId The event id
 	 *
-	 * @return mixed
+	 * @return array|null
 	 *
 	 * @since 1.0.8
 	 */
-	public function getAttendingIdsToEvent(int $eventId = null)
+	public function getAttendingIdsToEvent(int $eventId = null): ?array
 	{
 		// Create a new query object.
 		$db = $this->getDatabase();
@@ -139,9 +139,8 @@ class AttendingsModel extends ListModel
 		$query->bind(':eventId', $eventId);
 
 		$db->setQuery($query);
-		$data = $db->loadColumn();
 
-		return $data;
+		return $db->loadColumn();
 	}
 
 	/**

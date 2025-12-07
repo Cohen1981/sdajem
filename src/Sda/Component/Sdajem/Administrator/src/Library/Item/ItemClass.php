@@ -31,8 +31,9 @@ class ItemClass extends stdClass implements ItemInterface
 
 			foreach ($selfReflection->getProperties() as $property)
 			{
+				$defaultValue = $property->getDefaultValue();
 				$name        = $property->getName();
-				$this->$name = null;
+				$this->$name  = $defaultValue;
 			}
 		}
 		elseif ($data instanceof stdClass)

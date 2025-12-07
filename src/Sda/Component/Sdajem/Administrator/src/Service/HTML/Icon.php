@@ -46,7 +46,7 @@ class Icon
 	 * @var    CMSApplication $application
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $application;
+	private CMSApplication $application;
 
 	/**
 	 * Service constructor
@@ -80,7 +80,7 @@ class Icon
 		$uri = Uri::getInstance();
 
 		// Ignore if in a popup window.
-		if ($params && $params->get('popup'))
+		if ($params->get('popup'))
 		{
 			return '';
 		}
@@ -147,9 +147,8 @@ class Icon
 			. HTMLHelper::tooltipText(Text::_('COM_SDAJEM_EDIT_EVENT'), $overlib, 0, 0) . '"></span> ';
 		$text             .= Text::_('JGLOBAL_EDIT');
 		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_EVENT');
-		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $output;
+		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
 	/**
@@ -235,23 +234,22 @@ class Icon
 			. HTMLHelper::tooltipText(Text::_('COM_SDAJEM_EDIT_LOCATION'), $overlib, 0, 0) . '"></span> ';
 		$text             .= Text::_('JGLOBAL_EDIT');
 		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_LOCATION');
-		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $output;
+		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
 	/**
-	 * @since 1.0.1
-	 *
 	 * @param          $params
 	 * @param   array  $attribs
 	 * @param   false  $legacy
 	 * @param          $attending
 	 *
-	 * @return mixed|string
+	 * @return string
 	 * @throws Exception
+	 *@since 1.0.1
+	 *
 	 */
-	public static function editAttending($attending, $params, $attribs = [], $legacy = false)
+	public static function editAttending($attending, $params, array $attribs = [], bool $legacy = false): string
 	{
 		$uri = Uri::getInstance();
 
@@ -279,9 +277,8 @@ class Icon
 			. HTMLHelper::tooltipText(Text::_('COM_FOOS_EDIT_ATTENDING'), '', 0, 0) . '"></span> ';
 		$text             .= Text::_('JGLOBAL_EDIT');
 		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_ATTENDING');
-		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $output;
+		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
 	/**
@@ -317,9 +314,6 @@ class Icon
 		{
 			return '';
 		}
-
-		// Set the link class
-		$attribs['class'] = 'dropdown-item';
 
 		if (!isset($event->slug))
 		{
@@ -410,9 +404,8 @@ class Icon
 		}
 
 		$text   .= '</form>';
-		$output = $text;
 
-		return $output;
+		return $text;
 	}
 
 	/**
@@ -448,11 +441,21 @@ class Icon
 			. HTMLHelper::tooltipText(Text::_('COM_SDAJEM_EDIT_FITTING'), '', 0, 0) . '"></span> ';
 		$text             .= Text::_('JGLOBAL_EDIT');
 		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_FITTING');
-		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $output;
+		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
+	/**
+	 * Switches the status of an event and generates the corresponding action link
+	 *
+	 * @param   object           $event    The event object containing event information including the ID
+	 * @param   EventStatusEnum  $action   The specific event status action to perform
+	 * @param   array            $attribs  Additional HTML attributes for the generated link
+	 *
+	 * @return  string  The rendered HTML link for switching the event status
+	 * @since   1.2.0
+	 *
+	 */
 	public static function switchEventStatus($event, EventStatusEnum $action, $attribs = [])
 	{
 		$uri = Uri::getInstance();
@@ -475,8 +478,7 @@ class Icon
 				0
 			) . '">&nbsp;</span><span class="icon-text">' . Text::_($action->getStatusLabel()) . '</span> ';
 		$attribs['title'] = Text::_($action->getStatusLabel());
-		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $output;
+		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 }

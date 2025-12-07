@@ -84,7 +84,7 @@ class  HtmlView extends BaseHtmlView implements HtmlListViewInterface
 
 		$this->items = $model->getItems();
 		$this->filterForm = $model->getFilterForm();
-		;
+
 		$this->activeFilters = $model->getActiveFilters();
 		$this->state = $model->getState();
 

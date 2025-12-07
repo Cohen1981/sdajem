@@ -44,7 +44,7 @@ catch (Exception $e)
 {
 }
 
-$tparams = $event->paramsRegistry;
+$tparams = $this->getParams();
 
 $organizer = (($this->getOrganizer()) ?? null);
 

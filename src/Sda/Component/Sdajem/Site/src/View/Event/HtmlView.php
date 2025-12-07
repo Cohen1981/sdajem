@@ -144,23 +144,20 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 		$item = $this->item = $model->getItem();
 
 		$state      = $this->state = $model->getState();
-		$params     = $this->params = $state->get('params');
-		$itemParams = new Registry(json_decode($item->params));
 
 		$activeAccordion = $app->getUserState('com_sdajem.callContext', $this->activeAccordion);
 		$this->activeAccordion = $activeAccordion;
 		$app->setUserState('com_sdajem.callContext', '');
 
-		$temp = clone $params;
-
 		/**
-		 * $item->params are the foo params, $temp are the menu item params
-		 * Merge so that the menu item params take priority
-		 * $itemparams->merge($temp);
+		 * $item->params are the sdajem params, $itemParams are the event params
+		 * Merge so that the event params take priority
 		 */
-		$temp->merge($itemParams);
-		$item->paramsRegistry = $temp;
-		$this->params = $temp;
+		$itemParams           = new Registry(json_decode($item->params));
+		$params               = $this->params = $state->get('params');
+		$item->paramsRegistry = $itemParams;
+
+		$this->params = $params->merge($itemParams);
 
 		if (isset($item->organizerId))
 		{
@@ -180,17 +177,17 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 			$this->host = $temp;
 		}
 
-		if ($item->paramsRegistry->get('sda_events_use_comments'))
+		if ($this->params->get('sda_events_use_comments'))
 		{
 			$commentsModel  = $this->getModel('comments');
 			$this->comments = $commentsModel->getCommentsToEvent($item->id);
 		}
 
-		if ($item->paramsRegistry->get('sda_use_attending'))
+		if ($this->params->get('sda_use_attending'))
 		{
 			$this->interests = $this->getModel('attendings')->getAttendingsToEvent($item->id);
 
-			if ($item->paramsRegistry->get('sda_events_use_fittings'))
+			if ($this->params->get('sda_events_use_fittings'))
 			{
 				$this->userFittings  = $this->getModel('fittings')->getFittingsForUser();
 				$this->eventFittings = $this->getModel('fittings')->getFittingsForEvent($item->id);
@@ -208,7 +205,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 		// If it is the active menu item, then the view and item id will match
 		if (!$active || ((!str_contains($active->link, 'view=event')) || (!str_contains($active->link, '&id=' . $this->item->id))))
 		{
-			if (($layout = $item->paramsRegistry->get('events_layout')))
+			if (($layout = $this->params->get('events_layout')))
 			{
 				$this->setLayout($layout);
 			}
@@ -227,7 +224,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 		$contentEventArguments = [
 			'context' => 'com_sdajem.event',
 			'subject' => &$item,
-			'params'  => &$item->paramsRegistry
+			'params' => &$this->params
 		];
 
 		$dispatcher = $this->getDispatcher();

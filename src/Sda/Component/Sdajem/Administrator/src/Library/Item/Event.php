@@ -39,13 +39,6 @@ class Event extends EventTableItem
 	public ?Registry $paramsRegistry;
 
 	/**
-	 * @var array|null
-	 * Array of SVGs for the event. For convenience set at construction of this class.
-	 * @since 1.4.0
-	 */
-	public ?array $svgArray;
-
-	/**
 	 * @var string|null
 	 * The location name of the event. For convenience set at construction of this class.
 	 * @since 1.4.0
@@ -129,7 +122,7 @@ class Event extends EventTableItem
 	 * Array of SVGs for the event.
 	 * @since 1.5.3
 	 */
-	public ?array $svgs;
+	public ?array $svgs = [];
 
 	/**
 	 * @since 1.4.0

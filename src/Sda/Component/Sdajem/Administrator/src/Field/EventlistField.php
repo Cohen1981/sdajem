@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * @copyright (c) 2025 Alexander Bahlo <abahlo@hotmail.de>
@@ -96,8 +96,6 @@ class EventlistField extends ListField
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

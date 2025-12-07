@@ -18,7 +18,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\View\Events\HtmlView;
 

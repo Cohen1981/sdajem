@@ -61,10 +61,8 @@ class AttendeestatuslistField extends ListField
 			$options[] = HTMLHelper::_('select.option', $status->value, Text::_($status->getAttendingStatusLabel()));
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		// Merge any additional options in the XML definition and return the result.
+		return array_merge(parent::getOptions(), $options);
 	}
 
 }

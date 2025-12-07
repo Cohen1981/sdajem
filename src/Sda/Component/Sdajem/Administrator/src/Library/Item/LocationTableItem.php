@@ -57,7 +57,7 @@ class LocationTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Joomla publishing state
 	 */
-	public ?int $published;
+	public ?int $published = 1;
 
 	/**
 	 * @var string|null

@@ -55,8 +55,6 @@ class EventTable extends Table
 			$this->alias = $this->title . HTMLHelper::date($this->startDateTime, 'd.m.Y');
 		}
 
-		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
-
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');

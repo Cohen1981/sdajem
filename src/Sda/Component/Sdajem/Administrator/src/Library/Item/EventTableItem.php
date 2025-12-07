@@ -33,7 +33,7 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Stores the joomla access level
 	 */
-	public ?int $access;
+	public ?int $access = 2;
 
 	/**
 	 * @var string|null
@@ -61,7 +61,7 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Joomla publishing state
 	 */
-	public ?int $published;
+	public ?int $published = 1;
 
 	/**
 	 * @var string|null
@@ -82,14 +82,14 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the state or status of an entity.
 	 */
-	public ?int $state;
+	public ?int $state = 0;
 
 	/**
 	 * @var integer|null
 	 * @since 1.5.3
 	 * Specifies the ordering of items.
 	 */
-	public ?int $ordering;
+	public ?int $ordering = 0;
 
 	/**
 	 * @var string|null
@@ -166,21 +166,21 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the status of an event, which can be translated and set with the EventStatusEnum.
 	 */
-	public ?int $eventStatus;
+	public ?int $eventStatus = 4;
 
 	/**
-	 * @var integer|null
+	 * @var integer
 	 * @since 1.5.3
 	 * Indicates whether the event has been cancelled. Cancelled events will be shown on ListView.
 	 */
-	public ?int $eventCancelled;
+	public int $eventCancelled = 0;
 
 	/**
-	 * @var array|null
+	 * @var string|null
 	 * @since 1.5.3
 	 * Holds configuration parameters for the event. For example, if users can register for the event.
 	 */
-	public array|string|null $params;
+	public string|null $params;
 
 	/**
 	 * @var string|null

@@ -93,7 +93,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($isNew && $canDo->get('core.create'))
+			if ($canDo->get('core.create'))
 			{
 				ToolbarHelper::apply('event.apply');
 				ToolbarHelper::saveGroup(

@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($isNew && $user->authorise('core.create', 'com_sdajem'))
+			if ($user->authorise('core.create', 'com_sdajem'))
 			{
 				ToolbarHelper::apply('location.apply');
 				ToolbarHelper::saveGroup(

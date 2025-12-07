@@ -36,7 +36,7 @@ class CommentModel extends AdminModel
 	 *
 	 * @return Form|false
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = array(), $loadData = true): Form|false
 	{
 		// Get the form.
 		try

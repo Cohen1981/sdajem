@@ -19,6 +19,7 @@ use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use Sda\Component\Sdajem\Administrator\Table\AttendingTable;
+use stdClass;
 use function defined;
 
 defined('_JEXEC') or die;
@@ -42,6 +43,7 @@ class AttendingModel extends AdminModel
 	 * @param   bool   $loadData If true, the form is loaded with data from the database. Default is true.
 	 *
 	 * @return Form|false
+	 * @throws Exception
 	 * @since 1.0.0
 	 *
 	 */
@@ -121,12 +123,12 @@ class AttendingModel extends AdminModel
 	 * @param   int|null  $userId   The user id.
 	 * @param   int       $eventId  The event id.
 	 *
-	 * @return AttendingTableItem
+	 * @return Attending
 	 *
 	 * @throws Exception
 	 * @since 1.5.3
 	 */
-	public static function getAttendingToEvent(int $userId = null, int $eventId): Attending
+	public static function getAttendingToEvent(?int $userId, int $eventId): Attending
 	{
 		if (!$userId)
 		{
@@ -151,7 +153,7 @@ class AttendingModel extends AdminModel
 
 			if (empty($data))
 			{
-				$data = new \stdClass;
+				$data = new stdClass;
 			}
 		}
 		catch (Exception $e)
@@ -172,7 +174,7 @@ class AttendingModel extends AdminModel
 	 * @throws  Exception
 	 * @since   1.6.0
 	 */
-	public function save($data)
+	public function save($data): bool
 	{
 		$data = AttendingTableItem::createFromArray($data);
 

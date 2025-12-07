@@ -11,6 +11,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\FittingTableItem;
 use function defined;
@@ -41,7 +42,7 @@ class FittingModel extends AdminModel
 	 * @since 1.0.0
 	 *
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = array(), $loadData = true): Form|false
 	{
 		// Get the form.
 		try
@@ -67,11 +68,11 @@ class FittingModel extends AdminModel
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @since   1.0.0
-	 * @return  mixed  The data for the form.
+	 * @return  ItemInterface  The data for the form.
 	 * @throws Exception
+	 *@since   1.0.0
 	 */
-	protected function loadFormData()
+	protected function loadFormData(): ItemInterface
 	{
 		$app = Factory::getApplication();
 

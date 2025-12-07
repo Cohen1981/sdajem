@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView implements HtmlListViewInterface
 	/**
 	 * An array of items
 	 *
-	 * @var  array
+	 * @var  EventsCollection
 	 * @since 1.0.0
 	 */
 	protected EventsCollection $items;
@@ -56,7 +56,7 @@ class HtmlView extends BaseHtmlView implements HtmlListViewInterface
 	 * @var  Form
 	 * @since 1.0.0
 	 */
-	public $filterForm;
+	public Form $filterForm;
 
 	/**
 	 * The active search filters
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView implements HtmlListViewInterface
 	 * @var  array
 	 * @since 1.0.0
 	 */
-	public $activeFilters;
+	public array $activeFilters;
 
 	/**
 	 * Method to display the view.
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView implements HtmlListViewInterface
 		$this->state         = $model->getState();
 
 		// Preprocess the list of items to find ordering divisions.
-		foreach ($this->items as &$item)
+		foreach ($this->items as $item)
 		{
 			$item->order_up = true;
 			$item->order_dn = true;

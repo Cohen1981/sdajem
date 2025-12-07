@@ -28,6 +28,7 @@ use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
+use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Site\Model\AttendingformModel;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
@@ -259,6 +260,7 @@ class EventController extends FormController
 	}
 
 	/**
+	 * Set the Event Status to open
 	 * @since 1.0.9
 	 */
 	public function open(): void
@@ -268,6 +270,10 @@ class EventController extends FormController
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
 	}
 
+	/**
+	 * Set the event status to applied
+	 * @since 1.2.0
+	 */
 	public function applied(): void
 	{
 		$this->setEventStatus(EventStatusEnum::APPLIED);
@@ -275,6 +281,10 @@ class EventController extends FormController
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
 	}
 
+	/**
+	 * Set the event status to canceled
+	 * @since 1.2.0
+	 */
 	public function canceled(): void
 	{
 		$this->setEventStatus(EventStatusEnum::CANCELED);
@@ -282,6 +292,10 @@ class EventController extends FormController
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
 	}
 
+	/**
+	 * Set the event status to confirmed
+	 * @since 1.2.0
+	 */
 	public function confirmed(): void
 	{
 		$this->setEventStatus(EventStatusEnum::CONFIRMED);
@@ -299,6 +313,12 @@ class EventController extends FormController
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
 	}
 
+	/**
+	 * @param   EventStatusEnum  $enum
+	 *
+	 * @return void
+	 * @since 1.2.0
+	 */
 	protected function setEventStatus(EventStatusEnum $enum): void
 	{
 		$eventId = $this->input->get('eventId');
@@ -357,6 +377,16 @@ class EventController extends FormController
 		}
 	}
 
+	/**
+	 * Deletes a fitting from the event
+	 * @return void
+	 * @since 1.2.0
+	 */
+	public function saveAttendings(): void
+	{
+		$attendings = $_POST['attendings'];
+		$eventId    = $_POST['eventId'];
+	}
 	public function deleteFitting()
 	{
 		$input     = $this->input;
@@ -483,6 +513,48 @@ class EventController extends FormController
 			{
 				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
+		}
+	}
+
+	/**
+	 * Saves the box configuration for a specific event form, updating event parameters.
+	 *
+	 * @return void
+	 * @throws Exception
+	 * @since 1.6.2
+	 */
+	public function saveBoxForm()
+	{
+		$input = $this->input;
+
+		// Save the call context to the user state for later use
+		$this->app->setUserState('com_sdajem.callContext', $input->get('callContext', ''));
+
+		// If the event id is set, we're editing an existing event, otherwise we're ignoring the request
+		if ($input->get('eventId') != null)
+		{
+			$eventFormModel = new EventformModel();
+
+			$eventData = $eventFormModel->getItem($input->get('eventId'));
+
+			// Get the component parameters for later use as defaults
+			$compParams = ComponentHelper::getParams('com_sdajem');
+
+			// Parse the event parameters into a registry object
+			$params = new Registry($eventData->params);
+
+			// Update the box dimensions
+			$params->set('sda_planing_x', $input->get('boxX', $compParams->get('sda_planing_x')));
+			$params->set('sda_planing_y', $input->get('boxY', $compParams->get('sda_planing_y')));
+			$eventData->params = $params->toString();
+
+			// Reset the SVG data to an empty string. If we don't do this, there will be a problem when gear is outside the view box
+			$eventData->svg = '';
+
+			// Save the event data
+			$eventFormModel->save($eventData->toArray());
+
+			$this->setRedirect(Route::_($this->getReturnPage(), false));
 		}
 	}
 }

@@ -141,6 +141,7 @@ class FittingsModel extends ListModel
 	 * @param   int|null  $userId  The unique identifier of the user whose standard fittings are to be retrieved.
 	 *
 	 * @return array
+	 * @throws Exception
 	 * @since 1.6.0
 	 */
 	public function getStandardFittingIdsForUser(int $userId = null): array
@@ -211,7 +212,7 @@ class FittingsModel extends ListModel
 	 * @throws  \RuntimeException  If a database error occurs.
 	 * @since   1.6.0
 	 */
-	public function getFittingIdsForEvent($eventId): array
+	public function getFittingIdsForEvent(int $eventId): array
 	{
 		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);

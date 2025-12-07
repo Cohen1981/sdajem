@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView implements HtmlFormViewInterface
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $return_page;
+	public $return_page;
 	/**
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__

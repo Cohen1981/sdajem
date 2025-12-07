@@ -43,6 +43,7 @@ class LocationField extends ModalSelectField
 	 * @param   string             $group    The field name group control value.
 	 *
 	 * @return  boolean  True on success.
+	 * @throws  \Exception
 	 *
 	 * @see     FormField::setup()
 	 * @since   5.1.0

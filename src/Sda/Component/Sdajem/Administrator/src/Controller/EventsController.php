@@ -34,7 +34,7 @@ class EventsController extends AdminController
 	 *
 	 * @return  BaseDatabaseModel
 	 */
-	public function getModel($name = 'Event', $prefix = 'Administrator', $config = ['ignore_request' => true])
+	public function getModel($name = 'Event', $prefix = 'Administrator', $config = ['ignore_request' => true]): BaseDatabaseModel
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -43,27 +43,12 @@ class EventsController extends AdminController
 	 * @since 1.0.8
 	 * @return bool
 	 */
-	public function delete()
+	public function delete(): bool
 	{
 		$pks = $this->input->get('cid');
 
-		/*
-		$attendingFormModel = new AttendingModel();
-		$attendingsModel    = new AttendingsModel();
-
-		foreach ($pks as &$pk)
-		{
-			$attendings = $attendingsModel->getAttendingsIdToEvent($pk);
-			$attResult  = $attendingFormModel->delete($attendings);
-		}
-
-		$eventFormModel = new EventModel();
-
-		if ($attResult)
-		{*/
 		$eventFormModel = new EventModel;
 		$result         = $eventFormModel->delete($pks);
-		//}
 
 		$this->setRedirect(
 			Route::_(

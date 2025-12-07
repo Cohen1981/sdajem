@@ -73,7 +73,7 @@ class Attending extends AttendingTableItem
 	{
 		$item = parent::createFromArray($data);
 
-		if (!$item)
+		if (empty($item))
 		{
 			$item = new static;
 		}

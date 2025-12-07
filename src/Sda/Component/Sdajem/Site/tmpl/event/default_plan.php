@@ -46,6 +46,23 @@ $eventFittings = $this->getEventFittings();
             </button>
         </div>
 
+        <div class="buttonContainer">
+            <form id="saveBoxForm" name="saveBoxForm" method="post" action="">
+                <label for="boxX"><?php echo Text::_('COM_SDAJEM_PLANING_BOX_X'); ?></label>
+                <input type="number" id="boxX" name="boxX" value="<?php echo $boxX; ?>"/>
+                <label for="boxY"><?php echo Text::_('COM_SDAJEM_PLANING_BOX_Y'); ?></label>
+                <input type="number" id="boxY" name="boxY" value="<?php echo $boxY; ?>"/>
+                <input type="hidden" name="option" value="com_sdajem"/>
+                <input type="hidden" name="task" value=""/>
+                <input type="hidden" name="eventId" value="<?php echo $event->id; ?>"/>
+                <input type="hidden" name="return" value="<?php echo $this->return_page ?>"/>
+                <input type="hidden" name="callContext" value="event.planing">
+                <?php echo HTMLHelper::_('form.token'); ?>
+                <button id="saveBox" class="btn me-2 btn-primary col-auto"
+                        onclick="Joomla.submitbutton('event.saveBoxForm', 'saveBoxForm')"><?php echo Text::_('COM_SDAJEM_SAVE_PLANING_BOX'); ?></button>
+            </form>
+        </div>
+
         <div id="messages">
             <button id="message_close" onclick="document.getElementById('messages').hidden = true;">
                 <i class="fas fa-times" aria-hidden="true"></i>
@@ -147,9 +164,9 @@ $eventFittings = $this->getEventFittings();
                             "' y='" .
                             ($fitting->width + 1) .
                             "' style='font-size:0.5pt;' opacity='1.0'>&#x21BB; " . $fitting->userName . ' &#x21BA;</text>';
-                    echo "<text class='delete' x='0" .
-                            ($fitting->length) .
-                            "' y='0' style='font-size:0.5pt;' opacity='1.0' color='red'>[X]</text>'";
+                    echo "<text class='delete' x='" .
+                            ($fitting->length) - 1 .
+                            "' y='1' style='font-size:0.5pt;' opacity='1.0' color='red'>X</text>'";
                     echo '</g>';
                     echo '</svg>';
                 }

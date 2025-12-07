@@ -44,7 +44,7 @@ class FittingTable extends Table
 	 * @since   1.0.0
 	 * @return  string
 	 */
-	public function generateAlias()
+	public function generateAlias(): string
 	{
 		/* @var LocationModel $this */
 		if (empty($this->alias))
@@ -61,9 +61,10 @@ class FittingTable extends Table
 	}
 
 	/**
-	 * @since 1.0.0
 	 * @return  boolean
 	 * true on success, false on failure
+	 * @throws Exception
+	 * @since 1.0.0
 	 */
 	public function check(): bool
 	{
@@ -94,7 +95,7 @@ class FittingTable extends Table
 	 *
 	 * @return bool
 	 */
-	public function store($updateNulls = true)
+	public function store($updateNulls = true): bool
 	{
 		return parent::store($updateNulls);
 	}

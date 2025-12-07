@@ -66,7 +66,7 @@ class CommentsModel extends ListModel
 	 * @return  QueryInterface
 	 * @throws \Exception
 	 */
-	protected function getListQuery()
+	protected function getListQuery(): QueryInterface
 	{
 		$currentUser = Factory::getApplication()->getIdentity();
 
@@ -163,8 +163,7 @@ class CommentsModel extends ListModel
 		$query->where($db->quoteName('a.sdajem_event_id') . '=' . $eventId);
 
 		$db->setQuery($query);
-		$data = ($db->loadColumn() ?? []);
 
-		return $data;
+		return ($db->loadColumn() ?? []);
 	}
 }

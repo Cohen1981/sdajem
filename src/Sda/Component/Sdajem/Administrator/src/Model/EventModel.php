@@ -121,7 +121,16 @@ class EventModel extends AdminModel
 		$table->generateAlias();
 	}
 
-	public function delete(&$pks)
+	/**
+	 * Method to delete one or more records.
+	 *
+	 * @param   array|int[]  &$pks  Array of primary key IDs to delete.
+	 *
+	 * @return  bool  True on success, false on failure.
+	 * @throws Exception
+	 * @since 1.0.0
+	 */
+	public function delete(&$pks): bool
 	{
 		$pks = ArrayHelper::toInteger((array) $pks);
 

@@ -40,8 +40,9 @@ class CommentTable extends Table
 	/**
 	 * Check the table data for validity.
 	 *
-	 * @since 1.0.0
 	 * @return boolean
+	 * @throws Exception
+	 * @since 1.0.0
 	 */
 	public function check(): bool
 	{
