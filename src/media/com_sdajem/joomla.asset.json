@@ -57,6 +57,17 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "com_sdajem.jumpToAnchor",
+      "type": "script",
+      "uri": "com_sdajem/jumpToAnchor.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
     }
   ]
 }

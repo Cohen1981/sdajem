@@ -79,7 +79,7 @@ class HtmlView extends \Joomla\CMS\MVC\View\HtmlView implements HtmlListViewInte
 
 		$this->eventId     = $app->input->getInt('eventId', null);
 		$this->callContext = $app->input->get('callContext', null);
-		$app->setUserState('com_sdajem.event.callContext', $app->input->get('callContext', null));
+		$app->setUserState('com_sdajem.callContext', $app->input->get('callContext', null));
 
 		parent::display($tpl);
 	}

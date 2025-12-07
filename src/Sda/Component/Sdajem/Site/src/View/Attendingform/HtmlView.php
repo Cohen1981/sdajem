@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
+use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlFormViewInterface;
+use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
 use Sda\Component\Sdajem\Site\Model\AttendingformModel;
@@ -30,7 +32,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements HtmlFormViewInterface
 {
 	use HtmlViewTrait;
 
@@ -142,5 +144,16 @@ class HtmlView extends BaseHtmlView
 		$this->getDocument()->setTitle($title);
 		$pathway = $app->getPathWay();
 		$pathway->addItem($title, '');
+	}
+
+	/**
+	 * Retrieves the item instance.
+	 *
+	 * @return ItemInterface The item instance.
+	 * @since 1.6.2
+	 */
+	public function getItem(): ItemInterface
+	{
+		return $this->item;
 	}
 }

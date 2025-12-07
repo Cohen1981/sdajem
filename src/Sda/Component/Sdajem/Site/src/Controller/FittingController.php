@@ -295,7 +295,7 @@ class FittingController extends FormController
 		$fittingIds = $this->input->get('cid', null, 'int');
 		$eventId    = $this->input->get('eventId', null, 'int');
 		// Set up the callContext for the redirect URL to the modal return layout.
-		$this->app->setUserState('com_sdajem.event.callContext', $this->input->get('callContext', ''));
+		$this->app->setUserState('com_sdajem.callContext', $this->input->get('callContext', ''));
 
 		// Ensure fitting IDs are an array, even if only one ID was submitted.
 		if (!is_array($fittingIds))

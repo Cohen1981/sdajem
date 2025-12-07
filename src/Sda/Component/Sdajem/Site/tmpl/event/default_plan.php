@@ -37,7 +37,7 @@ $eventFittings = $this->getEventFittings();
             <button id="toSvg" class="btn me-2 btn-primary col-auto"><?php echo Text::_('COM_SDAJEM_TO_SVG') ?></button>
             <button id="save"
                     class="btn me-2 btn-primary col-auto"><?php echo Text::_('COM_SDAJEM_PLANING_SAVE') ?></button>
-            <button class='btn me-2 btn-primary col-auto'
+            <button class='btn me-2 btn-primary col-auto d-none d-sm-inline-block'
                     type='button'
                     data-close-on-message
                     data-reload-on-close

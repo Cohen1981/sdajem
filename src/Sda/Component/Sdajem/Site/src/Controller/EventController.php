@@ -324,110 +324,6 @@ class EventController extends FormController
 	}
 
 	/**
-	 * @since 1.1.3
-	 *
-	 * @param   null  $userId
-	 * @param   null  $eventId
-	 *
-	 * @throws Exception
-	 */
-	public function positive($eventId = null, $userId = null): void
-	{
-		$this->setAttending($eventId, $userId, IntAttStatusEnum::POSITIVE);
-	}
-
-	/**
-	 * @since 1.1.3
-	 *
-	 * @param   null  $userId
-	 * @param   null  $eventId
-	 *
-	 * @throws Exception
-	 */
-	public function negative($eventId = null, $userId = null): void
-	{
-		$this->setAttending($eventId, $userId, IntAttStatusEnum::NEGATIVE);
-	}
-
-	/**
-	 * @since 1.1.3
-	 *
-	 * @param   null  $userId
-	 * @param   null  $eventId
-	 *
-	 * @throws Exception
-	 */
-	public function guest($eventId = null, $userId = null): void
-	{
-		$this->setAttending($eventId, $userId, IntAttStatusEnum::GUEST);
-	}
-
-	/**
-	 * @param   int|null          $eventId    The event id.
-	 * @param   int|null          $userId     The user id.
-	 * @param   IntAttStatusEnum  $attStatus  The attendance status.
-	 *
-	 * @return void
-	 * @since 1.5.3
-	 */
-	private function setAttending(int $eventId = null, int $userId = null, IntAttStatusEnum $attStatus = IntAttStatusEnum::NA): void
-	{
-		$pks = [];
-
-		if ($this->input->get('event_id'))
-		{
-			$pks[0] = $this->input->get('event_id');
-		}
-		elseif ($eventId !== null)
-		{
-			$pks[0] = $eventId;
-		}
-		else
-		{
-			$pks = $this->input->get('cid');
-		}
-
-		$this->app->setUserState('com_sdajem.event.callContext', $this->input->get('callContext', ''));
-
-		if (count($pks) >= 0)
-		{
-			if ($userId !== null)
-			{
-				$currUser = $userId;
-			}
-			else
-			{
-				$currUser = Factory::getApplication()->getIdentity();
-			}
-
-			foreach ($pks as $id)
-			{
-				$eventModel = new EventModel;
-
-				$event = $eventModel->getItem($id);
-
-				$attending = AttendingModel::getAttendingToEvent($currUser->id, $id);
-				$model     = new AttendingModelAdmin;
-
-				$data                = new AttendingTableItem;
-				$data->id            = (isset($attending->id)) ? $attending->id : null;
-				$data->event_id      = $id;
-				$data->users_user_id = $currUser->id;
-				$data->status        = $attStatus->value;
-				$data->event_status  = ($event->eventStatus !== EventStatusEnum::PLANING->value) ? EventStatusEnum::OPEN->value : EventStatusEnum::PLANING->value;
-
-				if ($event->eventStatus !== EventStatusEnum::PLANING->value)
-				{
-					$data->fittings = json_encode($this->input->get('fittings', []));
-				}
-
-				$this->setRedirect(Route::_($this->getReturnPage(), false));
-				$model->save($data->toArray());
-			}
-		}
-	}
-
-	/**
 	 * Saves a working state of the planingTool
 	 *
 	 * @since 1.2.0
@@ -440,7 +336,7 @@ class EventController extends FormController
 		{
 			return;
 		}
-		$this->app->setUserState('com_sdajem.event.callContext', $this->input->get('callContext', ''));
+		$this->app->setUserState('com_sdajem.callContext', $this->input->get('callContext', ''));
 
 		/** @var EventModel $event */
 		$event = $this->getModel('Event');

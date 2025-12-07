@@ -23,6 +23,7 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_sdajem');
 $wa->useStyle('com_sdajem.sdajem');
 $wa->useScript('com_sdajem.checkbox');
+$wa->useScript('com_sdajem.jumpToAnchor');
 
 $wa->useScript('bootstrap.dropdown');
 $wa->useScript('bootstrap.collapse');
@@ -55,6 +56,7 @@ $currentUser = Factory::getApplication()->getIdentity();
 
 ?>
 <div class="sdajem_content_container">
+    <input type="hidden" id="activeAccordion" class="d-none" value="<?php echo $this->activeAccordion; ?>"/>
 
     <!-- Event head -->
     <div class="sda_row">
@@ -195,6 +197,7 @@ $currentUser = Factory::getApplication()->getIdentity();
             </div>
             <div id="collapseAttendings" class="accordion-collapse collapse <?php echo $status; ?>" aria-labelledby="headingAttendings" data-bs-parent="#accordionEvent">
                 <div class="accordion-body">
+                    <section id='event.attending'></section>
                     <?php
                         echo $this->loadTemplate('attendees');
                     ?>
@@ -217,6 +220,7 @@ $currentUser = Factory::getApplication()->getIdentity();
             </div>
             <div id="collapsePlaningArea" class="accordion-collapse collapse <?php echo $status; ?>" aria-labelledby="headingPlaningArea" data-bs-parent="#accordionEvent">
                 <div class="accordion-body">
+                    <section id='event.planing'></section>
 
                     <?php echo $this->loadTemplate('planing'); ?>
 
@@ -246,6 +250,7 @@ $currentUser = Factory::getApplication()->getIdentity();
                 </div>
                 <div id="collapseCommentArea" class="accordion-collapse collapse <?php echo $status; ?>" aria-labelledby="headingCommentArea" data-bs-parent="#accordionEvent">
                     <div class="accordion-body">
+                        <section id="event.comment"></section>
 
 					    <?php echo $this->loadTemplate('comments'); ?>
 

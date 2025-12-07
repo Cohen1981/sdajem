@@ -147,9 +147,9 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 		$params     = $this->params = $state->get('params');
 		$itemParams = new Registry(json_decode($item->params));
 
-		$activeAccordion       = $app->getUserState('com_sdajem.event.callContext', $this->activeAccordion);
+		$activeAccordion = $app->getUserState('com_sdajem.callContext', $this->activeAccordion);
 		$this->activeAccordion = $activeAccordion;
-		$app->setUserState('com_sdajem.event.callContext', '');
+		$app->setUserState('com_sdajem.callContext', '');
 
 		$temp = clone $params;
 

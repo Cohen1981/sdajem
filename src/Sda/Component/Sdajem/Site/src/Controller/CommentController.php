@@ -49,7 +49,7 @@ class CommentController extends FormController
 
 		$id = $this->input->get('eventId', null, 'int');
 		$this->app->setUserState('com_sdajem.comment.sdajem_event_id', $id);
-		$this->app->setUserState('com_sdajem.event.callContext', $this->input->get('callContext', ''));
+		$this->app->setUserState('com_sdajem.callContext', $this->input->get('callContext', ''));
 	}
 
 	public function save($key = null, $urlVar = null)
@@ -149,7 +149,7 @@ class CommentController extends FormController
 	public function delete(): bool
 	{
 		$pks = $this->input->get('cid') ?? $this->input->get('id');
-		$this->app->setUserState('com_sdajem.event.callContext', $this->input->get('callContext', ''));
+		$this->app->setUserState('com_sdajem.callContext', $this->input->get('callContext', ''));
 
 		if (!is_array($pks))
 		{
@@ -197,12 +197,12 @@ class CommentController extends FormController
 		$id = $model->state->get('commentform.id');
 		$model->state->set('commentform.id', $id);
 
-		if ($this->app->getUserState('com_sdajem.event.callContext') == 'event.comment')
+		if ($this->app->getUserState('com_sdajem.callContext') == 'event.comment')
 		{
 			$this->input->set('layout', 'modalreturn');
 		}
 
-		$return = '?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(
+		$return = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(
 				$id
 			);
 

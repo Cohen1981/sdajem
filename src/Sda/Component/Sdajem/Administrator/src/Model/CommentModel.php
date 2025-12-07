@@ -77,7 +77,7 @@ class CommentModel extends AdminModel
 
 		$this->preprocessData($this->typeAlias, $data);
 
-		return new CommentTableItem($data);  // CommentTableItem::createFromObject($data);
+		return new CommentTableItem($data);
 	}
 
 	/**

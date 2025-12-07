@@ -80,6 +80,9 @@ $items = $this->getItems();
                                 <th scope="col" style="width:1%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_SDAJEM_TABLE_TABLEHEAD_FITTING_USERNAME', 'userName', $listDirn, $listOrder); ?>
                                 </th>
+                                <th scope="col" style="width:1%" class="d-none d-md-table-cell">
+									<?php echo Text::_('COM_SDAJEM_TABLE_TABLEHEAD_FITTING_SIZE'); ?>
+                                </th>
 							</tr>
 							</thead>
 							<tbody>
@@ -101,6 +104,11 @@ $items = $this->getItems();
                                     <td class="d-md-table-cell">
                                         <div>
 		                                    <?php echo $this->escape($item->userName); ?>
+                                        </div>
+                                    </td>
+                                    <td class="d-md-table-cell">
+                                        <div>
+											<?php echo $this->escape($item->length) . ' x ' . $this->escape($item->width); ?>
                                         </div>
                                     </td>
 									<td class="small d-none d-md-table-cell">

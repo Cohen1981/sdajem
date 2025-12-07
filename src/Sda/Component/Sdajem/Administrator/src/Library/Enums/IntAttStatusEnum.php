@@ -191,9 +191,9 @@ enum IntAttStatusEnum: int
 		return match($this)
 		{
 			self::NA => 'COM_SDAJEM_POSITIVE_NA',
-			self::POSITIVE => 'event.positive',
-			self::NEGATIVE => 'event.negative',
-			self::GUEST => 'event.guest'
+			self::POSITIVE => 'attending.attend',
+			self::NEGATIVE => 'attending.unattend',
+			self::GUEST => 'attending.guest'
 		};
 	}
 

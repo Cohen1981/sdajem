@@ -20,8 +20,6 @@ $this->ignore_fieldsets = ['details', 'item_associations', 'language'];
 $this->useCoreUI = true;
 
 $wa = $this->document->getWebAssetManager();
-$wa->getRegistry()->addExtensionRegistryFile('com_sdajem');
-$wa->useScript('com_sdajem.calendar');
 
 ?>
 <div class="sdajem_content_container">

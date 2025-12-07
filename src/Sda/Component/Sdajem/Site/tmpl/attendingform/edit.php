@@ -14,25 +14,31 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
+/** @var Sda\Component\Sdajem\Site\View\Attendingform\HtmlView $this */
+
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 $this->tab_name  = 'com-attending-form';
 $this->ignore_fieldsets = ['details', 'item_associations', 'language'];
 $this->useCoreUI = true;
 
+$form = $this->getForm();
+$item = $this->getItem();
+
 $canDo = ContentHelper::getActions('com_sdajem');
 ?>
 <div class="sdajem_content_container">
-    <form action="<?php echo Route::_('?option=com_sdajem&id=' . (int) $this->item->id); ?>" method="post"
+    <form action="<?php echo Route::_('?option=com_sdajem&id=' . (int) $item->id); ?>" method="post"
           name="adminForm" id="adminForm" class="form-validate form-vertical">
 	<fieldset>
 		<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'details']); ?>
-		<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'details', empty($this->item->id) ? Text::_('COM_SDAJEM_NEW_ATTENDING') : Text::_('COM_SDAJEM_EDIT_ATTENDING')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'details', empty($item->id) ? Text::_('COM_SDAJEM_NEW_ATTENDING') : Text::_('COM_SDAJEM_EDIT_ATTENDING')); ?>
 
-		<?php echo $this->form->renderFieldset('attending'); ?>
+		<?php echo $form->renderField('event_id'); ?>
+		<?php echo $form->renderField('status'); ?>
 
         <?php if($canDo->get('core.manage')): ?>
-		    <?php echo $this->form->renderFieldset('admin'); ?>
+	        <?php echo $form->renderFieldset('admin'); ?>
         <?php endif; ?>
 
         <?php echo HTMLHelper::_('uitab.endTab'); ?>

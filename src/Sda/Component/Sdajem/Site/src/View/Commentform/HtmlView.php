@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Item\CommentTableItem;
@@ -84,6 +85,7 @@ class HtmlView extends BaseHtmlView
 		$this->state = $model->getState();
 		$this->item = $model->getItem();
 		$this->form = $model->getForm();
+
 		$this->return_page = $model->getReturnPage();
 
 		if (empty($this->item->id))
