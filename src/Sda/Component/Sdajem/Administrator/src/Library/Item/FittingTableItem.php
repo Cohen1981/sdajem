@@ -29,7 +29,7 @@ class FittingTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Stores the joomla access level
 	 */
-	public ?int $access = 0;
+	public ?int $access = 1;
 
 	/**
 	 * @var string|null
@@ -43,7 +43,7 @@ class FittingTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the state or status of an entity.
 	 */
-	public ?int $state = 0;
+	public ?int $state = 1;
 
 	/**
 	 * @var integer|null
@@ -113,7 +113,7 @@ class FittingTableItem extends ItemClass
 	 * Indicates if space is required.
 	 * @since 1.5.3
 	 */
-	public ?int $needSpace;
+	public ?int $needSpace = 1;
 
 	/**
 	 * Constructs and returns the base query.

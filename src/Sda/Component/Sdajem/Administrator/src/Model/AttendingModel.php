@@ -184,6 +184,11 @@ class AttendingModel extends AdminModel
 		$eventModel = new EventModel;
 		$event      = $eventModel->getItem($data->event_id);
 
+		if (empty($data->event_status))
+		{
+			$data->event_status = ($event->eventStatusEnum == EventStatusEnum::PLANING->value) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
+		}
+
 		if ($data->status == IntAttStatusEnum::NEGATIVE->value || $data->status == IntAttStatusEnum::GUEST->value || $task == 'deleteFitting')
 		{
 			$userFittings = (new FittingsModel)->getFittingsForUser($data->users_user_id);
@@ -215,11 +220,6 @@ class AttendingModel extends AdminModel
 		{
 			$userFittings   = (new FittingsModel)->getStandardFittingIdsForUser($data->users_user_id);
 			$data->fittings = json_encode($userFittings);
-		}
-
-		if (empty($data->event_status))
-		{
-			$data->event_status = ($event->eventStatusEnum == EventStatusEnum::PLANING) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
 		}
 
 		if ($data->users_user_id)

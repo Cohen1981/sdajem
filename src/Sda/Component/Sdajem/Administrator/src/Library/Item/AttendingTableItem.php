@@ -9,6 +9,7 @@ namespace Sda\Component\Sdajem\Administrator\Library\Item;
 use Joomla\CMS\HTML\Registry;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
+use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Trait\ItemTrait;
 use stdClass;
@@ -33,7 +34,7 @@ class AttendingTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Stores the joomla access level
 	 */
-	public ?int $access = 0;
+	public ?int $access = 1;
 
 	/**
 	 * @var string|null
@@ -47,7 +48,7 @@ class AttendingTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the state or status of an entity.
 	 */
-	public ?int $state = 0;
+	public ?int $state = 1;
 
 	/**
 	 * @var integer|null
@@ -75,14 +76,14 @@ class AttendingTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the status of an attendance, which can be translated and set with the IntAttStatusEnum.
 	 */
-	public ?int $status;
+	public ?int $status = IntAttStatusEnum::NA->value;
 
 	/**
 	 * @var string|null
 	 * @since 1.5.3
 	 * Stringified array of fittings
 	 */
-	public ?string $fittings;
+	public ?string $fittings = '';
 
 	/**
 	 * @var integer|null

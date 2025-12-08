@@ -9,6 +9,7 @@ namespace Sda\Component\Sdajem\Administrator\Library\Item;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Registry\Registry;
 use ReflectionObject;
+use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Trait\ItemTrait;
 use stdClass;
@@ -33,7 +34,7 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Stores the joomla access level
 	 */
-	public ?int $access = 2;
+	public ?int $access = 1;
 
 	/**
 	 * @var string|null
@@ -82,7 +83,7 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the state or status of an entity.
 	 */
-	public ?int $state = 0;
+	public ?int $state = 1;
 
 	/**
 	 * @var integer|null
@@ -166,7 +167,7 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the status of an event, which can be translated and set with the EventStatusEnum.
 	 */
-	public ?int $eventStatus = 4;
+	public ?int $eventStatus = EventStatusEnum::OPEN->value;
 
 	/**
 	 * @var integer

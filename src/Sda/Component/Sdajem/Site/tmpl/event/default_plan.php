@@ -46,12 +46,16 @@ $eventFittings = $this->getEventFittings();
             </button>
         </div>
 
-        <div class="buttonContainer">
-            <form id="saveBoxForm" name="saveBoxForm" method="post" action="">
-                <label for="boxX"><?php echo Text::_('COM_SDAJEM_PLANING_BOX_X'); ?></label>
-                <input type="number" id="boxX" name="boxX" value="<?php echo $boxX; ?>"/>
-                <label for="boxY"><?php echo Text::_('COM_SDAJEM_PLANING_BOX_Y'); ?></label>
-                <input type="number" id="boxY" name="boxY" value="<?php echo $boxY; ?>"/>
+        <div class="buttonContainer d-none d-sm-block">
+            <form id="saveBoxForm" name="saveBoxForm" method="post" action="" class="row">
+                <div class='form-floating col-auto col-sm-4'>
+                    <input type='number' id='boxX' name='boxX' class="form-control" value="<?php echo $boxX; ?>"/>
+                    <label for="boxX"><?php echo Text::_('COM_SDAJEM_PLANING_BOX_X'); ?></label>
+                </div>
+                <div class='form-floating col-auto col-sm-4'>
+                    <input type='number' id='boxY' name='boxY' class='form-control' value="<?php echo $boxY; ?>"/>
+                    <label for="boxY"><?php echo Text::_('COM_SDAJEM_PLANING_BOX_Y'); ?></label>
+                </div>
                 <input type="hidden" name="option" value="com_sdajem"/>
                 <input type="hidden" name="task" value=""/>
                 <input type="hidden" name="eventId" value="<?php echo $event->id; ?>"/>

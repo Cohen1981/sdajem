@@ -29,7 +29,7 @@ class LocationTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Stores the joomla access level
 	 */
-	public ?int $access;
+	public ?int $access = 1;
 
 	/**
 	 * @var string|null
@@ -78,14 +78,14 @@ class LocationTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Represents the state or status of an entity.
 	 */
-	public ?int $state;
+	public ?int $state = 1;
 
 	/**
 	 * @var integer|null
 	 * @since 1.5.3
 	 * Specifies the ordering of items.
 	 */
-	public ?int $ordering;
+	public ?int $ordering = 0;
 
 	/**
 	 * @var string|null

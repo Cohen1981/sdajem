@@ -107,26 +107,6 @@ class AttendingController extends FormController
 		$event                 = (new EventModel())->getItem($input['event_id']);
 		$input['event_status'] = ($event->eventStatusEnum == EventStatusEnum::PLANING) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
 
-		// if the user is attending and event_status is open, we need to get the standard fittings
-		if ($input['status'] == IntAttStatusEnum::POSITIVE->value && $input['event_status'] == EventStatusEnum::OPEN->value)
-		{
-			$fittings = (new FittingsModel())->getFittingsForUser($data->users_user_id);
-			$ids      = [];
-
-			if ($fittings)
-			{
-				foreach ($fittings as $fitting)
-				{
-					if ($fitting->standard)
-					{
-						$ids[] = $fitting->id;
-					}
-				}
-
-				$input['fittings'] = json_encode($ids);
-			}
-		}
-
 		$this->input->post->set('jform', $input);
 
 		$this->setRedirect(Route::_($this->getReturnPage(), false));

@@ -209,7 +209,7 @@ class LocationController extends FormController
 		}
 		else
 		{
-			$return = '?option=' . $this->option . '&view=locations';
+			$return = 'index.php?option=' . $this->option . '&view=locations';
 		}
 
 		$this->setRedirect(Route::_($return, false));
