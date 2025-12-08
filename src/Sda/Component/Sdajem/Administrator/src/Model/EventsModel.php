@@ -127,6 +127,12 @@ class EventsModel extends ListModel
 			}
 		}
 
+		/* ToDo - public planing. Should be handled in the model
+		$params = ComponentHelper::getParams('com_sdajem');
+
+		if ($params->get('sda_public_planing'))
+		*/
+
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.startDateTime');
 		$orderDirn = $this->state->get('list.direction', 'asc');

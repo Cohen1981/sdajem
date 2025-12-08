@@ -162,38 +162,7 @@ class Event extends EventTableItem
 	 */
 	public static function getBaseQuery(QueryInterface $query,DatabaseInterface $db): QueryInterface
 	{
-		$query->select(
-			$db->quoteName(
-				[
-					'a.id',
-					'a.access',
-					'a.alias',
-					'a.created',
-					'a.created_by',
-					'a.published',
-					'a.publish_up',
-					'a.publish_down',
-					'a.state',
-					'a.ordering',
-					'a.title',
-					'a.description',
-					'a.url',
-					'a.startDateTime',
-					'a.endDateTime',
-					'a.allDayEvent',
-					'a.sdajem_location_id',
-					'a.image',
-					'a.eventStatus',
-					'a.organizerId',
-					'a.registerUntil',
-					'a.hostId',
-					'a.eventCancelled',
-					'a.params',
-					'a.svg',
-				]
-			)
-		);
-		$query->from($db->quoteName('#__sdajem_events', 'a'));
+		$query = parent::getBaseQuery($query, $db);
 
 		// Join over locations
 		$query->select([

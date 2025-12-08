@@ -154,7 +154,7 @@ $currentUser = Factory::getApplication()->getIdentity();
 	    <?php endif; ?>
         <!-- Location end -->
 
-	    <?php if(isset($event->hostId)) : ?>
+        <?php if (isset($event->hostId) && $tparams->get('sda_use_host')) : ?>
             <?php
             $status = ($this->activeAccordion === 'event.host') ? 'show' :  '';
             $collapsed = ($this->activeAccordion === 'event.host') ? '' : 'collapsed';
@@ -162,20 +162,11 @@ $currentUser = Factory::getApplication()->getIdentity();
             <div class="accordion-item">
                 <div class="accordion-header" id="headingHost">
                     <button class="accordion-button <?php echo $collapsed; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHost" aria-expanded="true" aria-controls="collapseHost">
-                        <h5><?php echo Text::_('COM_SDAJEM_FIELD_HOST_LABEL'); ?>: <?php echo $host->getName(); ?></h5>
+                        <h5><?php echo Text::_('COM_SDAJEM_FIELD_HOST_LABEL'); ?>: <?php echo $host->name; ?></h5>
                     </button>
                 </div>
                 <div id="collapseHost" class="accordion-collapse collapse <?php echo $status; ?>" aria-labelledby="headingHost" data-bs-parent="#accordionEvent">
-                    <div class="accordion-body">
-	                    <?php if ($canEdit) : ?>
-                            <div class="icons float-end">
-                                <?php echo HTMLHelper::_('contacticon.edit', $host, $tparams); ?>
-                            </div>
-                        <?php endif;?>
-                        <p><?php echo $host->get('telephone'); ?></p>
-                        <p><?php echo $host->get('email_to'); ?></p>
-                        <p><?php echo $host->get('mobile'); ?></p>
-                    </div>
+                    <?php echo $this->loadTemplate('host'); ?>
                 </div>
             </div>
 	    <?php endif; ?>

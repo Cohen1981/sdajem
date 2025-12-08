@@ -66,7 +66,7 @@ class DisplayController extends BaseController
 
 				$view->setModel($this->getModel('event'), true);
 				$view->setModel($this->getModel('location'));
-				$view->setModel($this->getModel('comments'));
+				$view->setModel($this->getModel('comments', 'administrator'));
 				$view->setModel($this->getModel('attendings', 'administrator'));
 				$view->setModel($this->getModel('fittings', 'administrator'));
 				$view->setLayout($input->get('layout', 'default'));
@@ -84,6 +84,9 @@ class DisplayController extends BaseController
 				$view = $this->getView('events', $viewType);
 				$view->setModel($this->getModel('events', 'administrator'), true);
 				break;
+			case 'comments':
+				$view = $this->getView('comments', $viewType);
+				$view->setModel($this->getModel('comments', 'administrator'), true);
 			default:
 				break;
 		}

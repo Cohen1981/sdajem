@@ -7,6 +7,8 @@
 namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use ReflectionObject;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
@@ -233,5 +235,52 @@ class EventTableItem extends ItemClass
 		{
 			return HTMLHelper::date($this->endDateTime, 'd.m.Y H:i');
 		}
+	}
+
+	/**
+	 * Constructs and retrieves the base query for fetching event data.
+	 *
+	 * @param   QueryInterface     $query  The query object to be populated with selections and source table.
+	 * @param   DatabaseInterface  $db     The database interface used for quoting table and column names.
+	 *
+	 * @return QueryInterface The modified query object with specified selections and source table for events.
+	 * @since 1.0.0
+	 */
+	public static function getBaseQuery(QueryInterface $query, DatabaseInterface $db): QueryInterface
+	{
+		$query->select(
+			$db->quoteName(
+				[
+					'a.id',
+					'a.access',
+					'a.alias',
+					'a.created',
+					'a.created_by',
+					'a.published',
+					'a.publish_up',
+					'a.publish_down',
+					'a.state',
+					'a.ordering',
+					'a.title',
+					'a.description',
+					'a.url',
+					'a.startDateTime',
+					'a.endDateTime',
+					'a.allDayEvent',
+					'a.sdajem_location_id',
+					'a.image',
+					'a.eventStatus',
+					'a.organizerId',
+					'a.registerUntil',
+					'a.hostId',
+					'a.eventCancelled',
+					'a.params',
+					'a.svg',
+				]
+			)
+		);
+		$query->from($db->quoteName('#__sdajem_events', 'a'));
+
+		return $query;
 	}
 }

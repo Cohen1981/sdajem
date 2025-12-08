@@ -27,6 +27,7 @@ use Sda\Component\Sdajem\Administrator\Library\Collection\CommentsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Collection\FittingsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Collection\FittingTableItemsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlViewInterface;
+use Sda\Component\Sdajem\Administrator\Library\Item\ContactItem;
 use Sda\Component\Sdajem\Administrator\Library\Item\Event;
 use Sda\Component\Sdajem\Administrator\Library\Item\Location;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
@@ -80,10 +81,10 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 
 	/**
 	 * The Contact object of the host if set
-	 * @var ContactModel|null
+	 * @var ContactItem|null
 	 * @since 1.5.3
 	 */
-	protected ?ContactModel $host = null;
+	protected ?ContactItem $host = null;
 
 	/**
 	 * @var string
@@ -173,8 +174,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 				->createModel('Contact', 'Administrator', ['ignore_request' => true]);
 
 			$temp       = $contactModel->getItem($item->hostId);
-			$temp->slug = $temp->alias ? ($temp->id . ':' . $temp->alias) : $temp->id;
-			$this->host = $temp;
+			$this->host = ContactItem::createFromObject($temp);
 		}
 
 		if ($this->params->get('sda_events_use_comments'))
@@ -287,10 +287,10 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	/**
 	 * Get the event host contact
 	 *
-	 * @return ContactModel|null The contact object or null if not set
+	 * @return ContactItem|null The contact object or null if not set
 	 * @since 1.5.3
 	 */
-	public function getHost(): ?ContactModel
+	public function getHost(): ?ContactItem
 	{
 		return $this->host;
 	}

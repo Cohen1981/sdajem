@@ -6,7 +6,7 @@
     <authorEmail>abahlo@hotmail.de</authorEmail>
     <copyright>(C) 2006 Open Source Matters, Inc.</copyright>
     <license>GNU General Public License version 2 or later;</license>
-    <version>1.7.0</version>
+    <version>1.7.1</version>
     <description>COM_SDAJEM_XML_DESCRIPTION</description>
     <namespace path="src">Sda\Component\Sdajem</namespace>
 
@@ -34,7 +34,8 @@
         <folder>src</folder>
         <folder>tmpl</folder>
     </files>
-    <media folder="media/com_sdajem" destination="com_sdajem">
+
+    <media destination="com_sdajem" folder="media/com_sdajem">
         <folder>images</folder>
         <folder>js</folder>
         <folder>css</folder>

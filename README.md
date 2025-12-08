@@ -4,33 +4,26 @@ A extension for Managing Event participation as a group.
 
 As of now, the extension is not published on the Joomla Extension Directory.
 
-# How to use:
+## Prerequisites
 
-Prerequisites:
-- GIT
-- An IDE of your choice (I use PHPStorm)
-- Docker installed on your machine
+* Docker
+* Git
+* when on Windows: WSL2
 
-On Windows, you can use WSL2 to run the development environment.
+## Usage
 
-1) Clone this repository
-2) check the .env file and edit as seen fit
-3) Run "sudo ./build_dev_env.sh", which will install the dependencies call make start.
-4) Go to your local Joomla installation and install the extension via discover.
-5) Enjoy!
-
-If you want to stop the development environment, run make stop".
-
-# Make commands:
-
-- start: Starts the development environment and shows the url to access the site.
-- up: Starts the development environment without showing the url.
-- stop: Stops the development environment.
-- down: Stops the development environment.
-- log: Shows the logs of the running docker containers.
-- config: Shows the docker compose configuration.
-- reset: Stops the development environment and removes all data (/src excluded).
-- build: Builds the extension and places it in the target folder.
+* Clone this repository
+* Configure your environment variables in the `.env` file
+    * The first block is for Docker and the defaults should be fine for most cases.
+* Run `make build` in the root directory of this repository
+    * this will install additional tools like npm and zip, build the Docker images and start the containers
+    * this will also symlink your extensions into the joomla installation
+    * if you want to add more extensions, just add them to the corresponding variable in the `.env` file and run
+      `make build` again
+* After this initial build, you can run `make start` to start the containers and `make stop` to stop them again
+* to reset the environment, run `make reset`. This will delete the joomla and mysql data folders and stop and remove the
+  containers as well as remove the Docker volumes.
+* to package your extensions, run `make package`. This will create a zip file for each extension.
 
 # Tips and tricks:
 

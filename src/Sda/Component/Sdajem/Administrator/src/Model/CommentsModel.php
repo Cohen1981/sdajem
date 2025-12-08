@@ -10,7 +10,9 @@ namespace Sda\Component\Sdajem\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\QueryInterface;
+use Sda\Component\Sdajem\Administrator\Library\Collection\CommentsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Collection\CommentTableItemsCollection;
+use Sda\Component\Sdajem\Administrator\Library\Item\CommentTableItem;
 use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -75,20 +77,7 @@ class CommentsModel extends ListModel
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				[
-					$db->quoteName('c.id'),
-					$db->quoteName('c.sdajem_event_id'),
-					$db->quoteName('c.users_user_id'),
-					$db->quoteName('c.comment'),
-					$db->quoteName('c.timestamp'),
-					$db->quoteName('c.commentReadBy'),
-				]
-			)
-		);
-		$query->from($db->quoteName('#__sdajem_comments', 'c'));
+		$query = CommentTableItem::getBaseQuery($query, $db);
 
 		// Filter on user. Default Current User
 		if ($this->getState('filter.users_user_id'))
@@ -165,5 +154,32 @@ class CommentsModel extends ListModel
 		$db->setQuery($query);
 
 		return ($db->loadColumn() ?? []);
+	}
+
+	/**
+	 * Retrieves comments associated with a specific event.
+	 *
+	 * @param   int|null  $eventId  The ID of the event for which the comments are to be fetched. Defaults to null.
+	 *
+	 * @return CommentsCollection A collection of comments related to the specified event.
+	 * @since 1.5.3
+	 */
+	public function getCommentsToEvent(int $eventId = null): CommentsCollection
+	{
+		// Create a new query object.
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true);
+
+		// Select the required fields from the table.
+		$query = CommentTableItem::getBaseQuery($query, $db);
+
+		$query->where($db->quoteName('c.sdajem_event_id') . '= :eventId');
+		$query->order($db->quoteName('c.timestamp') . ' DESC');
+		$query->bind(':eventId', $eventId);
+
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
+
+		return new CommentsCollection($data);
 	}
 }

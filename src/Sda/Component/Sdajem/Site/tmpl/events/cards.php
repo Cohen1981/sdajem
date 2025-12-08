@@ -186,6 +186,11 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 				<?php
 				foreach ($items as $event) :
 					?>
+                    <?php
+                    if ($event->eventStatusEnum == EventStatusEnum::CONFIRMED || in_array(
+                                    $params->get('sda_public_planing'),
+                                    $userAuthorizedViewLevels
+                            )) : ?>
 					<!-- event cards -->
 					<div class="card">
 						<!-- card header -->
@@ -464,6 +469,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 
 						</div>
 					</div>
+                    <?php endif; ?>
 				<?php
 				endforeach; ?>
 			<?php

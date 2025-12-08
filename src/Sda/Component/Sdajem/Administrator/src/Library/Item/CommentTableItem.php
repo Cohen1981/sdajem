@@ -6,6 +6,8 @@
 
 namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\QueryInterface;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Trait\ItemTrait;
 use stdClass;
@@ -59,4 +61,33 @@ class CommentTableItem extends ItemClass
 	 * @since 1.5.3
 	 */
 	public ?string $commentReadBy;
+
+	/**
+	 * Constructs and returns a base query for retrieving event data from the database.
+	 * For extending the query us c. as referer to the comment table.
+	 *
+	 * @param   QueryInterface     $query  The query object to build upon.
+	 * @param   DatabaseInterface  $db     The database connection object.
+	 *
+	 * @return \JDatabaseQuery          The modified query object with the constructed query.
+	 * @since 1.5.3
+	 */
+	public static function getBaseQuery(QueryInterface $query, DatabaseInterface $db): QueryInterface
+	{
+		$query->select(
+			$db->quoteName(
+				[
+					'c.id',
+					'c.sdajem_event_id',
+					'c.users_user_id',
+					'c.comment',
+					'c.timestamp',
+					'c.commentReadBy',
+				]
+			)
+		);
+		$query->from($db->quoteName('#__sdajem_comments', 'c'));
+
+		return $query;
+	}
 }
