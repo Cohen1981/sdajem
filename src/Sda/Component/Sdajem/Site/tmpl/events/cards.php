@@ -173,12 +173,11 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 		<div id="j-main-container" class="j-main-container">
 			<!-- no events -->
 			<?php
-
-			if (empty($items)) :
+            if ($items->count() == 0) :
 				?>
-				<div class="alert alert-warning">
+                <div class="alert alert-info">
 					<?php
-					echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+                    echo Text::_('SDAJEM_NO_CONFIRMED_EVENTS'); ?>
 				</div>
 			<?php
 			else :
@@ -186,11 +185,6 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 				<?php
 				foreach ($items as $event) :
 					?>
-                    <?php
-                    if ($event->eventStatusEnum == EventStatusEnum::CONFIRMED || in_array(
-                                    $params->get('sda_public_planing'),
-                                    $userAuthorizedViewLevels
-                            )) : ?>
 					<!-- event cards -->
 					<div class="card">
 						<!-- card header -->
@@ -199,8 +193,8 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 							<div class="col">
 								<a href="<?php
 								echo Route::_(
-                                        '?option=com_sdajem&view=event&id='
-										. $event->id
+                                        'index.php?option=com_sdajem&view=event&id='
+                                        . $event->slug
 								); ?>">
 									<h5>
 										<p>
@@ -295,7 +289,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 						<!-- card body -->
 						<div class="card-body row justify-content-between">
 							<a class="col-sm row justify-content-between align-content-center no-decor" href="<?php
-                            echo Route::_('?option=com_sdajem&view=event&id=' . $event->id); ?>">
+                            echo Route::_('index.php?option=com_sdajem&view=event&id=' . $event->slug); ?>">
 
 								<!-- register until-->
 								<?php
@@ -469,8 +463,8 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 
 						</div>
 					</div>
-                    <?php endif; ?>
-				<?php
+
+                <?php
 				endforeach; ?>
 			<?php
 			endif; ?>

@@ -127,12 +127,6 @@ class EventsModel extends ListModel
 			}
 		}
 
-		/* ToDo - public planing. Should be handled in the model
-		$params = ComponentHelper::getParams('com_sdajem');
-
-		if ($params->get('sda_public_planing'))
-		*/
-
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.startDateTime');
 		$orderDirn = $this->state->get('list.direction', 'asc');
@@ -156,6 +150,28 @@ class EventsModel extends ListModel
 	 */
 	public function getItems(): EventsCollection
 	{
-		return new EventsCollection(parent::getItems());
+		$app                      = Factory::getApplication();
+		$items                    = parent::getItems();
+		$currUser                 = $app->getIdentity();
+		$userAuthorizedViewLevels = $currUser->getAuthorisedViewLevels();
+
+		$params = ComponentHelper::getParams('com_sdajem');
+
+		if (in_array($params->get('sda_public_planing'), $userAuthorizedViewLevels))
+		{
+			return new EventsCollection($items);
+		}
+		else
+		{
+			foreach ($items as $i => $item)
+			{
+				if ($item->eventStatus != EventStatusEnum::CONFIRMED->value)
+				{
+					unset($items[$i]);
+				}
+			}
+
+			return new EventsCollection($items);
+		}
 	}
 }

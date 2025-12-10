@@ -18,6 +18,11 @@ use stdClass;
  */
 class ItemClass extends stdClass implements ItemInterface
 {
+	public ?int $id;
+
+	public ?string $alias;
+
+	public ?string $slug;
 	/**
 	 * @param   array|stdClass|null  $data  The data to convert to an object
 	 *
@@ -65,6 +70,11 @@ class ItemClass extends stdClass implements ItemInterface
 				$defaultValue = $selfReflection->getProperty($key)->getDefaultValue();
 				$item->$key   = (!isset($value)) ? $defaultValue : $value;
 			}
+		}
+
+		if (!empty($item->alias) && !empty($item->id))
+		{
+			$item->slug = $item->id . ':' . $item->alias;
 		}
 
 		return $item;

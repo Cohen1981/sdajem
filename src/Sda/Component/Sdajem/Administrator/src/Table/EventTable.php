@@ -52,7 +52,7 @@ class EventTable extends Table
 	{
 		if (empty($this->alias))
 		{
-			$this->alias = $this->title . HTMLHelper::date($this->startDateTime, 'd.m.Y');
+			$this->alias = ApplicationHelper::stringURLSafe($this->title . '-' . HTMLHelper::date($this->startDateTime, 'd.m.Y'));
 		}
 
 		if (trim(str_replace('-', '', $this->alias)) == '')

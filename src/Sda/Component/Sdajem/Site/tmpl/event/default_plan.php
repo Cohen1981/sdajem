@@ -163,11 +163,13 @@ $eventFittings = $this->getEventFittings();
                                 "' width='" . $fitting->length .
                                 "' height='" . $fitting->width . "' fill='green' fill-opacity='0.5' />";
                     }
+                    echo "<text x='" . ($fitting->length / 2) - 1 . "' y='" . $fitting->width / 2 . "' style='font-size:0.5pt;' opacity='1.0'>";
+                    echo $fitting->userName . '</text>';
                     echo "<text class='rotator' x='" .
-                            ($fitting->length / 2 - 1) .
+                            ($fitting->length / 2) .
                             "' y='" .
                             ($fitting->width + 1) .
-                            "' style='font-size:0.5pt;' opacity='1.0'>&#x21BB; " . $fitting->userName . ' &#x21BA;</text>';
+                            "' style='font-size:0.5pt;' opacity='1.0'>&#x21BB;</text>";
                     echo "<text class='delete' x='" .
                             ($fitting->length) - 1 .
                             "' y='1' style='font-size:0.5pt;' opacity='1.0' color='red'>X</text>'";

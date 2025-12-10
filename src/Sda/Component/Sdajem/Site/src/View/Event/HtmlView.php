@@ -18,9 +18,9 @@ use Joomla\CMS\Event\Content\BeforeDisplayEvent;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Extension\ContactComponent;
-use Joomla\Component\Contact\Site\Model\ContactModel;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Collection\AttendingsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Collection\CommentsCollection;
@@ -143,6 +143,9 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 		$app = Factory::getApplication();
 
 		$item = $this->item = $model->getItem();
+
+		$pathway = $app->getPathway();
+		$pathway->addItem($item->title);
 
 		$state      = $this->state = $model->getState();
 

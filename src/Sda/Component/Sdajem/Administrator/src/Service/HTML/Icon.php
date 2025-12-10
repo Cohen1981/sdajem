@@ -100,7 +100,7 @@ class Icon
 		}
 
 		$eventUrl = RouteHelper::getEventRoute($event->slug);
-		$url      = $eventUrl . '&task=event.edit&id=' . $event->id . '&return=' . base64_encode($uri);
+		$url = 'index.php' . $eventUrl . '&task=event.edit&return=' . base64_encode($uri);
 
 		if ($event->published == 0)
 		{

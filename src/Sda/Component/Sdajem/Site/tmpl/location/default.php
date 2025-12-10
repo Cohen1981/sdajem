@@ -106,9 +106,4 @@ if (!$user->guest)
 			<?php echo HTMLHelper::image($item->image,'',['class'=>'float-start pe-2']); ?>
 		</div>
 	<?php endif; ?>
-	<div class="loc_address">
-		<p><?php echo $item->street; ?></p>
-		<p><?php echo $item->postalCode; ?></p>
-		<p><?php echo $item->city; ?></p>
-	</div>
 </div>

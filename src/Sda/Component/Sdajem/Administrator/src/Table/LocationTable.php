@@ -48,7 +48,7 @@ class LocationTable extends Table
 		/* @var LocationModel $this */
 		if (empty($this->alias))
 		{
-			$this->alias = $this->title;
+			$this->alias = $this->title . '-' . $this->postalCode;
 		}
 
 		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);

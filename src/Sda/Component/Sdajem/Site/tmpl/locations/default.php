@@ -18,6 +18,8 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Sda\Component\Sdajem\Administrator\Model\Items\LocationsItemModel;
 
+/** @var \Sda\Component\Sdajem\Site\View\Locations\HtmlView $this */
+
 defined('_JEXEC') or die();
 
 $wa = $this->document->getWebAssetManager();
@@ -31,16 +33,18 @@ $wa->registerAndUseStyle('sdajem', 'com_sdajem/sdajem.css');
 $canChange = true;
 $canDo = ContentHelper::getActions('com_sdajem');
 
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$state = $this->getState();
+$items = $this->getItems();
+
+$listOrder = $this->escape($state->get('list.ordering'));
+$listDirn  = $this->escape($state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
-if ($saveOrder && !empty($this->items)) {
+if ($saveOrder && !empty($items))
+{
     $saveOrderingUrl = '?option=com_sdajem&task=locations.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 }
 
-$params = $this->get('State')->get('params');
-
-/* @var LocationsItemModel $item */
+$params = $state->get('params');
 ?>
 
 <div class="sdajem_content_container">
@@ -70,7 +74,7 @@ $params = $this->get('State')->get('params');
 			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
-					<?php if (empty($this->items)) : ?>
+                    <?php if (empty($items)) : ?>
 						<div class="alert alert-warning">
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
@@ -96,8 +100,8 @@ $params = $this->get('State')->get('params');
 							</thead>
 							<tbody>
 							<?php
-							$n = count($this->items);
-							foreach ($this->items as $i => $item) :
+                            $n = count($items);
+                            foreach ($items as $i => $item) :
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
                                     <?php if (!Factory::getApplication()->getIdentity()->guest) :?>
@@ -107,7 +111,7 @@ $params = $this->get('State')->get('params');
                                     <?php endif; ?>
 									<th scope="row" class="has-context col-4">
 										<div>
-                                            <a href="<?php echo Route::_('?option=com_sdajem&view=location&id=' . (int) $item->id); ?>">
+                                            <a href="<?php echo Route::_('index.php?option=com_sdajem&view=location&id=' . $item->slug); ?>">
 												<?php echo $this->escape($item->title); ?>
 											</a>
 										</div>

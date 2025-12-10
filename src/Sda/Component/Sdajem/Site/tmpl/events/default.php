@@ -235,9 +235,8 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 								</thead>
 
 								<tbody>
-								<?php
-								$n = count($items);
-								foreach ($items as $i => $item) : ?>
+								<?php if ($items->count() > 0) : ?>
+									<?php foreach ($items as $i => $item) : ?>
 									<?php
                                     if ($item->eventStatusEnum == EventStatusEnum::CONFIRMED || in_array(
 													$params->get('sda_public_planing'),
@@ -436,6 +435,12 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 									endif; ?>
 								<?php
 								endforeach; ?>
+								<?php else: ?>
+                                    <div class='alert alert-info'>
+										<?php
+										echo Text::_('SDAJEM_NO_CONFIRMED_EVENTS'); ?>
+                                    </div>
+								<?php endif; ?>
 								</tbody>
 							</table>
 

@@ -70,8 +70,13 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 */
 	public function display($tpl = null): void
 	{
+		$app = Factory::getApplication();
+
 		$model = $this->getModel();
 		$item  = $this->item = $model->getItem();
+
+		$pathway = $app->getPathway();
+		$pathway->addItem($item->title);
 
 		$state  = $this->state = $model->getState();
 		$params = $this->params = $state->get('params');
