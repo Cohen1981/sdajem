@@ -4,4 +4,5 @@
 /resources/composer.lock
 /joomla_data
 /db_data
+/.github
 composer.lock

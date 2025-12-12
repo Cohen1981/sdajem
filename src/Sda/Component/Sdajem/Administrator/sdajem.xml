@@ -35,7 +35,7 @@
         <folder>tmpl</folder>
     </files>
 
-    <media destination="com_sdajem" folder="media/com_sdajem">
+    <media destination="com_sdajem" folder="media">
         <folder>images</folder>
         <folder>js</folder>
         <folder>css</folder>
