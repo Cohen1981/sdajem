@@ -23,16 +23,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
-use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Site\Model\AttendingformModel;
-use Sda\Component\Sdajem\Site\Model\AttendingModel;
-use Sda\Component\Sdajem\Administrator\Model\AttendingModel as AttendingModelAdmin;
 use Sda\Component\Sdajem\Site\Model\EventformModel;
 use Sda\Component\Sdajem\Site\Model\EventModel;
 
@@ -256,6 +250,7 @@ class EventController extends FormController
 	}
 
 	/**
+	 * @return void
 	 * @since 1.2.4
 	 */
 	private function setViewLevel(): void

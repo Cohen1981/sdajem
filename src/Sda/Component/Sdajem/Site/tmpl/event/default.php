@@ -13,8 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Site\View\Event\HtmlView;
 
@@ -116,7 +116,9 @@ $currentUser = Factory::getApplication()->getIdentity();
                         ?>
                     </div>
                 <?php endif; ?>
-                <?php if (!$currentUser->guest) : ?>
+                <?php if (!$currentUser->guest
+                        && $event->eventStatusEnum
+                        == EventStatusEnum::CONFIRMED) : ?>
                     <div>
                         <button type="button" class="btn btn-outline-secondary"
                                 onclick="downloadIcs('<?php echo Route::_('/files/' . $event->alias . '.ics'); ?>', '<?php echo $event->alias . '.ics' ?>')">

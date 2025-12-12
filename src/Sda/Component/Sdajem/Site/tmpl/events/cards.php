@@ -435,7 +435,9 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
                                 endif; ?>
 
 							</a>
-                            <?php if (!$currentUser->guest) : ?>
+                            <?php if (!$currentUser->guest
+                                    && $event->eventStatusEnum
+                                    == EventStatusEnum::CONFIRMED) : ?>
                                 <div class="col-sm-auto">
                                     <button type="button" class="btn btn-outline-secondary"
                                             onclick="downloadIcs('<?php echo Route::_('/files/' . $event->alias . '.ics'); ?>', '<?php echo $event->alias . '.ics' ?>')">

@@ -10,9 +10,8 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
 use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use Sda\Component\Sdajem\Administrator\Table\EventTable;
@@ -231,7 +230,8 @@ class EventModel extends AdminModel
 			'SUMMARY:' . $event->title . $eol .
 			'URL;VALUE=URI:' . $event->url . $eol .
 			'DESCRIPTION:' . $event->description . $eol .
-			'UID:' . $kb_current_time . '-' . $event->getStart(true) . '-' . $event->getEnd(true) . $eol .
+			'UID:' . $event->id . '-' . $event->getStart(true) . '-'
+			. $event->getEnd(true) . $eol .
 			'END:VEVENT' . $eol .
 			'END:VCALENDAR';
 

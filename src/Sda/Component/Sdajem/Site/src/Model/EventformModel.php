@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use RuntimeException;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Item\Event;
 use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use function defined;
 
@@ -172,24 +171,9 @@ class EventformModel extends \Sda\Component\Sdajem\Administrator\Model\EventMode
 	{
 		if ($pk != null)
 		{
-			// Initialize variables.
-			$db    = $this->getDatabase();
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__sdajem_events'));
-			$query->set($db->quoteName('eventStatus') . '=' . $enum->value);
-			$query->where($db->quoteName('id') . '=' . $pk);
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
-			}
+			$event              = $this->getItem($pk);
+			$event->eventStatus = $enum->value;
+			$this->save($event->toArray());
 
 			$this->cleanCache();
 
