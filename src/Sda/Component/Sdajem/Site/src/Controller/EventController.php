@@ -12,17 +12,13 @@ namespace Sda\Component\Sdajem\Site\Controller;
 defined('_JEXEC') or die();
 
 use Exception;
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
@@ -462,70 +458,6 @@ class EventController extends FormController
 		}
 
 		$this->setRedirect(Route::_($this->getReturnPage(), false));
-	}
-
-	/**
-	 * @since 1.5.0
-	 *
-	 * @param                      $validData
-	 * @param   BaseDatabaseModel  $model
-	 *
-	 * @return void
-	 * @throws Exception
-	 */
-	protected function postSaveHook(BaseDatabaseModel $model, $validData = []): void
-	{
-		$componentParams = ComponentHelper::getParams('com_sdajem');
-
-		if ($model->state->get('eventform.new') && $componentParams->get('sda_mail_on_new_event'))
-		{
-			$mailer = Factory::getContainer()->get(MailerFactoryInterface::class)->createMailer();
-
-			// Define necessary variables
-			$subject = Text::_('NEW_EVENT_SAVED') . ': '
-				. $validData['title'] . ' '
-				. HTMLHelper::date($validData['startDateTime'], 'd.m.Y')
-				. ' - ' . HTMLHelper::date($validData['endDateTime'], 'd.m.Y');
-			$body    = Text::_('COM_SDAJEM_FIELD_REGISTERUNTIL_LABEL') . ': '
-				. HTMLHelper::date($validData['registerUntil'],	'd.m.Y'
-				);
-
-			$recipientsUsers = Access::getUsersByGroup($componentParams->get('sda_usergroup_mail'));
-			$userFactory     = Factory::getContainer()->get(UserFactoryInterface::class);
-
-			foreach ($recipientsUsers as $recipientUser)
-			{
-				$mailer->addRecipient($userFactory->loadUserById($recipientUser)->email);
-			}
-
-			// Set subject, and body of the email
-			$mailer
-				->isHTML(true)
-				->setSubject($subject)
-				->setBody($body);
-
-			// Set plain text alternative body (for email clients that don't support HTML)
-			$mailer->AltBody = strip_tags($body);
-
-			// Send the email and check for success or failure
-			try
-			{
-				$send = $mailer->Send(); // Attempt to send the email
-
-				if ($send !== true)
-				{
-					echo 'Error: ' . $send->__toString(); // Display error message if sending fails
-				}
-				else
-				{
-					Factory::getApplication()->enqueueMessage(Text::_('SDA_EMAIL_EVENT_SUCCESS'), 'info');
-				}
-			}
-			catch (Exception $e)
-			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-			}
-		}
 	}
 
 	/**

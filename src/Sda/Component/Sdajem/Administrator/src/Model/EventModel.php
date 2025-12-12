@@ -7,11 +7,18 @@
 namespace Sda\Component\Sdajem\Administrator\Model;
 
 use Exception;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Filesystem\Exception\FilesystemException;
+use Joomla\Filesystem\File;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use Sda\Component\Sdajem\Administrator\Table\EventTable;
@@ -143,13 +150,32 @@ class EventModel extends AdminModel
 
 		foreach ($pks as $pk)
 		{
+			// delete the attendings
 			$attendings = $attendingsModel->getAttendingIdsToEvent($pk);
 			$result[]   = $attendingModel->delete($attendings);
 
+			// delete the comments
 			$comments = $commentsModel->getCommentIdsToEvent($pk);
 			$result[] = $commentModel->delete($comments);
+
+			// delete the ics file
+			$eventItem = $this->getItem($pk);
+
+			try
+			{
+				File::delete(
+					JPATH_SITE . '/files/' . $eventItem->alias . '.ics'
+				);
+			}
+			catch (FilesystemException $e)
+			{
+				echo Text::sprintf(
+						'FILES_JOOMLA_ERROR_FILE_FOLDER', $eventItem->alias
+					) . '<br>';
+			}
 		}
 
+		// check if all deletes were successful else return false and show error message while not deleting the event.
 		if (\in_array(false, $result, true))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('COM_SDAJEM_ERROR_DELETE_EVENT'), 'error');
@@ -174,8 +200,19 @@ class EventModel extends AdminModel
 
 		if ($return)
 		{
-			$id = $this->state->get('eventform.id');
-			$this->makeIcal($this->getItem($id));
+			$id        = ($this->state->get('eventform.id')) ??
+				$this->state->get('event.id');
+			$eventItem = $this->getItem($id);
+			$this->makeIcal($eventItem);
+
+			$new             = ($this->state->get('eventform.new')) ??
+				$this->state->get('event.new');
+			$componentParams = ComponentHelper::getParams('com_sdajem');
+
+			if ($new && $componentParams->get('sda_mail_on_new_event'))
+			{
+				$this->sendMail($eventItem, $componentParams);
+			}
 		}
 
 		return $return;
@@ -238,5 +275,78 @@ class EventModel extends AdminModel
 		fwrite($kb_ical, $kb_ics_content);
 
 		fclose($kb_ical);
+	}
+
+	/**
+	 * Sends an email notification about a newly saved event to a group of recipients.
+	 *
+	 * @param   EventTableItem  $event            The event object containing the relevant event data.
+	 * @param   Registry        $componentParams  Configuration parameters from the component,
+	 *                                            including the user group for email recipients.
+	 *
+	 * @return void
+	 * @throws Exception
+	 * @since 1.7.3
+	 */
+	private function sendMail(EventTableItem $event, Registry $componentParams
+	): void {
+		$mailer = Factory::getContainer()->get(MailerFactoryInterface::class)
+			->createMailer();
+
+		// Define necessary variables
+		$subject = Text::_('NEW_EVENT_SAVED') . ': '
+			. $event->title . ' '
+			. $event->getStart()
+			. ' - ' . $event->getEnd();
+		$body    = Text::_('COM_SDAJEM_FIELD_REGISTERUNTIL_LABEL') . ': '
+			. HTMLHelper::date($event->registerUntil, 'd.m.Y');
+
+		$recipientsUsers = Access::getUsersByGroup(
+			$componentParams->get('sda_usergroup_mail')
+		);
+		$userFactory     = Factory::getContainer()->get(
+			UserFactoryInterface::class
+		);
+
+		foreach ($recipientsUsers as $recipientUser)
+		{
+			$mailer->addRecipient(
+				$userFactory->loadUserById($recipientUser)->email
+			);
+		}
+
+		// Set subject, and body of the email
+		$mailer
+			->isHTML(true)
+			->setSubject($subject)
+			->setBody($body);
+
+		// Set plain text alternative body (for email clients that don't support HTML)
+		$mailer->AltBody = strip_tags($body);
+
+		// Send the email and check for success or failure
+		try
+		{
+			$send = $mailer->Send(); // Attempt to send the email
+
+			if ($send !== true)
+			{
+				Factory::getApplication()->enqueueMessage(
+					'Error: ' . $send->__toString()
+				); // Display error message if sending fails
+			}
+			else
+			{
+				Factory::getApplication()->enqueueMessage(
+					Text::_('SDA_EMAIL_EVENT_SUCCESS'), 'info'
+				);
+			}
+		}
+		catch (Exception $e)
+		{
+			Factory::getApplication()->enqueueMessage(
+				$e->getMessage(), 'error'
+			);
+		}
 	}
 }
