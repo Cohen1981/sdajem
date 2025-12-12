@@ -15,7 +15,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
-use RuntimeException;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use function defined;
@@ -163,7 +162,9 @@ class EventformModel extends \Sda\Component\Sdajem\Administrator\Model\EventMode
 	 * @param   EventStatusEnum  $enum  The new status of the event
 	 *
 	 * @return boolean
+	 *
 	 * @throws Exception
+	 *
 	 * @since 1.5.3
 	 *
 	 */
@@ -173,11 +174,19 @@ class EventformModel extends \Sda\Component\Sdajem\Administrator\Model\EventMode
 		{
 			$event              = $this->getItem($pk);
 			$event->eventStatus = $enum->value;
-			$this->save($event->toArray());
+
+			try
+			{
+				$return = $this->save($event->toArray());
+			}
+			catch (Exception $e)
+			{
+				$return = false;
+			}
 
 			$this->cleanCache();
 
-			return true;
+			return $return;
 		}
 		else
 		{
@@ -200,28 +209,11 @@ class EventformModel extends \Sda\Component\Sdajem\Administrator\Model\EventMode
 	{
 		if ($pk != null)
 		{
-			// Initialize variables.
-			$db    = $this->getDatabase();
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__sdajem_events'));
-			$query->set($db->quoteName('access') . '=' . $access);
-			$query->where($db->quoteName('id') . '=' . $pk);
-			$db->setQuery($query);
+			// #61 Let the model handle the access update
+			$event         = $this->getItem($pk);
+			$event->access = $access;
 
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
-			}
-
-			$this->cleanCache();
-
-			return true;
+			return $this->save($event->toArray());
 		}
 		else
 		{

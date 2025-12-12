@@ -166,8 +166,11 @@ class EventController extends FormController
 	}
 
 	/**
-	 * @since 1.0.1
-	 * @return bool
+	 * Method to run delete/batch operations on records.
+	 *
+	 * @return  boolean  True on success.
+	 * @throws Exception
+	 * @since   1.0.9
 	 */
 	public function delete(): bool
 	{
@@ -317,6 +320,7 @@ class EventController extends FormController
 	 * @param   EventStatusEnum  $enum
 	 *
 	 * @return void
+	 *
 	 * @since 1.2.0
 	 */
 	protected function setEventStatus(EventStatusEnum $enum): void
@@ -325,9 +329,17 @@ class EventController extends FormController
 
 		if ($eventId != null)
 		{
-			/* @var EventformModel $event */
 			$event = $this->getModel();
-			$event->updateEventStatus($eventId, $enum);
+
+			try
+			{
+				$event->updateEventStatus($eventId, $enum);
+			}
+			catch (Exception $e)
+			{
+				$this->app->enqueueMessage($e->getMessage(), 'error');
+			}
+
 		}
 	}
 
