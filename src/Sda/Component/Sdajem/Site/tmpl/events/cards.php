@@ -17,6 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\View\Events\HtmlView;
@@ -33,6 +34,7 @@ $wa->useScript('table.columns');
 $wa->useScript('form.validate');
 $wa->getRegistry()->addExtensionRegistryFile('com_sdajem');
 $wa->registerAndUseStyle('sdajem', 'com_sdajem/sdajem.css');
+$wa->useScript('com_sdajem.download');
 $canChange = true;
 $canDo     = ContentHelper::getActions('com_sdajem');
 $listOrder = $this->escape($state->get('list.ordering'));
@@ -274,8 +276,12 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 										?>
 
 										<div class="icons row">
-											<?php
-											echo HTMLHelper::_('sdajemIcon.edit', $event, $params); ?>
+                                            <?php
+                                            $linkParams = new Registry();
+                                            $linkParams->set('view', 'event');
+                                            $linkParams->set('text', 'COM_SDAJEM_EDIT_EVENT');
+                                            echo HTMLHelper::_('sdajemIcon.editLink', $event, $linkParams);
+                                            ?>
 										</div>
 
 									<?php
@@ -429,6 +435,14 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
                                 endif; ?>
 
 							</a>
+                            <?php if (!$currentUser->guest) : ?>
+                                <div class="col-sm-auto">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            onclick="downloadIcs('<?php echo Route::_('/files/' . $event->alias . '.ics'); ?>', '<?php echo $event->alias . '.ics' ?>')">
+                                        ics
+                                    </button>
+                                </div>
+                            <?php endif; ?>
 
 							<?php
 							if ($canDo->get('core.delete')) :

@@ -12,6 +12,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
+use Sda\Component\Sdajem\Administrator\Model\EventModel;
 use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -57,7 +58,10 @@ class AttendingTable extends Table
 	 */
 	public function generateAlias(): string
 	{
-		$this->alias = 'attending';
+		$event       = (new EventModel())->getItem($this->event_id);
+		$user        = Factory::getApplication()->getIdentity($this->users_user_id);
+		$this->alias = $user->username . '-' . $event->title;
+
 		$this->alias = ApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')

@@ -9,8 +9,10 @@ namespace Sda\Component\Sdajem\Administrator\Model;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Utilities\ArrayHelper;
 use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use Sda\Component\Sdajem\Administrator\Table\EventTable;
@@ -157,5 +159,84 @@ class EventModel extends AdminModel
 		}
 
 		return parent::delete($pks);
+	}
+
+	/**
+	 * Saves a given data record.
+	 *
+	 * @param   mixed  $data  The data to be saved.
+	 *
+	 * @return  bool    True on success, false on failure.
+	 * @since 1.7.2
+	 */
+	public function save($data): bool
+	{
+		$return = parent::save($data);
+
+		if ($return)
+		{
+			$id = $this->state->get('eventform.id');
+			$this->makeIcal($this->getItem($id));
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Generates an iCalendar (.ics) file for a given event and writes it to the filesystem.
+	 *
+	 * @param   EventTableItem  $event  The event object containing the data required to generate the iCalendar file.
+	 *
+	 * @return void
+	 * @since 1.7.2
+	 *
+	 */
+	private function makeIcal(EventTableItem $event): void
+	{
+		$kb_ical = fopen(JPATH_SITE . '/files/' . $event->alias . '.ics', 'w') or die('Datei kann nicht gespeichert werden!');
+
+		$kb_current_time = HTMLHelper::date('now', 'Ymd\THi\Z') . '00';
+
+		$locationString = '';
+
+		if ($event->sdajem_location_id)
+		{
+			$location = (new LocationModel)->getItem($event->sdajem_location_id);
+
+			if (!empty($location->latlng))
+			{
+				$locationString = urlencode($location->latlng);
+			}
+			else
+			{
+				$locationString = $locationString . (!empty($location->street)) ? $location->street : '';
+				$locationString .= (!empty($location->postalCode)) ? ', ' . $location->postalCode : '';
+				$locationString .= (!empty($location->city)) ? ' ' . $location->city : '';
+			}
+		}
+
+		$eol = "\r\n";
+
+		$kb_ics_content =
+			'BEGIN:VCALENDAR' . $eol .
+			'VERSION:2.0' . $eol .
+			'PRODID:https://www.survivants-d-acre.de' . $eol .
+			'METHOD:REQUEST' . $eol .
+			'CALSCALE:GREGORIAN' . $eol .
+			'BEGIN:VEVENT' . $eol .
+			'DTSTART:' . $event->getStart(true) . $eol .
+			'DTEND:' . $event->getEnd(true) . $eol .
+			'LOCATION:' . $locationString . $eol .
+			'DTSTAMP:' . $kb_current_time . $eol .
+			'SUMMARY:' . $event->title . $eol .
+			'URL;VALUE=URI:' . $event->url . $eol .
+			'DESCRIPTION:' . $event->description . $eol .
+			'UID:' . $kb_current_time . '-' . $event->getStart(true) . '-' . $event->getEnd(true) . $eol .
+			'END:VEVENT' . $eol .
+			'END:VCALENDAR';
+
+		fwrite($kb_ical, $kb_ics_content);
+
+		fclose($kb_ical);
 	}
 }

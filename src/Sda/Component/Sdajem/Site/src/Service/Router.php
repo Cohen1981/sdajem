@@ -29,44 +29,61 @@ class Router extends RouterView
 	{
 		$this->db = $db;
 
+		// Register the event views
 		$events = new RouterViewConfiguration('events');
 		$this->registerView($events);
-
-		$locations = new RouterViewConfiguration('locations');
-		$this->registerView($locations);
-
-		$this->registerView(new RouterViewConfiguration('attendings'));
-		$this->registerView(new RouterViewConfiguration('fittings'));
 
 		$event = new RouterViewConfiguration('event');
 		$event->setKey('id');
 		$event->setParent($events, 'Itemid');
 		$this->registerView($event);
 
+		$eventform = new RouterViewConfiguration('eventform');
+		$eventform->setKey('id');
+		$this->registerView($eventform);
+
+		// Register the location views
+		$locations = new RouterViewConfiguration('locations');
+		$this->registerView($locations);
+
 		$location = new RouterViewConfiguration('location');
 		$location->setKey('id');
 		$location->setParent($locations, 'Itemid');
 		$this->registerView($location);
 
+		$locationform = new RouterViewConfiguration('locationform');
+		$locationform->setKey('id');
+		$this->registerView($locationform);
+
+		// Register the attending views
+		$attendings = new RouterViewConfiguration('attendings');
+		$this->registerView($attendings);
+
+		$attending = new RouterViewConfiguration('attending');
+		$attending->setKey('id');
+		$attending->setParent($attendings, 'Itemid');
+		$this->registerView($attending);
+
 		$attendingform = new RouterViewConfiguration('attendingform');
 		$attendingform->setKey('id');
 		$this->registerView($attendingform);
 
-		$commentform = new RouterViewConfiguration('commentform');
-		$commentform->setKey('id');
-		$this->registerView($commentform);
+		// Register the fitting views
+		$fittings = new RouterViewConfiguration('fittings');
+		$this->registerView($fittings);
 
-		$eventform = new RouterViewConfiguration('eventform');
-		$eventform->setKey('id');
-		$this->registerView($eventform);
+		$fitting = new RouterViewConfiguration('fitting');
+		$fitting->setKey('id');
+		$fitting->setParent($fittings, 'Itemid');
+		$this->registerView($fitting);
 
 		$fittingform = new RouterViewConfiguration('fittingform');
 		$fittingform->setKey('id');
 		$this->registerView($fittingform);
 
-		$locationform = new RouterViewConfiguration('locationform');
-		$locationform->setKey('id');
-		$this->registerView($locationform);
+		$commentform = new RouterViewConfiguration('commentform');
+		$commentform->setKey('id');
+		$this->registerView($commentform);
 
 		parent::__construct($app, $menu);
 
@@ -82,7 +99,7 @@ class Router extends RouterView
 	 * @return array
 	 * @since 1.7.2
 	 */
-	private function getSegment($id, $query)
+	private function getSegment(string $id, array $query): array
 	{
 		if (strpos($id, ':'))
 		{
@@ -108,7 +125,7 @@ class Router extends RouterView
 	 * @return int Returns the resolved ID as an integer. If no matching ID is found, returns 0.
 	 * @since   1.7.2
 	 */
-	private function getId($segment, $query, string $tableName)
+	private function getId(string $segment, array $query, string $tableName): int
 	{
 		$dbquery = $this->db->createQuery();
 
@@ -216,12 +233,145 @@ class Router extends RouterView
 
 	}
 
+	/**
+	 * @param   mixed  $segment
+	 * @param   mixed  $query
+	 *
+	 * @return int
+	 * @since 1.7.2
+	 */
 	public function getEventformId($segment, $query)
 	{
 		return $this->getId($segment, $query, 'sdajem_events');
 	}
 
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 * @return array
+	 * @since 1.7.2
+	 */
 	public function getEventformSegment($id, $query)
+	{
+		return $this->getSegment($id, $query);
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return int
+	 * @since 1.7.2
+	 */
+	public function getLocationformId($segment, $query): int
+	{
+		return $this->getId($segment, $query, 'sdajem_locations');
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return array
+	 * @since 1.7.2
+	 */
+	public function getLocationformSegment($id, $query): array
+	{
+		return $this->getSegment($id, $query);
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return int
+	 * @since 1.7.2
+	 */
+	public function getFittingId($segment, $query): int
+	{
+		return $this->getId($segment, $query, 'sdajem_fittings');
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return array
+	 * @since 1.7.2
+	 */
+	public function getFittingSegment($id, $query): array
+	{
+		return $this->getSegment($id, $query);
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return int
+	 * @since 1.7.2
+	 */
+	public function getFittingformId($segment, $query): int
+	{
+		return $this->getId($segment, $query, 'sdajem_fittings');
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return array
+	 * @since 1.7.2
+	 */
+	public function getFittingformSegment($id, $query): array
+	{
+		return $this->getSegment($id, $query);
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return integer
+	 * @since 1.7.2
+	 */
+	public function getAttendingId($segment, $query): int
+	{
+		return $this->getId($segment, $query, 'sdajem_attendings');
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return array
+	 * @since 1.7.2
+	 */
+	public function getAttendingSegment($id, $query): array
+	{
+		return $this->getSegment($id, $query);
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return integer
+	 * @since 1.7.2
+	 */
+	public function getAttendingformId($segment, $query): int
+	{
+		return $this->getId($segment, $query, 'sdajem_attendings');
+	}
+
+	/**
+	 * @param   mixed  $id
+	 * @param   mixed  $query
+	 *
+	 * @return array
+	 * @since 1.7.2
+	 */
+	public function getAttendingformSegment($id, $query): array
 	{
 		return $this->getSegment($id, $query);
 	}

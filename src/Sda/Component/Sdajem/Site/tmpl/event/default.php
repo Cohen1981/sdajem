@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Router\Route;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Site\View\Event\HtmlView;
 
@@ -23,6 +25,7 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_sdajem');
 $wa->useStyle('com_sdajem.sdajem');
 $wa->useScript('com_sdajem.checkbox');
+$wa->useScript('com_sdajem.download');
 $wa->useScript('com_sdajem.jumpToAnchor');
 
 $wa->useScript('bootstrap.dropdown');
@@ -102,11 +105,26 @@ $currentUser = Factory::getApplication()->getIdentity();
                     <h6><?php echo Text::_('COM_SDAJEM_FIELD_ORGANIZER_LABEL'); ?>: <?php echo $organizer->user->name; ?></h6>
 	            <?php endif; ?>
             </div>
-            <?php if ($canEdit) : ?>
-                <div class="icons">
-                    <?php echo HTMLHelper::_('sdajemIcon.edit', $event, $tparams); ?>
-                </div>
-            <?php endif; ?>
+            <div>
+                <?php if ($canEdit) : ?>
+                    <div class="icons">
+                        <?php
+                        $linkParams = new Registry();
+                        $linkParams->set('view', 'event');
+                        $linkParams->set('text', 'COM_SDAJEM_EDIT_EVENT');
+                        echo HTMLHelper::_('sdajemIcon.editLink', $event, $linkParams);
+                        ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (!$currentUser->guest) : ?>
+                    <div>
+                        <button type="button" class="btn btn-outline-secondary"
+                                onclick="downloadIcs('<?php echo Route::_('/files/' . $event->alias . '.ics'); ?>', '<?php echo $event->alias . '.ics' ?>')">
+                            ics
+                        </button>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 

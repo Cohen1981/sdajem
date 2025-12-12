@@ -23,6 +23,12 @@ class ItemClass extends stdClass implements ItemInterface
 	public ?string $alias;
 
 	public ?string $slug;
+
+	public ?int $published = 1;
+
+	public ?string $publish_up = '';
+
+	public ?string $publish_down = '';
 	/**
 	 * @param   array|stdClass|null  $data  The data to convert to an object
 	 *
@@ -65,9 +71,51 @@ class ItemClass extends stdClass implements ItemInterface
 
 		foreach ($data as $key => $value)
 		{
+			// If the property exists
 			if ($selfReflection->hasProperty($key))
 			{
+				// Get the default value
 				$defaultValue = $selfReflection->getProperty($key)->getDefaultValue();
+				$types = [];
+
+				// Get the type of the property
+				if ($selfReflection->getProperty($key)->hasType())
+				{
+					$type = $selfReflection->getProperty($key)->getType();
+
+					// If the type is a named type
+					if ($type instanceof \ReflectionNamedType)
+					{
+						$types[] = $type->getName();
+					}
+					// If the type is a union type
+					elseif ($type instanceof \ReflectionUnionType)
+					{
+						$rTypes = $type->getTypes();
+
+						// Get the types of the union
+						foreach ($rTypes as $rType)
+						{
+							$types[] = $rType->getName();
+						}
+					}
+				}
+
+				if (isset($value))
+				{
+					// Convert empty strings to null if the property is an int
+					if (in_array('int', $types) and $value === '')
+					{
+						$value = null;
+					}
+
+					// Convert arrays to json if the property is not an array
+					if (!in_array('array', $types) && in_array('string', $types) && is_array($value))
+					{
+						$value = json_encode($value);
+					}
+				}
+
 				$item->$key   = (!isset($value)) ? $defaultValue : $value;
 			}
 		}

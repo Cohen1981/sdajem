@@ -222,7 +222,7 @@ class FittingController extends FormController
 					}
 
 					$fittingArray[] = $itemId;
-					$attArray['fittings'] = $fittingArray;
+					$attArray['fittings'] = json_encode($fittingArray);
 					$attendingForm->save($attArray);
 				}
 			}
@@ -260,7 +260,7 @@ class FittingController extends FormController
 						$fittingArray = json_decode($attArray['fittings'],true);
 						$index = array_search($pk, $fittingArray);
 						array_splice($fittingArray,$index,1);
-						$attArray['fittings']=$fittingArray;
+						$attArray['fittings'] = json_encode($fittingArray);
 
 						try
 						{

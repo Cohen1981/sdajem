@@ -202,15 +202,28 @@ class EventTableItem extends ItemClass
 	/**
 	 * Retrieves the start date and time of an event.
 	 *
-	 * @return string The formatted start date and time. The format is 'd-m-Y' if it is an all-day event
-	 *                and 'd-m-Y H:i' otherwise.
+	 * @param   bool  $iCal  Indicates if the date and time should be formatted for iCal.
+	 *
+	 * @return string     The formatted start date and time. The format is 'd-m-Y' if it is an all-day event
+	 *                    and 'd-m-Y H:i' otherwise.
 	 * @since 1.5.3
 	 */
-	public function getStart(): string
+	public function getStart(bool $iCal = false): string
 	{
 		if ($this->allDayEvent)
 		{
-			return HTMLHelper::date($this->startDateTime, 'd.m.Y');
+			if ($iCal)
+			{
+				return HTMLHelper::date($this->startDateTime, 'Ymd');
+			}
+			else
+			{
+				return HTMLHelper::date($this->startDateTime, 'd.m.Y');
+			}
+		}
+		elseif ($iCal)
+		{
+			return HTMLHelper::date($this->startDateTime, 'Ymd\THi') . '00Z';
 		}
 		else
 		{
@@ -221,15 +234,28 @@ class EventTableItem extends ItemClass
 	/**
 	 * Retrieves the end date and time of an event.
 	 *
+	 * @param   bool  $iCal  Indicates if the date and time should be formatted for iCal.
+	 *
 	 * @return string The formatted end date and time. The format is 'd-m-Y' if it is an all-day event
 	 *                and 'd-m-Y H:i' otherwise.
 	 * @since 1.5.3
 	 */
-	public function getEnd(): string
+	public function getEnd(bool $iCal = false): string
 	{
 		if ($this->allDayEvent)
 		{
-			return HTMLHelper::date($this->endDateTime, 'd.m.Y');
+			if ($iCal)
+			{
+				return HTMLHelper::date($this->endDateTime, 'Ymd');
+			}
+			else
+			{
+				return HTMLHelper::date($this->endDateTime, 'd.m.Y');
+			}
+		}
+		elseif ($iCal)
+		{
+			return HTMLHelper::date($this->endDateTime, 'Ymd\THi') . '00Z';
 		}
 		else
 		{

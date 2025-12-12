@@ -8,6 +8,7 @@
 namespace Sda\Component\Sdajem\Administrator\Table;
 
 use Exception;
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -46,11 +47,12 @@ class FittingTable extends Table
 	 */
 	public function generateAlias(): string
 	{
-		/* @var LocationModel $this */
 		if (empty($this->alias))
 		{
-			$this->alias = $this->title;
+			$userName    = Factory::getApplication()->getIdentity($this->user_id)->username;
+			$this->alias = $userName . '-' . $this->title . '-' . $this->length . '-' . $this->width;
 		}
+		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{

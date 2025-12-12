@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
@@ -237,11 +238,6 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 								<tbody>
 								<?php if ($items->count() > 0) : ?>
 									<?php foreach ($items as $i => $item) : ?>
-									<?php
-                                    if ($item->eventStatusEnum == EventStatusEnum::CONFIRMED || in_array(
-													$params->get('sda_public_planing'),
-													$userAuthorizedViewLevels
-											)) : ?>
 										<tr class="row<?php
 										echo $i % 2; ?>">
 											<?php
@@ -424,15 +420,17 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 
 													<div class="icons">
 														<?php
-														echo HTMLHelper::_('sdajemIcon.edit', $item, $params); ?>
+														$linkParams = new Registry();
+														$linkParams->set('view', 'event');
+														$linkParams->set('text', 'COM_SDAJEM_EDIT_EVENT');
+														echo HTMLHelper::_('sdajemIcon.editLink', $item, $linkParams);
+														?>
 													</div>
 
 												<?php
 												endif; ?>
 											</td>
 										</tr>
-									<?php
-									endif; ?>
 								<?php
 								endforeach; ?>
 								<?php else: ?>

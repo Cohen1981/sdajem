@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\FittingTableItem;
+use Sda\Component\Sdajem\Administrator\Table\FittingTable;
 use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -100,5 +101,21 @@ class FittingModel extends AdminModel
 	public function getItem($pk = null): FittingTableItem
 	{
 		return FittingTableItem::createFromObject(parent::getItem($pk));
+	}
+
+	/**
+	 * Prepare and sanitise the table prior to saving.
+	 *
+	 * @param   FittingTable  $table  The Table object
+	 *
+	 * @return  void
+	 * @throws Exception
+	 * @since   1.0.0
+	 *
+	 */
+	protected function prepareTable($table): void
+	{
+		$table->check();
+		$table->generateAlias();
 	}
 }

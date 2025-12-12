@@ -19,6 +19,7 @@ use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Collection\FittingTableItemsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
+use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Item\Event;
 use Sda\Component\Sdajem\Administrator\Library\Item\Fitting;
@@ -58,227 +59,6 @@ class Icon
 	public function __construct(CMSApplication $application)
 	{
 		$this->application = $application;
-	}
-
-	/**
-	 * Display an edit icon for the event.
-	 * This icon will not display in a popup window, nor if the event is trashed.
-	 * Edit access checks must be performed in the calling code.
-	 *
-	 * @param   Event     $event    The event information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string   The HTML for the event edit icon.
-	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 */
-	public static function edit(Event $event, Registry $params, array $attribs = [], bool $legacy = false): string
-	{
-		$uri = Uri::getInstance();
-
-		// Ignore if in a popup window.
-		if ($params->get('popup'))
-		{
-			return '';
-		}
-
-		// Ignore if the state is negative (trashed).
-		if ($event->published < 0)
-		{
-			return '';
-		}
-
-		// Set the link class
-		$attribs['class'] = 'dropdown-item';
-
-		if (!isset($event->slug))
-		{
-			$event->slug = "";
-		}
-
-		$eventUrl = RouteHelper::getEventRoute($event->slug);
-		$url = 'index.php' . $eventUrl . '&task=event.edit&return=' . base64_encode($uri);
-
-		if ($event->published == 0)
-		{
-			$overlib = Text::_('JUNPUBLISHED');
-		}
-		else
-		{
-			$overlib = Text::_('JPUBLISHED');
-		}
-
-		if (!isset($event->created))
-		{
-			$date = HTMLHelper::_('date', 'now');
-		}
-		else
-		{
-			$date = HTMLHelper::_('date', $event->created);
-		}
-
-		if (!isset($event->created_by))
-		{
-			$author = '';
-		}
-		else
-		{
-			$author = Factory::getApplication()->getIdentity($event->created_by)->name;
-		}
-
-		$overlib .= '&lt;br /&gt;';
-		$overlib .= $date;
-		$overlib .= '&lt;br /&gt;';
-		$overlib .= Text::sprintf('COM_SDAJEM_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
-		$icon    = $event->published ? 'edit' : 'eye-slash';
-
-		$currentTimestamp = Factory::getDate()->format('Y-m-d H:i:s');
-
-		if ((($event->publish_up > $currentTimestamp) && $event->publish_up != null)
-			|| (($event->publish_down < $currentTimestamp) && $event->publish_down != null))
-		{
-			$icon = 'eye-slash';
-		}
-
-		$text             = '<span class="hasTooltip fa fa-' . $icon . '" title="'
-			. HTMLHelper::tooltipText(Text::_('COM_SDAJEM_EDIT_EVENT'), $overlib, 0, 0) . '"></span> ';
-		$text             .= Text::_('JGLOBAL_EDIT');
-		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_EVENT');
-
-		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
-	}
-
-	/**
-	 * Display an edit icon for the location.
-	 * This icon will not display in a popup window, nor if the event is trashed.
-	 * Edit access checks must be performed in the calling code.
-	 *
-	 * @param   Location       $location  The event information
-	 * @param   Registry|null  $params    The item parameters
-	 * @param   array          $attribs   Optional attributes for the link
-	 * @param   boolean        $legacy    True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string   The HTML for the event edit icon.
-	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 */
-	public static function editLocation(Location $location, Registry $params = null, array $attribs = [], bool $legacy = false)
-	{
-		$uri = Uri::getInstance();
-
-		// Ignore if in a popup window.
-		if ($params && $params->get('popup'))
-		{
-			return '';
-		}
-
-		// Ignore if the state is negative (trashed).
-		if ($location->published < 0)
-		{
-			return '';
-		}
-
-		if (!isset($location->slug))
-		{
-			$location->slug = "";
-		}
-
-		$locationUrl = RouteHelper::getLocationRoute($location->slug);
-		$url         = $locationUrl . '&task=location.edit&id=' . $location->id . '&return=' . base64_encode($uri);
-
-		if ($location->published == 0)
-		{
-			$overlib = Text::_('JUNPUBLISHED');
-		}
-		else
-		{
-			$overlib = Text::_('JPUBLISHED');
-		}
-
-		if (!isset($location->created))
-		{
-			$date = HTMLHelper::_('date', 'now');
-		}
-		else
-		{
-			$date = HTMLHelper::_('date', $location->created);
-		}
-
-		if (!isset($created_by_alias) && !isset($location->created_by))
-		{
-			$author = '';
-		}
-		else
-		{
-			$author = Factory::getApplication()->getIdentity($location->created_by)->name;
-		}
-
-		$overlib          .= '&lt;br /&gt;';
-		$overlib          .= $date;
-		$overlib          .= '&lt;br /&gt;';
-		$overlib          .= Text::sprintf('COM_FOOS_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
-		$icon             = $location->published ? 'edit' : 'eye-slash';
-		$currentTimestamp = Factory::getDate()->format('Y-m-d H:i:s');
-
-		if ((($location->publish_up > $currentTimestamp) && $location->publish_up != null)
-			|| (($location->publish_down < $currentTimestamp) && $location->publish_down != null))
-		{
-			$icon = 'eye-slash';
-		}
-
-		$text             = '<span class="hasTooltip fa fa-' . $icon . '" title="'
-			. HTMLHelper::tooltipText(Text::_('COM_SDAJEM_EDIT_LOCATION'), $overlib, 0, 0) . '"></span> ';
-		$text             .= Text::_('JGLOBAL_EDIT');
-		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_LOCATION');
-
-		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
-	}
-
-	/**
-	 * @param          $params
-	 * @param   array  $attribs
-	 * @param   false  $legacy
-	 * @param          $attending
-	 *
-	 * @return string
-	 * @throws Exception
-	 *@since 1.0.1
-	 *
-	 */
-	public static function editAttending($attending, $params, array $attribs = [], bool $legacy = false): string
-	{
-		$uri = Uri::getInstance();
-
-		// Ignore if in a popup window.
-		if ($params && $params->get('popup'))
-		{
-			return '';
-		}
-
-		// Set the link class
-		$attribs['class'] = 'dropdown-item';
-
-		// Show checked_out icon if the event is checked out by a different user
-		if (!isset($attending->slug))
-		{
-			$attending->slug = "";
-		}
-
-		$attendingUrl = '?option=com_sdajem&view=attending&id=' . $attending->id;
-		$url          = $attendingUrl . '&task=attending.edit&id=' . $attending->id . '&return=' . base64_encode($uri);
-
-		$icon = 'edit';
-
-		$text             = '<span class="hasTooltip fa fa-' . $icon . '" title="'
-			. HTMLHelper::tooltipText(Text::_('COM_FOOS_EDIT_ATTENDING'), '', 0, 0) . '"></span> ';
-		$text             .= Text::_('JGLOBAL_EDIT');
-		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_ATTENDING');
-
-		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
 	/**
@@ -416,42 +196,6 @@ class Icon
 		return $text;
 	}
 
-	/**
-	 * Generates an edit link for a fitting item.
-	 *
-	 * @param   Fitting         $fitting  The fitting item to be edited.
-	 * @param   Registry|null   $params   Optional parameters for the link. Default is null.
-	 * @param   array           $attribs  Additional HTML attributes for the link. Default is an empty array.
-	 * @param   bool            $legacy   Whether to use legacy mode. Default is false.
-	 *
-	 * @return  string  The HTML markup for the edit link.
-	 * @since   1.5.1
-	 */
-	public static function editFitting(Fitting $fitting, Registry $params = null, array $attribs = [], bool $legacy = false):string
-	{
-		$uri = Uri::getInstance();
-
-		// Ignore if in a popup window.
-		if ($params && $params->get('popup'))
-		{
-			return '';
-		}
-
-		// Set the link class
-		$attribs['class'] = 'dropdown-item';
-
-		$fittingUrl = '?option=com_sdajem';
-		$url        = $fittingUrl . '&task=fitting.edit&id=' . $fitting->id . '&return=' . base64_encode($uri);
-
-		$icon = 'edit';
-
-		$text             = '<span class="hasTooltip fa fa-' . $icon . '" title="'
-			. HTMLHelper::tooltipText(Text::_('COM_SDAJEM_EDIT_FITTING'), '', 0, 0) . '"></span> ';
-		$text             .= Text::_('JGLOBAL_EDIT');
-		$attribs['title'] = Text::_('COM_SDAJEM_EDIT_FITTING');
-
-		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
-	}
 
 	/**
 	 * Switches the status of an event and generates the corresponding action link
@@ -486,6 +230,98 @@ class Icon
 				0
 			) . '">&nbsp;</span><span class="icon-text">' . Text::_($action->getStatusLabel()) . '</span> ';
 		$attribs['title'] = Text::_($action->getStatusLabel());
+
+		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
+	}
+
+	/**
+	 * Generates an edit link for a given item with provided parameters.
+	 *
+	 * @param   ItemInterface  $item    The item for which the edit link is generated.
+	 * @param   Registry|null  $params  An optional set of parameters for generating the edit link.
+	 *                                  Needed parameters are:
+	 *                                  - text: The text to be displayed for the edit link.
+	 *                                  - view: The view to be used for the edit link which translates to the Controller in the task parameter.
+	 *
+	 * @return  string  The generated edit link HTML markup or an empty string if not applicable.
+	 * @since   1.7.2
+	 *
+	 */
+	public static function editLink(ItemInterface $item, Registry $params = null)
+	{
+		$uri     = Uri::getInstance();
+		$overlib = '';
+
+		// Ignore if in a popup window.
+		if ($params && $params->get('popup') && isset($params['view']) && isset($params['text']))
+		{
+			return '';
+		}
+
+		// Ignore if the state is negative (trashed).
+		if (!isset($item->published))
+		{
+			if ($item->published < 0)
+			{
+				return '';
+			}
+		}
+		elseif ($item->published == 0)
+		{
+			$overlib = Text::_('JUNPUBLISHED');
+		}
+		else
+		{
+			$overlib = Text::_('JPUBLISHED');
+		}
+
+		if (empty($item->slug))
+		{
+			$item->slug = $item->id;
+		}
+
+		$itemUrl = RouteHelper::getRoute($item->slug, $params['view']);
+		$url     = 'index.php' .
+			$itemUrl .
+			'&task=' . $params['view'] . '.edit&id=' .
+			$item->slug .
+			'&return=' . base64_encode($uri);
+
+		if (!isset($item->created))
+		{
+			$date = HTMLHelper::_('date', 'now');
+		}
+		else
+		{
+			$date = HTMLHelper::_('date', $item->created);
+		}
+
+		if (!isset($created_by_alias) && !isset($item->created_by))
+		{
+			$author = '';
+		}
+		else
+		{
+			$author = Factory::getApplication()->getIdentity($item->created_by)->name;
+		}
+
+		$overlib          .= '&lt;br /&gt;';
+		$overlib          .= $date;
+		$overlib          .= '&lt;br /&gt;';
+		$overlib          .= Text::sprintf('COM_FOOS_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
+		$icon             = $item->published ? 'edit' : 'eye-slash';
+		$currentTimestamp = Factory::getDate()->format('Y-m-d H:i:s');
+
+		if ((($item->publish_up > $currentTimestamp) && $item->publish_up != null)
+			|| (($item->publish_down < $currentTimestamp) && $item->publish_down != null))
+		{
+			$icon = 'eye-slash';
+		}
+
+		$text             = '<span class="hasTooltip fa fa-' . $icon . '" title="'
+			. HTMLHelper::tooltipText(Text::_($params['text']), $overlib, 0, 0) . '"></span> ';
+		$text             .= Text::_('JGLOBAL_EDIT');
+		$attribs['title'] = Text::_($params['text']);
 
 		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}

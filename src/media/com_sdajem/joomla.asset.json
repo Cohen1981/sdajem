@@ -41,6 +41,17 @@
       }
     },
     {
+      "name": "com_sdajem.download",
+      "type": "script",
+      "uri": "com_sdajem/download.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
       "name": "com_sdajem.draw",
       "type": "script",
       "uri": "com_sdajem/draw.js",

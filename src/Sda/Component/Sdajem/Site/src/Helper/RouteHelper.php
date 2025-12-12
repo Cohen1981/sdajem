@@ -18,33 +18,6 @@ use Joomla\CMS\Language\Multilanguage;
 abstract class RouteHelper
 {
 	/**
-	 * Get the URL route for a events from a event ID, events category ID and language
-	 *
-	 * @param   integer  $id        The id of the events
-	 * @param   integer  $catid     The id of the events's category
-	 * @param   mixed    $language  The id of the language being used.
-	 *
-	 * @return  string  The link to the events
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getEventsRoute($id, $catid, $language = 0)
-	{
-		// Create the link
-		$link = '?option=com_sdajem&view=events&id=' . $id;
-
-		if ($catid > 1) {
-			$link .= '&catid=' . $catid;
-		}
-
-		if ($language && $language !== '*' && Multilanguage::isEnabled()) {
-			$link .= '&lang=' . $language;
-		}
-
-		return $link;
-	}
-
-	/**
 	 * Get the URL route for a event from a event ID, events category ID and language
 	 *
 	 * @param   integer  $id        The id of the events
@@ -88,6 +61,23 @@ abstract class RouteHelper
 		$link = '?option=com_sdajem&view=location&id=' . $id;
 
 		if ($catid > 1) {
+			$link .= '&catid=' . $catid;
+		}
+
+		if ($language && $language !== '*' && Multilanguage::isEnabled())
+		{
+			$link .= '&lang=' . $language;
+		}
+
+		return $link;
+	}
+
+	public static function getRoute($id, string $view, $catid = 0, $language = 0)
+	{
+		$link = '?option=com_sdajem&view=' . $view . '&id=' . $id;
+
+		if ($catid > 1)
+		{
 			$link .= '&catid=' . $catid;
 		}
 

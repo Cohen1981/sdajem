@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Model\Items\LocationsItemModel;
 
 /** @var \Sda\Component\Sdajem\Site\View\Locations\HtmlView $this */
@@ -44,7 +45,7 @@ if ($saveOrder && !empty($items))
     $saveOrderingUrl = '?option=com_sdajem&task=locations.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 }
 
-$params = $state->get('params');
+$params = new Registry($state->get('params'));
 ?>
 
 <div class="sdajem_content_container">
@@ -122,7 +123,12 @@ $params = $state->get('params');
 									<td class="small d-none d-md-table-cell">
 										<?php if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $item->created_by == Factory::getApplication()->getIdentity()->id)): ?>
 											<div class="icons">
-												<?php echo HTMLHelper::_('sdajemIcon.editLocation', $item, $params); ?>
+                                                <?php
+                                                $linkParams = new Registry();
+                                                $linkParams->set('view', 'location');
+                                                $linkParams->set('text', 'COM_SDAJEM_EDIT_LOCATION');
+                                                echo HTMLHelper::_('sdajemIcon.editLink', $item, $linkParams);
+                                                ?>
 											</div>
 										<?php endif; ?>
 									</td>

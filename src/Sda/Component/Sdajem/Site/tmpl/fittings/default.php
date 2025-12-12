@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Registry\Registry;
 
 defined('_JEXEC') or die();
 
@@ -114,7 +115,12 @@ $items = $this->getItems();
 									<td class="small d-none d-md-table-cell">
 										<?php if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $item->user_id == Factory::getApplication()->getIdentity()->id)) : ?>
 											<div class="icons">
-												<?php echo HTMLHelper::_('sdajemIcon.editFitting', $item); ?>
+                                                <?php
+                                                $linkParams = new Registry();
+                                                $linkParams->set('view', 'fitting');
+                                                $linkParams->set('text', 'COM_SDAJEM_EDIT_FITTING');
+                                                echo HTMLHelper::_('sdajemIcon.editLink', $item, $linkParams);
+                                                ?>
 											</div>
 										<?php endif; ?>
 									</td>

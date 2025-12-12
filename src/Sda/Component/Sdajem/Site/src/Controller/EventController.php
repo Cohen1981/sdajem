@@ -201,7 +201,7 @@ class EventController extends FormController
 	 *
 	 * @return  string    The arguments to append to the redirect URL.
 	 */
-	protected function getRedirectToItemAppend($recordId = 0, $urlVar = 'id'): string
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id'): string
 	{
 		// Need to override the parent method completely.
 		$tmpl   = $this->input->get('tmpl');
@@ -214,7 +214,12 @@ class EventController extends FormController
 		}
 
 		$append .= '&layout=edit';
-		$append .= '&' . $urlVar . '=' . (int) $recordId;
+
+		if ($recordId)
+		{
+			$append .= '&' . $urlVar . '=' . (int) $recordId;
+		}
+
 		$itemId = $this->input->getInt('Itemid');
 		$return = $this->getReturnPage();
 

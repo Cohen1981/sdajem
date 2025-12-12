@@ -75,7 +75,12 @@ if (!$user->guest)
 	{
 		if ($canEdit) : ?>
 			<div class="icons float-end">
-				<?php echo HTMLHelper::_('sdajemIcon.editLocation', $item, $params); ?>
+				<?php
+				$linkParams = new \Joomla\Registry\Registry();
+				$linkParams->set('view', 'location');
+				$linkParams->set('text', 'COM_SDAJEM_EDIT_LOCATION');
+				echo HTMLHelper::_('sdajemIcon.editLink', $item, $linkParams);
+				?>
 			</div>
 		<?php endif;
 	} ?>

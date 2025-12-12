@@ -10,6 +10,7 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Site\Model\UserModel;
 use Sda\Component\Sdajem\Site\View\Event\HtmlView;
 use Joomla\CMS\Language\Text;
@@ -70,7 +71,12 @@ if (!$user->guest)
 
 	<?php if ($canEdit) : ?>
 		<div class="icons float-end">
-			<?php echo HTMLHelper::_('sdajemIcon.editLocation', $location, $tparams); ?>
+            <?php
+            $linkParams = new Registry();
+            $linkParams->set('view', 'location');
+            $linkParams->set('text', 'COM_SDAJEM_EDIT_LOCATION');
+            echo HTMLHelper::_('sdajemIcon.editLink', $location, $linkParams);
+            ?>
 		</div>
 	<?php endif; ?>
 
