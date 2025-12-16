@@ -22,6 +22,12 @@
                label="COM_SDAJEM_EVENT"
                onchange="this.form.submit();"
         />
+        <field addfieldprefix="Sda\Component\Sdajem\Administrator\AttendeestatuslistField"
+               name="status"
+               type="Attendeestatuslist"
+               label="SDAJEM_ATTENDEE_STATUS"
+               onchange="this.form.submit();"
+        />
     </fields>
     <fields name="list">
         <field

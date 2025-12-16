@@ -18,13 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
-use Sda\Component\Sdajem\Administrator\Library\Item\Event;
-use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Administrator\Model\AttendingModel;
+use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Administrator\Model\FittingsModel;
-use Sda\Component\Sdajem\Site\Model\EventModel;
 use Sda\Component\Sdajem\Site\Model\FittingformModel;
 use function defined;
 

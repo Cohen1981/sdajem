@@ -8,7 +8,6 @@ namespace Sda\Component\Sdajem\Administrator\Library\Collection;
 
 use Sda\Component\Sdajem\Administrator\Library\Interface\CollectionInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
-use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Trait\ItemsTrait;
 
 /**

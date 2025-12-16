@@ -12,7 +12,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
-use Sda\Component\Sdajem\Administrator\Model\LocationModel;
 use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects

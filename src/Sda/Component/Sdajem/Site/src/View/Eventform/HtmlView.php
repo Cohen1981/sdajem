@@ -18,7 +18,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Site\Model\EventformModel;
-
 use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects

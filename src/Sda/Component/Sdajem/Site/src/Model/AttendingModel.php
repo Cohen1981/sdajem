@@ -12,12 +12,8 @@ namespace Sda\Component\Sdajem\Site\Model;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Database\DatabaseInterface;
-use Joomla\Database\QueryInterface;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
-use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use function defined;
 
 defined('_JEXEC') or die;

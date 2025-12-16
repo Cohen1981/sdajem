@@ -11,7 +11,6 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\CommentTableItem;
 
 /**

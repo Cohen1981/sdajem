@@ -12,14 +12,8 @@ namespace Sda\Component\Sdajem\Site\Model;
 defined('_JEXEC') or die();
 
 use Exception;
-use JForm;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
-use stdClass;
 
 /**
  * @since 1.2.0

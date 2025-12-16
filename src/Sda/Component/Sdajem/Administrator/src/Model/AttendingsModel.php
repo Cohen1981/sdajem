@@ -88,6 +88,14 @@ class AttendingsModel extends ListModel
 			$query->where($db->quoteName('a.event_id') . ' = ' . $db->quote($event));
 		}
 
+		// Filter on status
+		if ($status = $this->getState('filter.status'))
+		{
+			$query->where(
+				$db->quoteName('a.status') . ' = ' . $db->quote($status)
+			);
+		}
+
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
 

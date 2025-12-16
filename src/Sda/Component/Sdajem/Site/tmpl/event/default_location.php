@@ -10,10 +10,10 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Site\Model\UserModel;
 use Sda\Component\Sdajem\Site\View\Event\HtmlView;
-use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die();
 

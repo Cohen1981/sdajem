@@ -11,12 +11,8 @@ namespace Sda\Component\Sdajem\Site\Model;
 
 use Exception;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
-use Sda\Component\Sdajem\Administrator\Library\Item\Comment;
 use Sda\Component\Sdajem\Administrator\Model\CommentModel;
-use stdClass;
 
 /**
  * @package     Sda\Component\Sdajem\Site\Model

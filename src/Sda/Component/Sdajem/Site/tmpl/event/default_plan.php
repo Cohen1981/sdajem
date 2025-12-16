@@ -10,7 +10,6 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Sda\Component\Sdajem\Administrator\Model\FittingModel;
 
 /** @var \Sda\Component\Sdajem\Site\View\Event\HtmlView $this */
 

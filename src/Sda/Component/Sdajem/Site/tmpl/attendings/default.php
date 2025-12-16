@@ -14,6 +14,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Registry\Registry;
+use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 
 defined('_JEXEC') or die();
 
@@ -97,6 +98,19 @@ $items = $this->getItems();
                                                 ); ?>
                                             <?php endif; ?>
                                         </div>
+                                    </td>
+                                    <td class="d-md-table-cell">
+                                        <?php if ($item->eventStatus
+                                                == EventStatusEnum::CONFIRMED->value) : ?>
+                                            <a class="btn btn-secondary"
+                                               href="<?php echo Route::_(
+                                                       '/files/'
+                                                       . $item->eventAlias
+                                                       . '.ics'
+                                               ); ?>">
+                                                ics
+                                            </a>
+                                        <?php endif; ?>
                                     </td>
 									<td class="small d-none d-md-table-cell">
 										<?php if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $item->users_user_id == Factory::getApplication()->getIdentity()->id)) : ?>

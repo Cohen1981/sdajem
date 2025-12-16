@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `#__sdajem_events`
     `endDateTime`        DATETIME            NULL COMMENT 'End date of the event',
     `allDayEvent`        TINYINT(1) UNSIGNED NULL,
     `eventStatus`        TINYINT(1)          NULL     DEFAULT 0 COMMENT 'Optional status of event. 0=open,1=confirmed,2=cancelled',
-    `eventCancelled`     TINYINT(1)          NULL     DEFAULT 0 COMMENT 'for marking events as cancelled by host',
+    `isCancelled` TINYINT(1) NULL DEFAULT 0 COMMENT 'for marking events as cancelled by host',
     `params`             text,
     `svg`                BLOB                NULL     DEFAULT NULL,
     `registerUntil`      DATETIME            NULL,

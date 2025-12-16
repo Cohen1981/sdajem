@@ -171,7 +171,7 @@ class EventTableItem extends ItemClass
 	 * @since 1.5.3
 	 * Indicates whether the event has been cancelled. Cancelled events will be shown on ListView.
 	 */
-	public int $eventCancelled = 0;
+	public int $isCancelled = 0;
 
 	/**
 	 * @var string|array|null
@@ -294,7 +294,7 @@ class EventTableItem extends ItemClass
 					'a.organizerId',
 					'a.registerUntil',
 					'a.hostId',
-					'a.eventCancelled',
+					'a.isCancelled',
 					'a.params',
 					'a.svg',
 				]

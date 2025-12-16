@@ -11,7 +11,6 @@ namespace Sda\Component\Sdajem\Administrator\View\Location;
 defined('_JEXEC') or die();
 
 use Exception;
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
@@ -19,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlViewInterface;
-use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\LocationTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
 use Sda\Component\Sdajem\Administrator\Model\LocationModel;

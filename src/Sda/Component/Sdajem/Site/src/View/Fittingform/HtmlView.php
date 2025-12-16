@@ -19,7 +19,6 @@ use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlViewInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\FittingTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
-use Sda\Component\Sdajem\Site\Model\FittingformModel;
 use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects

@@ -12,7 +12,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
-use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\FittingTableItem;
 use Sda\Component\Sdajem\Administrator\Table\FittingTable;
 use function defined;

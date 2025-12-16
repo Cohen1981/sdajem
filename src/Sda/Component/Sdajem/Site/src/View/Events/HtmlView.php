@@ -13,12 +13,12 @@ defined('_JEXEC') or die();
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
+use Sda\Component\Sdajem\Administrator\Library\Collection\EventsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlListViewInterface;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
-use Sda\Component\Sdajem\Administrator\Library\Collection\EventsCollection;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * @package     Sda\Component\Sdajem\Site\View\Events

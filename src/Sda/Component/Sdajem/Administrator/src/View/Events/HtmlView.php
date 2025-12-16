@@ -10,7 +10,6 @@ namespace Sda\Component\Sdajem\Administrator\View\Events;
 defined('_JEXEC') or die();
 
 use Exception;
-use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
@@ -20,7 +19,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Collection\EventsCollection;
-use Sda\Component\Sdajem\Administrator\Library\Interface\CollectionInterface;
 use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlListViewInterface;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
 use Sda\Component\Sdajem\Administrator\Model\EventsModel;

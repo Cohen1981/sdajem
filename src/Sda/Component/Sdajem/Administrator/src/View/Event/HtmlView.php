@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlViewInterface;
-use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\EventTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
 use Sda\Component\Sdajem\Administrator\Model\EventModel;

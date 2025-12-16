@@ -25,7 +25,6 @@ $wa = $this->getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_sdajem');
 $wa->useStyle('com_sdajem.sdajem');
 $wa->useScript('com_sdajem.checkbox');
-$wa->useScript('com_sdajem.download');
 $wa->useScript('com_sdajem.jumpToAnchor');
 
 $wa->useScript('bootstrap.dropdown');
@@ -120,10 +119,11 @@ $currentUser = Factory::getApplication()->getIdentity();
                         && $event->eventStatusEnum
                         == EventStatusEnum::CONFIRMED) : ?>
                     <div>
-                        <button type="button" class="btn btn-outline-secondary"
-                                onclick="downloadIcs('<?php echo Route::_('/files/' . $event->alias . '.ics'); ?>', '<?php echo $event->alias . '.ics' ?>')">
+                        <a class='btn btn-secondary' href='<?php echo Route::_(
+                                '/files/' . $event->alias . '.ics'
+                        ); ?>'>
                             ics
-                        </button>
+                        </a>
                     </div>
                 <?php endif; ?>
             </div>

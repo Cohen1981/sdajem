@@ -13,7 +13,6 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\QueryInterface;
 use Sda\Component\Sdajem\Administrator\Library\Collection\EventsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Item\Event;
 use function defined;
 

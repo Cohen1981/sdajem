@@ -21,7 +21,6 @@ use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlViewInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\LocationTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
 use Sda\Component\Sdajem\Site\Model\LocationformModel;
-
 use function defined;
 
 // phpcs:disable PSR1.Files.SideEffects

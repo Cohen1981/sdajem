@@ -12,11 +12,9 @@ namespace Sda\Component\Sdajem\Site\Model;
 defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Table\Table;
-use Sda\Component\Sdajem\Administrator\Library\Item\Location;
 use Sda\Component\Sdajem\Administrator\Library\Item\LocationTableItem;
 
 /**

@@ -12,11 +12,11 @@ namespace Sda\Component\Sdajem\Site\Controller;
 defined('_JEXEC') or die();
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 use Sda\Component\Sdajem\Site\Model\LocationModel;
 

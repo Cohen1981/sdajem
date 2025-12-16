@@ -62,3 +62,6 @@ alter table `#__sdajem_locations`
 
 alter table `#__sdajem_attendings`
     change `event_status` `is_interest` tinyint(1) null;
+
+alter table `#__sdajem_events`
+    change `eventCancelled` `isCancelled` tinyint(1) default 0 null comment 'for marking events as cancelled by host';

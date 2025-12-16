@@ -4,12 +4,12 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Filesystem\File;
 use Joomla\Filesystem\Exception\FilesystemException;
-use Joomla\CMS\Log\Log;
+use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 
 // phpcs:disable PSR1.Files.SideEffects

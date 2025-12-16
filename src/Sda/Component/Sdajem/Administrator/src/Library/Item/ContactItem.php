@@ -6,9 +6,6 @@
 
 namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
-use Joomla\Database\DatabaseInterface;
-use Joomla\Database\QueryInterface;
-
 /**
  * @package     Sda\Component\Sdajem\Administrator\Model\Item
  * @since       1.5.3

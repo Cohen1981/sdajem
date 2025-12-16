@@ -27,6 +27,18 @@ class Attending extends AttendingTableItem
 
 	/**
 	 * @var string|null
+	 * @since version 2.0.0
+	 */
+	public ?string $eventAlias = '';
+
+	/**
+	 * @var int|null
+	 * @since version 1.5.3
+	 */
+	public ?int $eventStatus;
+
+	/**
+	 * @var string|null
 	 * @since version 1.5.3
 	 */
 	public ?string $startDateTime;
@@ -87,6 +99,8 @@ class Attending extends AttendingTableItem
 
 		// Join event
 		$query->select($db->quoteName('e.title', 'eventTitle'))
+			->select($db->quoteName('e.alias', 'eventAlias'))
+			->select($db->quoteName('e.eventStatus', 'eventStatus'))
 			->select($db->quoteName('e.startDateTime', 'startDateTime'))
 			->select($db->quoteName('e.endDateTime', 'endDateTime'))
 			->join(

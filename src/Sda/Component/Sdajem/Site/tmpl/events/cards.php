@@ -34,7 +34,6 @@ $wa->useScript('table.columns');
 $wa->useScript('form.validate');
 $wa->getRegistry()->addExtensionRegistryFile('com_sdajem');
 $wa->registerAndUseStyle('sdajem', 'com_sdajem/sdajem.css');
-$wa->useScript('com_sdajem.download');
 $canChange = true;
 $canDo     = ContentHelper::getActions('com_sdajem');
 $listOrder = $this->escape($state->get('list.ordering'));
@@ -439,10 +438,13 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
                                     && $event->eventStatusEnum
                                     == EventStatusEnum::CONFIRMED) : ?>
                                 <div class="col-sm-auto">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                            onclick="downloadIcs('<?php echo Route::_('/files/' . $event->alias . '.ics'); ?>', '<?php echo $event->alias . '.ics' ?>')">
+                                    <a class='btn btn-secondary'
+                                       href='<?php echo Route::_(
+                                               '/files/' . $event->alias
+                                               . '.ics'
+                                       ); ?>'>
                                         ics
-                                    </button>
+                                    </a>
                                 </div>
                             <?php endif; ?>
 

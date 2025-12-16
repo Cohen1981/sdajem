@@ -16,8 +16,6 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Sda\Component\Sdajem\Administrator\Library\Item\Comment;
-use Sda\Component\Sdajem\Administrator\Library\Item\CommentTableItem;
 
 /**
  * CommentController class to manage comment-related operations.
