@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `#__sdajem_events`
     `access`             int(10) unsigned    NOT NULL DEFAULT 0,
     `alias`              varchar(400),
     `created`            datetime,
-    `created_by`         int(10) unsigned,
+    `created_by` int(10),
     `published`          tinyint(1)          NOT NULL DEFAULT 0,
     `publish_up`         datetime,
     `publish_down`       datetime,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `#__sdajem_attendings`
     `state`         tinyint(3)       NOT NULL DEFAULT 0,
     `ordering`      int(11)          NOT NULL DEFAULT 0,
     `event_id`      INT UNSIGNED     NOT NULL COMMENT 'Foreign Key to #__yajame_events',
-    `users_user_id` INT UNSIGNED     NULL COMMENT 'Foreign Key to #__users',
+    `users_user_id` INT NULL COMMENT 'Foreign Key to #__users',
     `status`        TINYINT(1)       NOT NULL DEFAULT 0,
     `fittings`      varchar(50),
     `event_status`  tinyint(1),
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `#__sdajem_fittings`
     `width`       DECIMAL(10, 2)   null,
     `standard`    tinyint(1)       null     default 0,
     `fittingType` int(10) unsigned,
-    `user_id`     int(10) unsigned,
+    `user_id` int(10),
     `image`       VARCHAR(1024)    null,
     `needSpace`   tinyint(1),
     PRIMARY KEY (`id`),
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `#__sdajem_fittings`
 CREATE TABLE IF NOT EXISTS `#__sdajem_comments`
 (
     `id`              INT UNSIGNED              NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-    `users_user_id`   INT UNSIGNED              NOT NULL COMMENT 'Foreign Key to #__users',
+    `users_user_id` INT NOT NULL COMMENT 'Foreign Key to #__users',
     `sdajem_event_id` INT UNSIGNED              NOT NULL COMMENT 'Foreign Key to #__yajame_events',
     `comment`         MEDIUMTEXT                NOT NULL,
     `timestamp`       DATETIME,
@@ -126,3 +126,53 @@ CREATE TABLE IF NOT EXISTS `#__sdajem_comments`
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
     DEFAULT COLLATE = utf8mb4_unicode_ci;
+
+alter table `#__sdajem_attendings`
+    add constraint `sdajem_attendings_sdajem_events_id_fk`
+        foreign key (`event_id`) references `#__sdajem_events` (`id`)
+            on delete cascade;
+
+alter table `#__sdajem_attendings`
+    add constraint `sdajem_attendings_users_id_fk`
+        foreign key (`users_user_id`) references `#__users` (`id`)
+            on delete cascade;
+
+alter table `#__sdajem_comments`
+    add constraint `sdajem_comments_sdajem_events_id_fk`
+        foreign key (`sdajem_event_id`) references `#__sdajem_events` (`id`)
+            on delete cascade;
+
+alter table `#__sdajem_comments`
+    add constraint `sdajem_comments_users_id_fk`
+        foreign key (`users_user_id`) references `#__users` (`id`)
+            on delete cascade;
+
+alter table `#__sdajem_events`
+    add constraint `sdajem_events_contact_details_id_fk`
+        foreign key (`hostId`) references `#__contact_details` (`id`)
+            on delete set null;
+
+alter table `#__sdajem_events`
+    add constraint `sdajem_events_sdajem_locations_id_fk`
+        foreign key (`sdajem_location_id`) references `#__sdajem_locations` (`id`)
+            on delete set null;
+
+alter table `#__sdajem_events`
+    add constraint `sdajem_events_users_id_fk`
+        foreign key (`created_by`) references `#__users` (`id`)
+            on delete set null;
+
+alter table `#__sdajem_events`
+    add constraint `sdajem_events_users_id_fk_2`
+        foreign key (`organizerId`) references `#__users` (`id`)
+            on delete set null;
+
+alter table `#__sdajem_fittings`
+    add constraint `sdajem_fittings_users_id_fk`
+        foreign key (`user_id`) references `#__users` (`id`)
+            on delete cascade;
+
+alter table `#__sdajem_locations`
+    add constraint `sdajem_locations_contact_details_id_fk`
+        foreign key (`contactId`) references `#__contact_details` (`id`)
+            on delete set null;

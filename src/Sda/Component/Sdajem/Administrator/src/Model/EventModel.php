@@ -142,22 +142,8 @@ class EventModel extends AdminModel
 	{
 		$pks = ArrayHelper::toInteger((array) $pks);
 
-		$attendingModel  = new AttendingModel;
-		$attendingsModel = new AttendingsModel;
-
-		$commentsModel = new CommentsModel;
-		$commentModel  = new CommentModel;
-
 		foreach ($pks as $pk)
 		{
-			// delete the attendings
-			$attendings = $attendingsModel->getAttendingIdsToEvent($pk);
-			$result[]   = $attendingModel->delete($attendings);
-
-			// delete the comments
-			$comments = $commentsModel->getCommentIdsToEvent($pk);
-			$result[] = $commentModel->delete($comments);
-
 			// delete the ics file
 			$eventItem = $this->getItem($pk);
 
@@ -173,14 +159,6 @@ class EventModel extends AdminModel
 						'FILES_JOOMLA_ERROR_FILE_FOLDER', $eventItem->alias
 					) . '<br>';
 			}
-		}
-
-		// check if all deletes were successful else return false and show error message while not deleting the event.
-		if (\in_array(false, $result, true))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_SDAJEM_ERROR_DELETE_EVENT'), 'error');
-
-			return false;
 		}
 
 		return parent::delete($pks);
