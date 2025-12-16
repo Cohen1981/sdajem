@@ -14,7 +14,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Registry\Registry;
-use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 
 defined('_JEXEC') or die();
 
@@ -90,7 +89,13 @@ $items = $this->getItems();
 		                                    <?php echo $this->escape($item->attendeeName); ?>
                                         </div>
                                         <div>
-		                                    <?php echo $item->statusEnum->getAttendingStatusBadge(); ?>
+                                            <?php if ($item->is_interest): ?>
+                                                <?php echo $item->statusEnum->getInterestStatusBadge(
+                                                ); ?>
+                                            <?php else: ?>
+                                                <?php echo $item->statusEnum->getAttendingStatusBadge(
+                                                ); ?>
+                                            <?php endif; ?>
                                         </div>
                                     </td>
 									<td class="small d-none d-md-table-cell">

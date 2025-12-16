@@ -12,7 +12,6 @@ namespace Sda\Component\Sdajem\Site\Model;
 
 defined('_JEXEC') or die();
 
-use Joomla\CMS\User\User;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
@@ -52,7 +51,7 @@ class EventAttendeeModel extends UserModel
 	 * @var EventStatusEnum
 	 * @since 1.5.3
 	 */
-	public EventStatusEnum $event_status = EventStatusEnum::PLANING;
+	public int $is_interest;
 
 	/**
 	 * Constructor method for initializing an object with data from an Attending instance.
@@ -73,13 +72,21 @@ class EventAttendeeModel extends UserModel
 		$this->attendingId = $data->id;
 		$this->status = $data->statusEnum;
 
-		if (isset($data->eventStatusEnum))
+		if (isset($data->is_interest))
 		{
-			$this->event_status = $data->eventStatusEnum;
+			$this->is_interest = $data->is_interest;
+		}
+		else if (isset($data->event_id))
+		{
+			$eventStatus       = (new EventModel())->getItem(
+				$data->event_id
+			)->eventStatusEnum;
+			$this->is_interest = ($eventStatus == EventStatusEnum::PLANING) ? 1
+				: 0;
 		}
 		else
 		{
-			$this->event_status = EventStatusEnum::tryFrom($data->event_status);
+			$this->is_interest = 1;
 		}
 	}
 }

@@ -286,7 +286,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 														else: ?>
 
 															<?php
-															if ($attStatus->event_status === EventStatusEnum::PLANING)
+                                                            if ($attStatus->is_interest)
 															{
 																echo $attStatus->statusEnum->getInterestStatusBadge() . ' ';
 															}

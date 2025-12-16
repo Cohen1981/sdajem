@@ -6,13 +6,10 @@
 
 namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
-use Joomla\CMS\HTML\Registry;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Trait\ItemTrait;
-use stdClass;
 
 /**
  * @package     Sda\Component\Sdajem\Administrator\Model\Item
@@ -88,9 +85,9 @@ class AttendingTableItem extends ItemClass
 	/**
 	 * @var integer|null
 	 * @since 1.5.3
-	 * Represents the status of an event, which can be translated and set with the EventStatusEnum.
+	 * Represents if the user is interested in the event or attending.
 	 */
-	public ?int $event_status;
+	public ?int $is_interest;
 
 	public static function getBaseQuery(QueryInterface $query, DatabaseInterface $db):QueryInterface
 	{
@@ -106,7 +103,7 @@ class AttendingTableItem extends ItemClass
 					'a.users_user_id',
 					'a.status',
 					'a.fittings',
-					'a.event_status'
+					'a.is_interest'
 				]
 			)
 		);

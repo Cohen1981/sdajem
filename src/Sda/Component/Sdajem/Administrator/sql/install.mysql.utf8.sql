@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `#__sdajem_attendings`
     `users_user_id` INT NULL COMMENT 'Foreign Key to #__users',
     `status`        TINYINT(1)       NOT NULL DEFAULT 0,
     `fittings`      varchar(50),
-    `event_status`  tinyint(1),
+    `is_interest` tinyint(1),
     PRIMARY KEY (`id`),
     KEY `idx_attendings_event_id` (`event_id`),
     KEY `idx_attendings_user_id` (`users_user_id`)

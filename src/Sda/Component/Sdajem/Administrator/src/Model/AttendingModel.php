@@ -10,13 +10,11 @@ namespace Sda\Component\Sdajem\Administrator\Model;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\DatabaseInterface;
-use Joomla\CMS\Language\Text;
-use Sda\Component\Sdajem\Administrator\Library\Collection\AttendingTableItemsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Interface\ItemModelInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use Sda\Component\Sdajem\Administrator\Table\AttendingTable;
@@ -184,9 +182,10 @@ class AttendingModel extends AdminModel
 		$eventModel = new EventModel;
 		$event      = $eventModel->getItem($data->event_id);
 
-		if (empty($data->event_status))
+		if (empty($data->is_interest))
 		{
-			$data->event_status = ($event->eventStatusEnum == EventStatusEnum::PLANING->value) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
+			$data->is_interest = ($event->eventStatusEnum
+				== EventStatusEnum::PLANING->value) ? 1 : 0;
 		}
 
 		if ($data->status == IntAttStatusEnum::NEGATIVE->value || $data->status == IntAttStatusEnum::GUEST->value || $task == 'deleteFitting')

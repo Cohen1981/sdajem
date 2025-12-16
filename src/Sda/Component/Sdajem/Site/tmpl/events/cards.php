@@ -403,7 +403,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 												?>
 
 												<?php
-												if ($attending->event_status === EventStatusEnum::PLANING)
+                                                if ($attending->is_interest)
 												{
 													echo $attending->statusEnum->getInterestStatusBadge() . ' ';
 												}

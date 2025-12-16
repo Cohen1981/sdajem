@@ -10,7 +10,6 @@ namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
-use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 
 /**
@@ -57,12 +56,6 @@ class Attending extends AttendingTableItem
 	public ?IntAttStatusEnum $statusEnum;
 
 	/**
-	 * @var EventStatusEnum|null
-	 * The event status (Planing, or Open)
-	 * @since version 1.5.3
-	 */
-	public ?EventStatusEnum $eventStatusEnum;
-	/**
 	 * @param   array  $data The item data as an array
 	 *
 	 * @return $this
@@ -84,7 +77,6 @@ class Attending extends AttendingTableItem
 		}
 
 		$item->statusEnum = ($item->status) ? IntAttStatusEnum::from($item->status) : IntAttStatusEnum::NA;
-		$item->eventStatusEnum = ($item->event_status) ? EventStatusEnum::from($item->event_status) : null;
 
 		return $item;
 	}

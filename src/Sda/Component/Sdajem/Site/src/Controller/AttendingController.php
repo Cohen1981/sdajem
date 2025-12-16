@@ -20,7 +20,6 @@ use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Item\Event;
-use Sda\Component\Sdajem\Administrator\Model\FittingsModel;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\Model\EventModel;
 
@@ -105,7 +104,8 @@ class AttendingController extends FormController
 
 		// if the event is planing, we set the event status to planing. Otherwise, we set it to open. We use this to determine if we have an interest or a real attending.
 		$event                 = (new EventModel())->getItem($input['event_id']);
-		$input['event_status'] = ($event->eventStatusEnum == EventStatusEnum::PLANING) ? EventStatusEnum::PLANING->value : EventStatusEnum::OPEN->value;
+		$input['is_interest'] = ($event->eventStatusEnum
+			== EventStatusEnum::PLANING) ? 1 : 0;
 
 		$this->input->post->set('jform', $input);
 
@@ -164,8 +164,6 @@ class AttendingController extends FormController
 
 				$event = Event::createFromObject((new EventModel())->getItem($id));
 
-				$eventStatus = ($event->eventStatusEnum == EventStatusEnum::PLANING) ? EventStatusEnum::PLANING : EventStatusEnum::OPEN;
-
 				$this->input->set('id', $attending->id);
 
 				$data                = new AttendingTableItem();
@@ -173,7 +171,8 @@ class AttendingController extends FormController
 				$data->event_id      = (int) $id;
 				$data->users_user_id = (int) $currUser->id;
 				$data->status        = (int) $attStatus->value;
-				$data->event_status  = (int) $eventStatus->value;
+				$data->is_interest = (int) ($event->eventStatusEnum
+					== EventStatusEnum::PLANING) ? 1 : 0;
 
 				$this->input->set('jform', $data->toArray());
 

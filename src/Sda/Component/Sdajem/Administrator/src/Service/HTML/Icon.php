@@ -22,8 +22,6 @@ use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Item\Event;
-use Sda\Component\Sdajem\Administrator\Library\Item\Fitting;
-use Sda\Component\Sdajem\Administrator\Library\Item\Location;
 use Sda\Component\Sdajem\Site\Helper\RouteHelper;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use function defined;
@@ -134,7 +132,8 @@ class Icon
 			{
 				if ($eventStatus === EventStatusEnum::OPEN)
 				{
-					if ($status !== $interest->statusEnum || $interest->eventStatusEnum === EventStatusEnum::PLANING)
+					if ($status !== $interest->statusEnum
+						|| $interest->is_interest)
 					{
 						$text .= '<button type="button" class="sda_button_spacer btn ' . $status->getButtonClass(
 						) . '" onclick="Joomla.submitbutton(\'' . $status->getAction() . '\')">'
@@ -160,8 +159,9 @@ class Icon
 		 * If the has until now only shown interests, we show the fittings.
 		 */
 		if ($uf && isset($fittings) && $event->eventStatusEnum != EventStatusEnum::PLANING &&
-			($interest->statusEnum != IntAttStatusEnum::POSITIVE ||
-				($interest->statusEnum == IntAttStatusEnum::POSITIVE && $interest->eventStatusEnum == EventStatusEnum::PLANING)
+			($interest->statusEnum != IntAttStatusEnum::POSITIVE || ($interest->statusEnum
+					== IntAttStatusEnum::POSITIVE
+					&& $interest->is_interest)
 			)
 		)
 		{

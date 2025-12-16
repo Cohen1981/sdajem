@@ -21,7 +21,7 @@
                 label="COM_SDAJEM_FIELD_ATTENDING_STATUS_LABEL"
         />
         <field
-                name="event_status"
+                name="is_interest"
                 type="number"
                 readonly="true"
                 hidden="true"

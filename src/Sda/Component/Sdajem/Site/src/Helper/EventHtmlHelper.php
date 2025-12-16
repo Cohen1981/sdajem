@@ -12,7 +12,6 @@ namespace Sda\Component\Sdajem\Site\Helper;
 defined('_JEXEC') or die();
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Site\Model\EventAttendeeModel;
 
 /**
@@ -41,7 +40,7 @@ abstract class EventHtmlHelper
 		echo '<div class="card-body">';
 		echo '<h5 class="card-title">' . $attendeeModel->user->username . '</h5>';
 
-		if ($attendeeModel->event_status === EventStatusEnum::OPEN)
+		if (!$attendeeModel->is_interest)
 		{
 			echo '<p class="card-text">' . $attendeeModel->status->getAttendingStatusBadge() . '</p>';
 		}

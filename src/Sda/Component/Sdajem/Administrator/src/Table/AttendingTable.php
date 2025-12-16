@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
  * @property  int    users_user_id
  * @property  int    status
  * @property  string fittings
- * @property  int    event_status
+ * @property  int is_interest
  */
 class AttendingTable extends Table
 {

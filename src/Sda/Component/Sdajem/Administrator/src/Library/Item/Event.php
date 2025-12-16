@@ -6,15 +6,12 @@
 
 namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
-use ReflectionObject;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Trait\ItemTrait;
-use stdClass;
 
 /**
  * @package     Sda\Component\Sdajem\Site\Model\Item
@@ -193,7 +190,7 @@ class Event extends EventTableItem
 				[
 					$db->quoteName('att.event_id') . ' = ' . $db->quoteName('a.id'),
 					$db->quoteName('att.status') . ' = ' . IntAttStatusEnum::POSITIVE->value,
-					$db->quoteName('att.event_status') . ' = ' . EventStatusEnum::OPEN->value,
+					$db->quoteName('att.is_interest') . ' = 0',
 					$db->quoteName('att.users_user_id') . ' IS NOT NULL'
 				]
 			);
@@ -207,7 +204,7 @@ class Event extends EventTableItem
 				[
 					$db->quoteName('g.event_id') . ' = ' . $db->quoteName('a.id'),
 					$db->quoteName('g.status') . ' = ' . IntAttStatusEnum::GUEST->value,
-					$db->quoteName('g.event_status') . ' = ' . EventStatusEnum::OPEN->value,
+					$db->quoteName('g.is_interest') . ' = 0',
 					$db->quoteName('g.users_user_id') . ' IS NOT NULL'
 				]
 			);
@@ -225,7 +222,7 @@ class Event extends EventTableItem
 					) . ' IN( ' . IntAttStatusEnum::POSITIVE->value . ',
 							 ' . IntAttStatusEnum::NEGATIVE->value . ',
 							  ' . IntAttStatusEnum::GUEST->value . ')',
-					$db->quoteName('atte.event_status') . ' = ' . EventStatusEnum::OPEN->value,
+					$db->quoteName('atte.is_interest') . ' = 0',
 					$db->quoteName('atte.users_user_id') . ' IS NOT NULL'
 				]
 			);
@@ -238,7 +235,7 @@ class Event extends EventTableItem
 				[
 					$db->quoteName('int.event_id') . ' = ' . $db->quoteName('a.id'),
 					$db->quoteName('int.status') . ' = ' . IntAttStatusEnum::POSITIVE->value,
-					$db->quoteName('int.event_status') . ' = ' . EventStatusEnum::PLANING->value,
+					$db->quoteName('int.is_interest') . ' = 1',
 					$db->quoteName('int.users_user_id') . ' IS NOT NULL'
 				]
 			);
@@ -250,7 +247,7 @@ class Event extends EventTableItem
 			->where(
 				[
 					$db->quoteName('i.event_id') . ' = ' . $db->quoteName('a.id'),
-					$db->quoteName('i.event_status') . ' = ' . EventStatusEnum::PLANING->value,
+					$db->quoteName('i.is_interest') . ' = 1',
 					$db->quoteName('i.users_user_id') . ' IS NOT NULL'
 				]
 			);

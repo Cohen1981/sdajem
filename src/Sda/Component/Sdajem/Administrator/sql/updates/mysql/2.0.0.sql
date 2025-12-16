@@ -59,3 +59,6 @@ alter table `#__sdajem_locations`
     add constraint `sdajem_locations_contact_details_id_fk`
         foreign key (`contactId`) references `#__contact_details` (`id`)
             on delete set null;
+
+alter table `#__sdajem_attendings`
+    change `event_status` `is_interest` tinyint(1) null;
