@@ -41,8 +41,9 @@ class FittingTable extends Table
 	 * Generate a valid alias from title / date.
 	 * Remains public to be able to check for duplicated alias before saving
 	 *
-	 * @since   1.0.0
 	 * @return  string
+	 *@throws Exception
+	 * @since   1.0.0
 	 */
 	public function generateAlias(): string
 	{

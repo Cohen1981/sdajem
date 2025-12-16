@@ -387,14 +387,11 @@ class EventController extends FormController
 
 	/**
 	 * Deletes a fitting from the event
+	 *
 	 * @return void
+	 * @throws Exception
 	 * @since 1.2.0
 	 */
-	public function saveAttendings(): void
-	{
-		$attendings = $_POST['attendings'];
-		$eventId    = $_POST['eventId'];
-	}
 	public function deleteFitting()
 	{
 		$input     = $this->input;

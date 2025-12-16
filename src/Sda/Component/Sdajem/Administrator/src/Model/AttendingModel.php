@@ -158,6 +158,9 @@ class AttendingModel extends AdminModel
 		catch (Exception $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$data = new stdClass;
+
+			return Attending::createFromObject($data);
 		}
 
 		return Attending::createFromObject($data);

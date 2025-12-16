@@ -8,7 +8,6 @@ namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
-use Sda\Component\Sdajem\Administrator\Library\Trait\ItemTrait;
 
 /**
  * @package     Sda\Component\Sdajem\Administrator\Model\Item

@@ -40,15 +40,25 @@ class EventsController extends AdminController
 	}
 
 	/**
-	 * @since 1.0.8
 	 * @return bool
+	 * @throws \Exception
+	 * @since 1.0.8
 	 */
 	public function delete(): bool
 	{
 		$pks = $this->input->get('cid');
 
 		$eventFormModel = new EventModel;
-		$result         = $eventFormModel->delete($pks);
+		try
+		{
+			$result = $eventFormModel->delete($pks);
+		}
+		catch (\Exception $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
 
 		$this->setRedirect(
 			Route::_(

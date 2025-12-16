@@ -170,6 +170,7 @@ class EventModel extends AdminModel
 	 * @param   mixed  $data  The data to be saved.
 	 *
 	 * @return  bool    True on success, false on failure.
+	 * @throws Exception
 	 * @since 1.7.2
 	 */
 	public function save($data): bool

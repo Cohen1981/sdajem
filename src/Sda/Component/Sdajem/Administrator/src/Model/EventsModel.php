@@ -7,6 +7,7 @@
 
 namespace Sda\Component\Sdajem\Administrator\Model;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -29,11 +30,11 @@ class EventsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @since 1.0.1
-	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @throws \Exception
+	 * @throws Exception
+	 * @since 1.0.1
+	 *
 	 */
 	public function __construct($config = array())
 	{
@@ -71,9 +72,9 @@ class EventsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @since   1.0.0
 	 * @return  QueryInterface
-	 * @throws \Exception
+	 * @throws Exception
+	 * @since   1.0.0
 	 */
 	protected function getListQuery(): QueryInterface
 	{
@@ -143,9 +144,10 @@ class EventsModel extends ListModel
 	/**
 	 * Retrieves a collection of items.
 	 *
-	 * @since 1.0.1
 	 * @return EventsCollection the collection of items.
+	 * @throws Exception
 	 * A collection of items on success, or false on failure.
+	 *@since 1.0.1
 	 */
 	public function getItems(): EventsCollection
 	{

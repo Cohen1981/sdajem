@@ -53,8 +53,9 @@ class AttendingTable extends Table
 	 * Generate a valid alias from title / date.
 	 * Remains public to be able to check for duplicated alias before saving
 	 *
-	 * @since   1.0.0
 	 * @return  string
+	 * @throws Exception
+	 * @since   1.0.0
 	 */
 	public function generateAlias(): string
 	{
@@ -73,22 +74,13 @@ class AttendingTable extends Table
 	}
 
 	/**
-	 * @since 1.0.0
 	 * @return boolean
+	 * @throws Exception
+	 * @since 1.0.0
 	 */
 	public function check(): bool
 	{
-		try
-		{
-			$app = Factory::getApplication();
-			parent::check();
-		}
-		catch (Exception $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
+		parent::check();
 
 		if (!$this->access)
 		{

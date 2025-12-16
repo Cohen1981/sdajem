@@ -75,7 +75,6 @@ class Icon
 		FittingTableItemsCollection $fittings,
 		Registry                    $params = null,
 		array                       $attribs = [],
-		bool                        $legacy = false
 	): string
 	{
 		$user = Factory::getApplication()->getIdentity();
@@ -200,7 +199,7 @@ class Icon
 	/**
 	 * Switches the status of an event and generates the corresponding action link
 	 *
-	 * @param   object           $event    The event object containing event information including the ID
+	 * @param   Event  $event  The event object containing event information including the ID
 	 * @param   EventStatusEnum  $action   The specific event status action to perform
 	 * @param   array            $attribs  Additional HTML attributes for the generated link
 	 *
@@ -208,7 +207,9 @@ class Icon
 	 * @since   1.2.0
 	 *
 	 */
-	public static function switchEventStatus($event, EventStatusEnum $action, $attribs = [])
+	public static function switchEventStatus(Event $event,
+		EventStatusEnum $action, array $attribs = []
+	)
 	{
 		$uri = Uri::getInstance();
 

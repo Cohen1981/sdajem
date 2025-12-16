@@ -50,6 +50,7 @@ class AttendingController extends FormController
 
 	/**
 	 * @return array
+	 * @since 1.6.2
 	 */
 	private function getPks()
 	{

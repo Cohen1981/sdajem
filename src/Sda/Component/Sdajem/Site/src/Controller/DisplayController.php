@@ -87,6 +87,7 @@ class DisplayController extends BaseController
 			case 'comments':
 				$view = $this->getView('comments', $viewType);
 				$view->setModel($this->getModel('comments', 'administrator'), true);
+				break;
 			default:
 				break;
 		}

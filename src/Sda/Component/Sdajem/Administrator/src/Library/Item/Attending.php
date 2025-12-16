@@ -76,11 +76,13 @@ class Attending extends AttendingTableItem
 	 */
 	public static function createFromArray(array $data = []): static
 	{
-		$item = parent::createFromArray($data);
-
-		if (empty($item))
+		if (empty($data))
 		{
 			$item = new static;
+		}
+		else
+		{
+			$item = parent::createFromArray($data);
 		}
 
 		if (isset($item->fittings))
