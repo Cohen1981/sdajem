@@ -29,6 +29,7 @@ class ItemClass extends stdClass implements ItemInterface
 	public ?string $publish_up = '';
 
 	public ?string $publish_down = '';
+
 	/**
 	 * @param   array|stdClass|null  $data  The data to convert to an object
 	 *
@@ -116,10 +117,12 @@ class ItemClass extends stdClass implements ItemInterface
 					}
 				}
 
+				// Set the value of the property
 				$item->$key   = (!isset($value)) ? $defaultValue : $value;
 			}
 		}
 
+		// Generate the slug
 		if (!empty($item->alias) && !empty($item->id))
 		{
 			$item->slug = $item->id . ':' . $item->alias;

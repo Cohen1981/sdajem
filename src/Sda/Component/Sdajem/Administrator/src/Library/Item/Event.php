@@ -11,7 +11,6 @@ use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
-use Sda\Component\Sdajem\Administrator\Library\Trait\ItemTrait;
 
 /**
  * @package     Sda\Component\Sdajem\Site\Model\Item
