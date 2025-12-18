@@ -30,7 +30,7 @@ build: build_env start
 	@printf "\033[1;34m%-30s\033[0m\033[1;104m%s\033[0m\n\n" "  * Port" "${MYSQL_PORT}"
 
 start:
-	-mkdir -p ${DB_FOLDER} ${JOOMLA_FOLDER} src resources/vendor
+	-mkdir -p ${DB_FOLDER} ${JOOMLA_FOLDER} code resources/vendor
 	-UID=$$(id -u) GID=$$(id -g) docker compose up --detach --build --remove-orphans
 
 stop:

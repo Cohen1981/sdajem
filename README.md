@@ -30,5 +30,5 @@ As of now, the extension is not published on the Joomla Extension Directory.
 - phpstorm configuration:
     - PHP -> server: Path mapping for use with xdebug:
         - "joomla_data" -> "/var/www/html"
-        - "src/Sda/Component/Sdajem/Administrator" -> "var/www/src/Sda/Component/Sdajem/Administrator"
-        - "src/Sda/Component/Sdajem/Site" -> "var/www/src/Sda/Component/Sdajem/Site"
+      - "code/Sda/Component/Sdajem/Administrator" -> "var/www/code/Sda/Component/Sdajem/Administrator"
+      - "code/Sda/Component/Sdajem/Site" -> "var/www/code/Sda/Component/Sdajem/Site"
