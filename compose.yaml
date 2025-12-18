@@ -31,7 +31,7 @@ services:
     user: ${UID:-1000}:${GID:-1000}
     volumes:
       - ./${JOOMLA_FOLDER:-joomla_data}:/var/www/html
-      - ./src:/var/www/src
+      - ./code:/var/www/src
       - ./resources/config/php/php.ini:/usr/local/etc/php/php.ini
       - ./resources/config/apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
     networks:

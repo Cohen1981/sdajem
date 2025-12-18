@@ -18,7 +18,7 @@ upper_first ()
 }
 
 rootFolder="${PWD}";
-sources="${PWD}"/src
+sources="${PWD}"/code
 packageDir="${PWD}"/resources/packages
 
 rm -rf "${packageDir}";
