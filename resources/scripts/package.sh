@@ -18,17 +18,17 @@ upper_first ()
 }
 
 rootFolder="${PWD}";
-sources="${PWD}"/code
-packageDir="${PWD}"/resources/packages
+sources="${PWD}"/code;
+packageDir="${PWD}"/resources/packages;
 
 rm -rf "${packageDir}";
-mkdir -p "${PWD}"/tmp "${packageDir}"
+mkdir -p "${PWD}"/tmp "${packageDir}";
 
 namespaceRoot="$(config_get NAMESPACE_ROOT)";
 components="$(config_get COMPONENTS)";
 if [ "${components}" != "__UNDEFINED__" ]; then
 
-  tmpDir="${PWD}"/tmp/comp
+  tmpDir="${PWD}"/tmp/comp;
 
   for component in $components
   do
@@ -45,13 +45,13 @@ if [ "${components}" != "__UNDEFINED__" ]; then
 
     # make the zip
     cd "${tmpDir}" || exit;
-    zip -r "${packageDir}"/"${component}".zip *
+    zip -r "${packageDir}"/"${component}".zip *;
 
     cd "${rootFolder}" || exit;
 
     rm -rf "${tmpDir}"/administrator/components/com_"${component}";
     rm -rf "${tmpDir}"/components/com_"${component}";
-    rm -f "${tmpDir}"/"${component}".xml
+    rm -f "${tmpDir}"/"${component}".xml;
   done
 fi
 
