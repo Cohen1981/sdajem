@@ -109,7 +109,8 @@ return new class () implements ServiceProviderInterface {
 						try
 						{
 							$this->app->enqueueMessage(
-								'Creating folder: ' . $destinationFolder
+								Text::_('COM_SDAJEM_CREATING_FOLDER')
+								. $destinationFolder
 							);
 							Folder::create($destinationFolder);
 						} catch (FilesystemException $e) {
@@ -120,7 +121,8 @@ return new class () implements ServiceProviderInterface {
 					try
 					{
 						$this->app->enqueueMessage(
-							'Copying files from: ' . $sourceFolder . ' to: '
+							Text::_('COM_SDAJEM_FILES_COPY') . $sourceFolder
+							. ' -> '
 							. $destinationFolder
 						);
 						Folder::copy($sourceFolder, $destinationFolder,null,true,true);

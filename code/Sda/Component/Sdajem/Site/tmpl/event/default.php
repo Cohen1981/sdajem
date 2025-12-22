@@ -122,7 +122,9 @@ $currentUser = Factory::getApplication()->getIdentity();
                         <a class='btn btn-secondary' href='<?php echo Route::_(
                                 '/files/' . $event->alias . '.ics'
                         ); ?>'>
-                            ics
+                            <span class="fa fa-download"
+                                  aria-hidden="true"></span>
+                            <?php echo Text::_('COM_SDAJEM_DOWNLOAD_ICS'); ?>
                         </a>
                     </div>
                 <?php endif; ?>

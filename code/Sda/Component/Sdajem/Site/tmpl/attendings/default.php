@@ -108,7 +108,11 @@ $items = $this->getItems();
                                                        . $item->eventAlias
                                                        . '.ics'
                                                ); ?>">
-                                                ics
+                                                <span class="fa fa-download"
+                                                      aria-hidden="true"></span>
+                                                <?php echo Text::_(
+                                                        'COM_SDAJEM_DOWNLOAD_ICS'
+                                                ); ?>
                                             </a>
                                         <?php endif; ?>
                                     </td>
