@@ -49,6 +49,16 @@ if ($saveOrder && !empty($items))
 $params                   = ComponentHelper::getParams('com_sdajem');
 $currentUser              = Factory::getApplication()->getIdentity();
 $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
+
+if ($currentUser->guest)
+{
+    $icsDownloadable = $params->get('sda_ics_open_download', false);
+}
+else
+{
+    $icsDownloadable = true;
+}
+
 ?>
 <div class="sdajem_content_container">
 
@@ -434,9 +444,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
                                 endif; ?>
 
 							</a>
-                            <?php if (!$currentUser->guest
-                                    && $event->eventStatusEnum
-                                    == EventStatusEnum::CONFIRMED) : ?>
+                            <?php if ($icsDownloadable) : ?>
                                 <div class="col-sm-auto">
                                     <a class='btn btn-secondary'
                                        href='<?php echo Route::_(

@@ -238,9 +238,26 @@ class EventModel extends AdminModel
 			'PRODID:https://www.survivants-d-acre.de' . $eol .
 			'METHOD:REQUEST' . $eol .
 			'CALSCALE:GREGORIAN' . $eol .
+			'BEGIN:VTIMEZONE' . $eol .
+			'TZID:Europe/Berlin' . $eol .
+			'BEGIN:DAYLIGHT' . $eol .
+			'TZOFFSETFROM:+0100' . $eol .
+			'TZOFFSETTO:+0200' . $eol .
+			'TZNAME:CEST' . $eol .
+			'DTSTART:19700329T020000' . $eol .
+			'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=3' . $eol .
+			'END:DAYLIGHT' . $eol .
+			'BEGIN:STANDARD' . $eol .
+			'TZOFFSETFROM:+0200' . $eol .
+			'TZOFFSETTO:+0100' . $eol .
+			'TZNAME:CET' . $eol .
+			'DTSTART:19701025T030000' . $eol .
+			'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=10' . $eol .
+			'END:STANDARD' . $eol .
+			'END:VTIMEZONE' . $eol .
 			'BEGIN:VEVENT' . $eol .
-			'DTSTART:' . $event->getStart(true) . $eol .
-			'DTEND:' . $event->getEnd(true) . $eol .
+			'DTSTART;TZID=Europe/Berlin:' . $event->getStart(true) . $eol .
+			'DTEND;TZID=Europe/Berlin:' . $event->getEnd(true) . $eol .
 			'LOCATION:' . $locationString . $eol .
 			'DTSTAMP:' . $kb_current_time . $eol .
 			'SUMMARY:' . $event->title . $eol .

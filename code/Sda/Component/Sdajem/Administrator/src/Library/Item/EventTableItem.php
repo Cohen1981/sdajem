@@ -209,8 +209,7 @@ class EventTableItem extends ItemClass
 		{
 			if ($iCal)
 			{
-				return HTMLHelper::date($this->startDateTime, 'Ymd')
-					. 'T00:00:01Z';
+				return HTMLHelper::date($this->startDateTime, 'Ymd');
 			}
 			else
 			{
@@ -242,8 +241,12 @@ class EventTableItem extends ItemClass
 		{
 			if ($iCal)
 			{
-				return HTMLHelper::date($this->endDateTime, 'Ymd')
-					. 'T23:59:59Z';
+				$endDate = date_add(
+					date_create($this->endDateTime),
+					date_interval_create_from_date_string('1 day')
+				);
+
+				return $endDate->format('Ymd');
 			}
 			else
 			{

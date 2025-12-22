@@ -56,6 +56,15 @@ $uAdressString = null;
 
 $currentUser = Factory::getApplication()->getIdentity();
 
+if ($currentUser->guest)
+{
+    $icsDownloadable = $tparams->get('sda_ics_open_download', false);
+}
+else
+{
+    $icsDownloadable = true;
+}
+
 ?>
 <div class="sdajem_content_container">
     <input type="hidden" id="activeAccordion" class="d-none" value="<?php echo $this->activeAccordion; ?>"/>
@@ -115,9 +124,7 @@ $currentUser = Factory::getApplication()->getIdentity();
                         ?>
                     </div>
                 <?php endif; ?>
-                <?php if (!$currentUser->guest
-                        && $event->eventStatusEnum
-                        == EventStatusEnum::CONFIRMED) : ?>
+                <?php if ($icsDownloadable) : ?>
                     <div>
                         <a class='btn btn-secondary' href='<?php echo Route::_(
                                 '/files/' . $event->alias . '.ics'

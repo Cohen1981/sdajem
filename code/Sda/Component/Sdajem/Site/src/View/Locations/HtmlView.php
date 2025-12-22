@@ -87,7 +87,8 @@ class HtmlView extends BaseHtmlView implements HtmlListViewInterface
 			$item->order_dn = true;
 		}
 
-		if (!count($this->items) && $model->getIsEmptyState())
+		if (!count($this->items) && $model->getIsEmptyState()
+			&& $this->getLayout() !== 'modal')
 		{
 			$this->setLayout('emptystate');
 		}

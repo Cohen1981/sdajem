@@ -187,6 +187,16 @@
                 default="2"
                 showon="sda_mail_on_new_event:1"
         />
+        <field
+                name="sda_ics_open_download"
+                type="list"
+                label="COM_SDAJEM_FIELD_ICS_OPEN_DOWNLOAD_LABEL"
+                default="0"
+                description="COM_SDAJEM_FIELD_ICS_OPEN_DOWNLOAD_DESC"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
     </fieldset>
     <fieldset
             name="attendings"
