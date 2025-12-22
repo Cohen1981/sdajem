@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="filter">
+        <field
+                name="search"
+                type="text"
+                inputmode="search"
+                label="COM_SDAJEM_FILTER_SEARCH_LABEL"
+                description="COM_SDAJEM_FILTER_SEARCH_ATTENDINGS_DESC"
+                hint="JSEARCH_FILTER"
+        />
+        <field addfieldprefix="Sda\Component\Sdajem\Administrator\Field"
+                name="users_user_id"
+                type="Userlist"
+                label="COM_SDAJEM_ATTENDEE"
+                onchange="this.form.submit();"
+               filter="true"
+        />
+        <field addfieldprefix="Sda\Component\Sdajem\Administrator\Field"
+               name="event_id"
+               type="Eventlist"
+               label="COM_SDAJEM_EVENT"
+               onchange="this.form.submit();"
+        />
+        <field addfieldprefix="Sda\Component\Sdajem\Administrator\AttendeestatuslistField"
+               name="status"
+               type="Attendeestatuslist"
+               label="SDAJEM_ATTENDEE_STATUS"
+               onchange="this.form.submit();"
+        />
+    </fields>
+    <fields name="list">
+        <field
+                name="fullordering"
+                type="list"
+                label="JGLOBAL_SORT_BY"
+                default="a.title ASC"
+                onchange="this.form.submit();"
+        >
+            <option value="">JGLOBAL_SORT_BY</option>
+            <option value="eventTitle ASC">SDAJEM_EVENT_TITLE_ASC</option>
+            <option value="eventTitle DESC">SDAJEM_EVENT_TITLE_DESC</option>
+            <option value="startDateTime ASC">SDAJEM_START_DATE_ASC</option>
+            <option value="startDateTime DESC">SDAJEM_START_DATE_DESC</option>
+            <option value="attendeeName ASC">SDAJEM_ATTENDEE_NAME_ASC</option>
+            <option value="attendeeName DESC">SDAJEM_ATTENDEE_NAME_DESC</option>
+        </field>
+        <field
+                name="limit"
+                type="limitbox"
+                label="JGLOBAL_LIST_LIMIT"
+                default="25"
+                onchange="this.form.submit();"
+        />
+    </fields>
+</form>
