@@ -60,6 +60,29 @@ class Icon
 	}
 
 	/**
+	 * @param   IntAttStatusEnum  $status   the status of the attending
+	 * @param   bool              $planing  if true uses button text for interest
+	 *
+	 * @return string   the html button
+	 *
+	 * @since 2.0.1
+	 */
+	private static function getButton(IntAttStatusEnum $status, bool $planing = false):string
+	{
+		$button = '<button type="button" class="sda_button_spacer btn ' . $status->getButtonClass()
+			. '" onclick="Joomla.submitbutton(\'' . $status->getAction() . '\')">'
+			. '<span class="icon-spacer ' . $status->getIcon() . '" aria-hidden="true"></span>';
+
+		if ($planing) {
+			$button .= Text::_($status->getInterestButtonLabel()) . '</button>';
+		}
+		else {
+			$button .= Text::_($status->getAttendingButtonLabel()) . '</button>';
+		}
+		return $button;
+	}
+
+	/**
 	 * @param   Event                        $event     The event information
 	 * @param   FittingTableItemsCollection  $fittings  The fittings
 	 * @param   Registry|null                $params    The item parameters
@@ -73,7 +96,7 @@ class Icon
 	public static function register(
 		Event                       $event,
 		FittingTableItemsCollection $fittings,
-		Registry                    $params = null,
+		Registry|null               $params = null,
 		array                       $attribs = [],
 	): string
 	{
@@ -111,6 +134,7 @@ class Icon
 
 		$text .= HTMLHelper::_('form.token');
 
+		// Get the user's attending status for the event.'
 		$interest = AttendingModel::getAttendingToEvent($user->id, $event->id);
 
 		if ($interest->statusEnum != IntAttStatusEnum::NA)
@@ -123,30 +147,60 @@ class Icon
 			$interest->statusEnum = IntAttStatusEnum::NA;
 		}
 
-		$eventStatus = ($event->eventStatusEnum === EventStatusEnum::PLANING) ? EventStatusEnum::PLANING : EventStatusEnum::OPEN;
+		// check if there is a deadline for registration
+		if (isset($event->registerUntil))
+		{
+            $registerUntil = date('Y-m-d', strtotime($event->registerUntil));
+            $now = date('Y-m-d');
+			$canRegister = $registerUntil >= $now;
+		}
+		else
+		{
+			$canRegister = true;
+		}
 
+		// Iterate over the IntAttStatusEnum cases and generate buttons for each status depending on the event status.
 		foreach (IntAttStatusEnum::cases() as $status)
 		{
-			if ($status != IntAttStatusEnum::NA)
+			// If the status is NA, skip it. There is no button for NA.
+			if ($status == IntAttStatusEnum::NA)
 			{
-				if ($eventStatus === EventStatusEnum::OPEN)
-				{
-					if ($status !== $interest->statusEnum
+				continue;
+			}
+
+			// If the status is negative and the current interest status is not negative, show the button.
+			if ($status == IntAttStatusEnum::NEGATIVE
+				&& $status != $interest->statusEnum)
+			{
+				$text .= Icon::getButton($status);
+				continue;
+			}
+
+			// Depending on the event status we show different buttons
+			switch ($event->eventStatusEnum)
+			{
+				case EventStatusEnum::PLANING:
+					// If the status is not the same as the current interest status and in Time, show the button.
+					if ($status != $interest->statusEnum
+						&& $canRegister)
+					{
+						$text .= Icon::getButton($status, true);
+					}
+					break;
+
+				case EventStatusEnum::OPEN:
+					// if deadline is reached there is no other possibility except cancel
+					if (!$canRegister)
+					{
+						break;
+					}
+
+					if ($status != $interest->statusEnum
 						|| $interest->is_interest)
 					{
-						$text .= '<button type="button" class="sda_button_spacer btn ' . $status->getButtonClass(
-						) . '" onclick="Joomla.submitbutton(\'' . $status->getAction() . '\')">'
-							. '<span class="icon-spacer ' . $status->getIcon() . '" aria-hidden="true"></span>';
-						$text .= Text::_($status->getAttendingButtonLabel()) . '</button>';
+						$text .= Icon::getButton($status);
 					}
-				}
-				elseif ($status !== $interest->statusEnum)
-				{
-					$text .= '<button type="button" class="sda_button_spacer btn ' . $status->getButtonClass(
-					) . '" onclick="Joomla.submitbutton(\'' . $status->getAction() . '\')">'
-						. '<span class="icon-spacer ' . $status->getIcon() . '" aria-hidden="true"></span>';
-					$text .= Text::_($status->getInterestButtonLabel()) . '</button>';
-				}
+					break;
 			}
 		}
 
@@ -154,7 +208,7 @@ class Icon
 		$uf     = $params->get('sda_events_use_fittings');
 
 		/*
-		 * sda_use_fittings have to be true and event status has to be everything but plning.
+		 * sda_use_fittings have to be true and event status has to be everything but planing.
 		 * If the has until now only shown interests, we show the fittings.
 		 */
 		if ($uf && isset($fittings) && $event->eventStatusEnum != EventStatusEnum::PLANING &&
@@ -248,7 +302,7 @@ class Icon
 	 * @since   1.7.2
 	 *
 	 */
-	public static function editLink(ItemInterface $item, Registry $params = null)
+	public static function editLink(ItemInterface $item, Registry|null $params = null)
 	{
 		$uri     = Uri::getInstance();
 		$overlib = '';

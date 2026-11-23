@@ -50,7 +50,7 @@ class UserModel
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct(int $userId = null)
+	public function __construct(int|null $userId = null)
 	{
 		if (isset($userId))
 		{

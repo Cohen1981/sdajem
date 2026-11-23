@@ -168,7 +168,7 @@ class EventformModel extends \Sda\Component\Sdajem\Administrator\Model\EventMode
 	 * @since 1.5.3
 	 *
 	 */
-	public function updateEventStatus(int $pk = null, EventStatusEnum $enum): bool
+	public function updateEventStatus(int|null $pk = null, EventStatusEnum $enum): bool
 	{
 		if ($pk != null)
 		{
@@ -205,7 +205,7 @@ class EventformModel extends \Sda\Component\Sdajem\Administrator\Model\EventMode
 	 * @since 1.5.3
 	 *
 	 */
-	public function updateEventAccess(int $pk = null, int $access): bool
+	public function updateEventAccess(int|null $pk = null, int $access): bool
 	{
 		if ($pk != null)
 		{

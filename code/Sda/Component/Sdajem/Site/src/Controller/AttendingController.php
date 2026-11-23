@@ -12,14 +12,21 @@ namespace Sda\Component\Sdajem\Site\Controller;
 defined('_JEXEC') or die();
 
 use Exception;
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Mail\MailerFactoryInterface;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\Language\Text;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Item\AttendingTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Item\Event;
+use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\Model\EventModel;
 
@@ -152,7 +159,7 @@ class AttendingController extends FormController
 		{
 			if ($userId !== null)
 			{
-				$currUser = $userId;
+				$currUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 			}
 			else
 			{
@@ -178,6 +185,12 @@ class AttendingController extends FormController
 				$this->input->set('jform', $data->toArray());
 
 				$this->save();
+
+				// if a user cancels their attending we at least inform the organizer
+				if ($attStatus === IntAttStatusEnum::NEGATIVE)
+				{
+					$this->sendMail($event, $currUser);
+				}
 			}
 		}
 	}
@@ -302,5 +315,83 @@ class AttendingController extends FormController
 		}
 
 		return base64_decode($return);
+	}
+
+	/**
+	 * @param   Event  $event
+	 * @param   User   $user
+	 *
+	 *
+	 * @throws Exception
+	 * @since 2.0.1
+	 *
+	 * Sends an email to all current participants of an event
+	 */
+	private function sendMail(Event $event, User $user): void {
+		$mailer = Factory::getContainer()->get(MailerFactoryInterface::class)
+			->createMailer();
+
+		// Define necessary variables
+		$subject = $user->name . ' ' . Text::_('ATTENDING_CANCELED') . ': '
+			. $event->title . ' '
+			. $event->getStart()
+			. ' - ' . $event->getEnd();
+		// TODO there need to be a body. We should write something useful
+		$body    = $event->title;
+
+		$userFactory     = Factory::getContainer()->get(
+			UserFactoryInterface::class
+		);
+
+		$attendingsModel = new AttendingsModel();
+		$attendings = $attendingsModel->getAttendingsToEvent($event->id);
+
+		$recipients = [];
+		foreach ($attendings as $attending)
+		{
+			if ($attending->users_user_id != $user->id && $attending->statusEnum === IntAttStatusEnum::POSITIVE)
+			{
+				$recipientEmail = $userFactory->loadUserById($attending->users_user_id)->email;
+				$recipients[] = $recipientEmail;
+				$mailer->addRecipient($recipientEmail);
+			}
+		}
+
+		// Set subject, and body of the email
+		$mailer
+			->isHTML(true)
+			->setSubject($subject)
+			->setBody($body);
+
+		// Set plain text alternative body (for email clients that don't support HTML)
+		$mailer->AltBody = strip_tags($body);
+
+		// Send the email and check for success or failure
+		if (count($recipients) > 0)
+		{
+			try
+			{
+				$send = $mailer->Send(); // Attempt to send the email
+
+				if ($send !== true)
+				{
+					Factory::getApplication()->enqueueMessage(
+						'Error: ' . $send->__toString()
+					); // Display error message if sending fails
+				}
+				else
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::_('SDA_EMAIL_EVENT_SUCCESS'), 'info'
+					);
+				}
+			}
+			catch (Exception $e)
+			{
+				Factory::getApplication()->enqueueMessage(
+					$e->getMessage(), 'error'
+				);
+			}
+		}
 	}
 }

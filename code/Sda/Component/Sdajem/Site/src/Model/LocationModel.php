@@ -93,9 +93,8 @@ class LocationModel extends BaseDatabaseModel
 		$query = $this->getDatabase()->getQuery(true);
 		$query->select('COUNT(DISTINCT(id))')->from('#__sdajem_events')->where('sdajem_location_id = :locationId');
 		$query->bind(':locationId', $pk);
-		$result = (int) $this->getDatabase()->setQuery($query)->loadResult();
 
-		return $result;
+		return (int) $this->getDatabase()->setQuery($query)->loadResult();
 	}
 
 	/**

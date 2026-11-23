@@ -138,7 +138,7 @@ class CommentsModel extends ListModel
 	 * @return array An array of comment IDs related to the specified event.
 	 * @since 1.5.3
 	 */
-	public function getCommentIdsToEvent(int $eventId = null): array
+	public function getCommentIdsToEvent(int|null $eventId = null): array
 	{
 		// Create a new query object.
 		$db    = $this->getDatabase();
@@ -164,7 +164,7 @@ class CommentsModel extends ListModel
 	 * @return CommentsCollection A collection of comments related to the specified event.
 	 * @since 1.5.3
 	 */
-	public function getCommentsToEvent(int $eventId = null): CommentsCollection
+	public function getCommentsToEvent(int|null $eventId = null): CommentsCollection
 	{
 		// Create a new query object.
 		$db    = $this->getDatabase();

@@ -35,7 +35,7 @@ class ItemClass extends stdClass implements ItemInterface
 	 *
 	 * @since 1.5.3
 	 */
-	public function __construct(array|stdClass $data = null)
+	public function __construct(array|stdClass|null $data = null)
 	{
 		if (!$data)
 		{

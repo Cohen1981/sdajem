@@ -120,7 +120,7 @@ class FittingsModel extends ListModel
 	 * @throws Exception
 	 * @since 1.5.3
 	 */
-	public function getFittingsForUser(int $userId = null): FittingTableItemsCollection
+	public function getFittingsForUser(int|null $userId = null): FittingTableItemsCollection
 	{
 		$userId = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
 
@@ -144,7 +144,7 @@ class FittingsModel extends ListModel
 	 * @throws Exception
 	 * @since 1.6.0
 	 */
-	public function getStandardFittingIdsForUser(int $userId = null): array
+	public function getStandardFittingIdsForUser(int|null $userId = null): array
 	{
 		$userId = !$userId ? Factory::getApplication()->getIdentity()->id : $userId;
 

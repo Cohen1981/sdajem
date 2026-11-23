@@ -131,7 +131,7 @@ class AttendingsModel extends ListModel
 	 *
 	 * @since 1.0.8
 	 */
-	public function getAttendingIdsToEvent(int $eventId = null): ?array
+	public function getAttendingIdsToEvent(int|null $eventId = null): ?array
 	{
 		// Create a new query object.
 		$db = $this->getDatabase();
@@ -180,13 +180,13 @@ class AttendingsModel extends ListModel
 	/**
 	 * Retrieves a collection of attendings for a specific event.
 	 *
-	 * @param   int|null  $eventId  The unique identifier of the event whose attendings are to be retrieved.
+	 * @param   int       $eventId  The unique identifier of the event whose attendings are to be retrieved.
 	 *                              If null, the method may handle it as retrieving attendings without a specific event context.
 	 *
 	 * @return AttendingsCollection A collection of attending records for the specified event.
 	 * @since 1.5.3
 	 */
-	public function getAttendingsToEvent(int $eventId = null):AttendingsCollection
+	public function getAttendingsToEvent(int $eventId):AttendingsCollection
 	{
 		// Create a new query object.
 		$db = $this->getDatabase();

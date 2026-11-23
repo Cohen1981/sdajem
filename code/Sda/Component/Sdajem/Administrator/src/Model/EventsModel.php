@@ -158,11 +158,7 @@ class EventsModel extends ListModel
 
 		$params = ComponentHelper::getParams('com_sdajem');
 
-		if (in_array($params->get('sda_public_planing'), $userAuthorizedViewLevels))
-		{
-			return new EventsCollection($items);
-		}
-		else
+		if (!in_array($params->get('sda_public_planing'), $userAuthorizedViewLevels))
 		{
 			foreach ($items as $i => $item)
 			{
@@ -172,7 +168,8 @@ class EventsModel extends ListModel
 				}
 			}
 
-			return new EventsCollection($items);
 		}
+
+		return new EventsCollection($items);
 	}
 }

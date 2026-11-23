@@ -22,11 +22,12 @@ class AttendingsCollection extends \ArrayObject implements CollectionInterface
 	/**
 	 * the constructor
 	 *
-	 * @since 1.5.3
-	 *
 	 * @param   array|null  $items  The items to add to the collection
+	 *
+	 *@since 1.5.3
+	 *
 	 */
-	public function __construct(array $items = null)
+	public function __construct(?array $items = null)
 	{
 		parent::__construct($items);
 

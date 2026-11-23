@@ -32,14 +32,6 @@ $tparams->set('callContext', 'event.attending');
 
 $event = $this->getItem();
 
-if (isset($event->registerUntil))
-{
-    $event->registerUntil = date('Y-m-d', strtotime($event->registerUntil));
-    $now = date('Y-m-d');
-	$canRegister = $event->registerUntil >= $now;
-} else {
-    $canRegister = true;
-}
 ?>
 <div id="attendings" class="sda_row">
             <h5><?php echo Text::_('COM_SDAJEM_ATTENDESS'); ?></h5>
@@ -60,10 +52,10 @@ if (isset($event->registerUntil))
 		<?php endif; ?>
 	<?php endif; ?>
 </div>
-<?php if($canRegister) :?>
+
     <div class="sda_row">
         <?= HTMLHelper::_('form.token'); ?>
         <?php echo HTMLHelper::_('sdajemIcon.register', $event, $this->getUserFittings(), $tparams); ?>
     </div>
-<?php endif; ?>
+
 </div>

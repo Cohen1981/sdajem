@@ -63,7 +63,7 @@ class SdajemComponent extends MVCComponent implements BootableExtensionInterface
 	 *
 	 * @return string
 	 */
-	protected function getStateColumnForSection(string $section = null): string
+	protected function getStateColumnForSection(string|null $section = null): string
 	{
 		return 'published';
 	}

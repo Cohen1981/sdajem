@@ -28,7 +28,7 @@ abstract class EventHtmlHelper
 	 * @return void This method directly outputs the rendered HTML content.
 	 * @since 1.5.3
 	 */
-	public static function renderAttendee(EventAttendeeModel $attendeeModel, string $fieldName = null)
+	public static function renderAttendee(EventAttendeeModel $attendeeModel, string|null $fieldName = null)
 	{
 		echo '<div class="card" style="width: 120px;">';
 

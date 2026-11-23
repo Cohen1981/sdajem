@@ -21,5 +21,5 @@ interface ItemModelInterface
 	 *
 	 * @since version
 	 */
-	public function getItem(int $pk = null): ItemInterface;
+	public function getItem(int|null $pk = null): ItemInterface;
 }
