@@ -11,6 +11,10 @@ use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Factory;
 
 /**
  * @package     Sda\Component\Sdajem\Site\Model\Item
@@ -54,8 +58,11 @@ class Event extends EventTableItem
 	 * organizerName
 	 * The name of the event organizer.
 	 * @since 1.5.3
+	 * @deprecated use organizer for complete User Object.
 	 */
 	public ?string $organizerName;
+
+	public ?User $organizer;
 
 	/**
 	 * @var integer|null
@@ -143,6 +150,11 @@ class Event extends EventTableItem
 		$item->feedbackCount         = $data['feedbackCount'];
 		$item->commentsCount = $data['commentsCount'];
 		$item->svgs = (isset($data['svg'])) ? (array) json_decode($data['svg']) : [];
+
+		if (isset($data['organizerId']))
+		{
+			$item->organizer = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($data['organizerId']);
+		}
 
 		return $item;
 	}

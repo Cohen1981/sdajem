@@ -130,24 +130,139 @@ return new class () implements ServiceProviderInterface {
 						$this->app->enqueueMessage($e->getMessage(), 'error');
 					}
 
-					$this->deleteUnexistingFiles();
+					if ($type === 'update')
+					{
+						$this->deleteUnexistingFiles();
+					}
 
 					return true;
 				}
 
-				private function deleteUnexistingFiles()
+				/**
+				 * Delete files that should not exist
+				 *
+				 * @param bool  $dryRun          If set to true, will not actually delete files, but just report their status for use in CLI
+				 * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
+				 *
+				 * @return  array
+				 */
+				public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 				{
-					$files = [];  // overwrite this line with your files to delete
+					$status = [
+						'files_exist'     => [],
+						'folders_exist'   => [],
+						'files_deleted'   => [],
+						'folders_deleted' => [],
+						'files_errors'    => [],
+						'folders_errors'  => [],
+					];
 
-					if (empty($files)) {
-						return;
-					}
+					$files = [
+						// From 6.2.0-beta2 to 6.2.0-beta3
+						//'/media/vendor/tinymce/langs/cy.min.js',
+						//'/media/vendor/tinymce/langs/cy.min.js.gz',
+					];
+
+					$folders = [
+						// From 5.x to 6.0
+						//'/libraries/vendor/voku/portable-utf8/src/voku/helper/data',
+					];
+
+					$status['files_checked']   = $files;
+					$status['folders_checked'] = $folders;
 
 					foreach ($files as $file) {
-						try {
-							File::delete(JPATH_ROOT . $file);
-						} catch (FilesystemException $e) {
-							echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
+						if (is_file(JPATH_ROOT . $file)) {
+							$status['files_exist'][] = $file;
+
+							if ($dryRun === false) {
+								if (File::delete(JPATH_ROOT . $file)) {
+									$status['files_deleted'][] = $file;
+								} else {
+									$status['files_errors'][] = \sprintf('Error on deleting file or folder %s', $file);
+								}
+							}
+						}
+					}
+
+					foreach ($folders as $folder) {
+						if (is_dir(JPATH_ROOT . $folder)) {
+							$status['folders_exist'][] = $folder;
+
+							if ($dryRun === false) {
+								if (Folder::delete(JPATH_ROOT . $folder)) {
+									$status['folders_deleted'][] = $folder;
+								} else {
+									$status['folders_errors'][] = \sprintf('Error on deleting file or folder %s', $folder);
+								}
+							}
+						}
+					}
+
+					$this->fixFilenameCasing();
+
+					if ($suppressOutput === false && \count($status['folders_errors'])) {
+						echo implode('<br>', $status['folders_errors']);
+					}
+
+					if ($suppressOutput === false && \count($status['files_errors'])) {
+						echo implode('<br>', $status['files_errors']);
+					}
+
+					return $status;
+				}
+
+				/**
+				 * Renames or removes incorrectly cased files.
+				 *
+				 * @return  void
+				 *
+				 * @since   3.9.25
+				 */
+				protected function fixFilenameCasing()
+				{
+					$files = [
+						// From 5.x to 6.0
+					];
+
+					foreach ($files as $old => $expected) {
+						$oldRealpath = realpath(JPATH_ROOT . $old);
+
+						// On Unix without incorrectly cased file.
+						if ($oldRealpath === false) {
+							continue;
+						}
+
+						$oldBasename      = basename($oldRealpath);
+						$newRealpath      = realpath(JPATH_ROOT . $expected);
+						$newBasename      = basename($newRealpath);
+						$expectedBasename = basename($expected);
+
+						// On Windows or Unix with only the incorrectly cased file.
+						if ($newBasename !== $expectedBasename) {
+							// Rename the file.
+							File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+							File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+
+							continue;
+						}
+
+						// There might still be an incorrectly cased file on other OS than Windows.
+						if ($oldBasename === basename($old)) {
+							// Check if case-insensitive file system, eg on OSX.
+							if (fileinode($oldRealpath) === fileinode($newRealpath)) {
+								// Check deeper because even realpath or glob might not return the actual case.
+								if (!\in_array($expectedBasename, scandir(\dirname($newRealpath)))) {
+									// Rename the file.
+									File::move(JPATH_ROOT . $old, JPATH_ROOT . $old . '.tmp');
+									File::move(JPATH_ROOT . $old . '.tmp', JPATH_ROOT . $expected);
+								}
+							} else {
+								// On Unix with both files: Delete the incorrectly cased file.
+								if (is_file(JPATH_ROOT . $old)) {
+									File::delete(JPATH_ROOT . $old);
+								}
+							}
 						}
 					}
 				}

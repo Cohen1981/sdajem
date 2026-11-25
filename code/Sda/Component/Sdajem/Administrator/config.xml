@@ -188,6 +188,25 @@
                 showon="sda_mail_on_new_event:1"
         />
         <field
+                name="send_mail_attending_cancel"
+                type="list"
+                label="COM_SDAJEM_FIELD_MAIL_UNATTEND_LABEL"
+                default="0"
+                description="COM_SDAJEM_FIELD_MAIL_UNATTEND_DESC"
+                showon="sda_mail_on_new_event:1"
+        >
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field
+                name="cancel_mail_text"
+                type="textarea"
+                label="COM_SDAJEM_FIELD_CANCEL_MAIL_TEXT_LABEL"
+                default=""
+                description="COM_SDAJEM_FIELD_CANCEL_MAIL_TEXT_DESC"
+                showon="send_mail_attending_cancel:1"
+        />
+        <field
                 name="sda_ics_open_download"
                 type="list"
                 label="COM_SDAJEM_FIELD_ICS_OPEN_DOWNLOAD_LABEL"

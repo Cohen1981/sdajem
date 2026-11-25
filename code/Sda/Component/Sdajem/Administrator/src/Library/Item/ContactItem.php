@@ -9,8 +9,8 @@ namespace Sda\Component\Sdajem\Administrator\Library\Item;
 /**
  * @package     Sda\Component\Sdajem\Administrator\Model\Item
  * @since       1.5.3
- * Representation of the database table #__sdajem_events.
- * All field types are database-compatible.
+ *
+ * Item Class for joomlas standard contact item from component com_contacts.
  */
 class ContactItem extends ItemClass
 {

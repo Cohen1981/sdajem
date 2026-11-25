@@ -14,7 +14,13 @@ use stdClass;
  * @package Sda\Component\Sdajem\Administrator\Trait
  * @author  Alexander Bahlo <abahlo@hotmail.de>
  * @since   1.4.0
- * For programming convenience only
+ *
+ * For programming convenience and type safety.
+ * This class provides a convenient way to work with items in the Sda component.
+ * It allows for easy creation and manipulation of item objects, with default values and type safety.
+ * Extend this class for the concrete joomla item.
+ * Standard fields for joomla database tables are already defined in this class.
+ *
  */
 class ItemClass extends stdClass implements ItemInterface
 {

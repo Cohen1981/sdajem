@@ -59,7 +59,7 @@ enum IntAttStatusEnum: int
 
 	/**
 	 *
-	 * @return string
+	 * @return string joomla translate String for Label
 	 *
 	 * @since 1.0.0
 	 *

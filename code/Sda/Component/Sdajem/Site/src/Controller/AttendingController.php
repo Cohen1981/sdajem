@@ -29,6 +29,7 @@ use Sda\Component\Sdajem\Administrator\Library\Item\Event;
 use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\Model\EventModel;
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * @package     Sda\Component\Sdajem\Site\Controller
@@ -179,17 +180,21 @@ class AttendingController extends FormController
 				$data->event_id      = (int) $id;
 				$data->users_user_id = (int) $currUser->id;
 				$data->status        = (int) $attStatus->value;
-				$data->is_interest = (int) ($event->eventStatusEnum
-					== EventStatusEnum::PLANING) ? 1 : 0;
+				$data->is_interest = (int) ($event->eventStatusEnum == EventStatusEnum::PLANING) ? 1 : 0;
 
 				$this->input->set('jform', $data->toArray());
 
 				$this->save();
 
+				$params = ComponentHelper::getParams('com_sdajem');
+
 				// if a user cancels their attending we at least inform the organizer
-				if ($attStatus === IntAttStatusEnum::NEGATIVE)
+				if ($attStatus === IntAttStatusEnum::NEGATIVE
+					&& $attending->status !== IntAttStatusEnum::NEGATIVE->value
+					&& $attending->status !== IntAttStatusEnum::NA->value
+					&& (bool)$params->get('send_mail_attending_cancel', 0))
 				{
-					$this->sendMail($event, $currUser);
+					$this->sendMail($event, $currUser, $params->get('cancel_mail_text', ''));
 				}
 			}
 		}
@@ -327,7 +332,7 @@ class AttendingController extends FormController
 	 *
 	 * Sends an email to all current participants of an event
 	 */
-	private function sendMail(Event $event, User $user): void {
+	private function sendMail(Event $event, User $user, string $cancelMailText = ''): void {
 		$mailer = Factory::getContainer()->get(MailerFactoryInterface::class)
 			->createMailer();
 
@@ -336,8 +341,15 @@ class AttendingController extends FormController
 			. $event->title . ' '
 			. $event->getStart()
 			. ' - ' . $event->getEnd();
-		// TODO there need to be a body. We should write something useful
-		$body    = $event->title;
+
+		if ($cancelMailText !== '')
+		{
+			$body    = $cancelMailText;
+		}
+		else
+		{
+			$body    = $event->title;
+		}
 
 		$userFactory     = Factory::getContainer()->get(
 			UserFactoryInterface::class
@@ -347,9 +359,18 @@ class AttendingController extends FormController
 		$attendings = $attendingsModel->getAttendingsToEvent($event->id);
 
 		$recipients = [];
+
+		if (isset($event->organizerId))
+		{
+			$recipients[] = $event->organizer->email;
+			$mailer->addRecipient($event->organizer->email);
+		}
+
 		foreach ($attendings as $attending)
 		{
-			if ($attending->users_user_id != $user->id && $attending->statusEnum === IntAttStatusEnum::POSITIVE)
+			if ($attending->users_user_id != $user->id
+				&& $attending->statusEnum === IntAttStatusEnum::POSITIVE
+				&& $attending->users_user_id !== $event->organizerId)
 			{
 				$recipientEmail = $userFactory->loadUserById($attending->users_user_id)->email;
 				$recipients[] = $recipientEmail;
