@@ -360,11 +360,11 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 														endif ?>
 													</div>
 													<?php
-													if ($item->organizerName): ?>
+													if ($item->organizer): ?>
 														<div><?php
 															echo Text::_(
 																			'COM_SDAJEM_ORGANIZIG'
-																	) . ': ' . $item->organizerName ?></div>
+																	) . ': ' . $item->organizer->user->name?></div>
 													<?php
 													endif; ?>
 													<?php

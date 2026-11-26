@@ -362,8 +362,8 @@ class AttendingController extends FormController
 
 		if (isset($event->organizerId))
 		{
-			$recipients[] = $event->organizer->email;
-			$mailer->addRecipient($event->organizer->email);
+			$recipients[] = $event->organizer->user->email;
+			$mailer->addRecipient($event->organizer->user->email);
 		}
 
 		foreach ($attendings as $attending)

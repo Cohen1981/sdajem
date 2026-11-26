@@ -326,10 +326,10 @@ else
 								<?php endif ?>
 
                                 <!-- organizer -->
-                                <?php if ($event->organizerName) : ?>
+                                <?php if (isset($event->organizer->user->name)) : ?>
                                 <div class="col-1">&nbsp;</div>
                                 <div class="col-11">
-                                    <?php echo Text::_('COM_SDAJEM_ORGANIZIG') . ': ' . $event->organizerName ?>
+                                    <?php echo Text::_('COM_SDAJEM_ORGANIZIG') . ': ' . $event->organizer->user->username ?>
                                 </div>
                                 <?php endif ?>
 

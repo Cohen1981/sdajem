@@ -11,10 +11,7 @@ use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
-use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Factory;
+use Sda\Component\Sdajem\Site\Model\UserModel;
 
 /**
  * @package     Sda\Component\Sdajem\Site\Model\Item
@@ -54,15 +51,12 @@ class Event extends EventTableItem
 	public ?string $postalCode;
 
 	/**
-	 * @var string|null
-	 * organizerName
-	 * The name of the event organizer.
-	 * @since 1.5.3
-	 * @deprecated use organizer for complete User Object.
+	 * @var UserModel|null
+	 * organizer
+	 * The organizer of the event.
+	 * @since 2.1.0
 	 */
-	public ?string $organizerName;
-
-	public ?User $organizer;
+	public ?UserModel $organizer;
 
 	/**
 	 * @var integer|null
@@ -142,7 +136,6 @@ class Event extends EventTableItem
 		$item->paramsRegistry        = new Registry($data['params']);
 		$item->locationName          = (isset($data['locationName'])) ? $data['locationName'] : '';
 		$item->postalCode            = (isset($data['postalCode'])) ? $data['postalCode'] : '';
-		$item->organizerName         = (isset($data['organizerName'])) ? $data['organizerName'] : '';
 		$item->attendeeCount         = $data['attendeeCount'];
 		$item->guestCount            = $data['guestCount'];
 		$item->attendeeFeedbackCount = $data['attendeeFeedbackCount'];
@@ -153,7 +146,7 @@ class Event extends EventTableItem
 
 		if (isset($data['organizerId']))
 		{
-			$item->organizer = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($data['organizerId']);
+			$item->organizer = new UserModel($data['organizerId']);
 		}
 
 		return $item;
@@ -182,15 +175,6 @@ class Event extends EventTableItem
 				$db->quoteName('#__sdajem_locations', 'loc') . ' ON ' . $db->quoteName(
 					'loc.id'
 				) . ' = ' . $db->quoteName('a.sdajem_location_id')
-			);
-
-		// Join over User as organizer
-		$query->select($db->quoteName('org.username', 'organizerName'))
-			->join(
-				'LEFT',
-				$db->quoteName('#__users', 'org') . ' ON ' . $db->quoteName('org.id') . ' = ' . $db->quoteName(
-					'a.organizerId'
-				)
 			);
 
 		// Get the Attendee count
