@@ -195,6 +195,13 @@ class EventTableItem extends ItemClass
 	public ?string $registerUntil;
 
 	/**
+	 * @var string|null
+	 * accessLevel
+	 * The access level of the event.
+	 * @since 2.1.0
+	 */
+	public ?string $accessLevel;
+	/**
 	 * Retrieves the start date and time of an event.
 	 *
 	 * @param   bool  $iCal  Indicates if the date and time should be formatted for iCal.
@@ -306,6 +313,15 @@ class EventTableItem extends ItemClass
 			)
 		);
 		$query->from($db->quoteName('#__sdajem_events', 'a'));
+
+		// Join over the asset groups.
+		$query->select($db->quoteName('ag.title', 'accessLevel'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName(
+					'ag.id'
+				) . ' = ' . $db->quoteName('a.access')
+			);
 
 		return $query;
 	}

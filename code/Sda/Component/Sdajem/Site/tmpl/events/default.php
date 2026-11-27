@@ -263,7 +263,7 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 													<div class="small">
 														<?php
 														echo Text::_('COM_SDAJEM_LOCATION') . ': ' . $this->escape(
-																		$item->locationName
+																		$item->location->title
 																); ?>
 													</div>
 												<?php
@@ -318,18 +318,18 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 													{
 														if ($item->eventStatusEnum <> EventStatusEnum::PLANING->value)
 														{
-															echo $item->attendeeFeedbackCount . ' ' . Text::_(
+															echo $item->interests->countFeedback() . ' ' . Text::_(
 																			'COM_SDAJEM_FEEDBACK_COUNT'
 																	) . '</br>';
-															echo $item->attendeeCount . ' ' . Text::_(
+															echo $item->interests->countAttendingStatus(IntAttStatusEnum::POSITIVE) . ' ' . Text::_(
 																			'COM_SDAJEM_ATTENDEE_COUNT'
-																	) . ' / ' . $item->guestCount . ' ' . Text::_(
+																	) . ' / ' . $item->interests->countAttendingStatus(IntAttStatusEnum::GUEST) . ' ' . Text::_(
 																			'COM_SDAJEM_GUEST_COUNT'
 																	);
 														}
 														else
 														{
-															echo $item->feedbackCount . ' ' . Text::_(
+															echo $item->interests->countFeedback(true) . ' ' . Text::_(
 																			'COM_SDAJEM_FEEDBACK_COUNT'
 																	) . '</br>';
 															if ($canDo->get('core.manage') ||
@@ -338,9 +338,9 @@ $userAuthorizedViewLevels = $currentUser->getAuthorisedViewLevels();
 																			) && $item->created_by == $currentUser->id)
 															)
 															{
-																echo $item->interestCount . ' ' . Text::_(
+																echo $item->interests->countAttendingStatus(IntAttStatusEnum::POSITIVE, true) . ' ' . Text::_(
 																				'COM_SDAJEM_INTEREST_COUNT'
-																		) . ' / ' . $item->guestCount . ' ' . Text::_(
+																		) . ' / ' . $item->interests->countAttendingStatus(IntAttStatusEnum::GUEST, true) . ' ' . Text::_(
 																				'COM_SDAJEM_GUEST_COUNT'
 																		);
 															}

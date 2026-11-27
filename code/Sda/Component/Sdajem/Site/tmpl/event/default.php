@@ -166,7 +166,7 @@ else
                     <h5>
                     <?php
                         echo Text::_('COM_SDAJEM_LOCATION') . ': ';
-                        echo $event->locationName;
+                        echo $event->location->title;
                         ?>
                     </h5>
                 </button>

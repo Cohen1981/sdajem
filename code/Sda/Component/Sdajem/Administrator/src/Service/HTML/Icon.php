@@ -87,7 +87,6 @@ class Icon
 	 * @param   FittingTableItemsCollection  $fittings  The fittings
 	 * @param   Registry|null                $params    The item parameters
 	 * @param   array                        $attribs   The attributes for the link
-	 * @param   false                        $legacy    True to use legacy images
 	 *
 	 * @return string
 	 * @throws Exception

@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
+use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 
 /** @var \Sda\Component\Sdajem\Administrator\View\Events\HtmlView $this */
 
@@ -165,7 +166,7 @@ echo Route::_('?option=com_sdajem'); ?>" method="post" name="adminForm" id="admi
 								</td>
 								<td>
 									<?php
-									echo $item->locationName; ?>
+									echo $item->location->title; ?>
 								</td>
 								<td>
 									<?php
@@ -173,7 +174,7 @@ echo Route::_('?option=com_sdajem'); ?>" method="post" name="adminForm" id="admi
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php
-									echo $item->attendeeCount; ?>
+									echo $item->interests->countAttendingStatus(IntAttStatusEnum::POSITIVE); ?>
 								</td>
 								<td class="text-center">
 									<?php

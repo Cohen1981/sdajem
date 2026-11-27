@@ -6,11 +6,19 @@
 
 namespace Sda\Component\Sdajem\Administrator\Library\Item;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
 use Joomla\Registry\Registry;
+use Sda\Component\Sdajem\Administrator\Library\Collection\AttendingsCollection;
+use Sda\Component\Sdajem\Administrator\Library\Collection\CommentsCollection;
+use Sda\Component\Sdajem\Administrator\Library\Collection\FittingsCollection;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
+use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
+use Sda\Component\Sdajem\Administrator\Model\CommentsModel;
+use Sda\Component\Sdajem\Administrator\Model\FittingsModel;
+use Sda\Component\Sdajem\Site\Model\LocationModel;
 use Sda\Component\Sdajem\Site\Model\UserModel;
 
 /**
@@ -36,19 +44,12 @@ class Event extends EventTableItem
 	public ?Registry $paramsRegistry;
 
 	/**
-	 * @var string|null
-	 * The location name of the event. For convenience set at construction of this class.
-	 * @since 1.4.0
+	 * @var Location|null
+	 * location
+	 * The location of the event.
+	 * @since 2.1.0
 	 */
-	public ?string $locationName;
-
-	/**
-	 * @var string|null
-	 * postalCode
-	 * The postal code of the event location.
-	 * @since 1.5.3
-	 */
-	public ?string $postalCode;
+	public ?Location $location;
 
 	/**
 	 * @var UserModel|null
@@ -59,60 +60,11 @@ class Event extends EventTableItem
 	public ?UserModel $organizer;
 
 	/**
-	 * @var integer|null
-	 * attendeeCount
-	 * The number of attendees for the event.
-	 * @since 1.5.3
+	 * @var CommentsCollection|null
+	 * commens to the event
+	 * @since version 2.1.0
 	 */
-	public ?int $attendeeCount;
-
-	/**
-	 * @var integer|null
-	 * guestCount
-	 * The number of guests for the event.
-	 * @since 1.5.3
-	 */
-	public ?int $guestCount;
-
-	/**
-	 * @var integer|null
-	 * attendeeFeedbackCount
-	 * The number of feedbacks for the event.
-	 * @since 1.5.3
-	 */
-	public ?int $attendeeFeedbackCount;
-
-	/**
-	 * @var integer|null
-	 * interestCount
-	 * The number of interests for the event.
-	 * @since 1.5.3
-	 */
-	public ?int $interestCount;
-
-	/**
-	 * @var integer|null
-	 * feedbackCount
-	 * The number of feedbacks for the event.
-	 * @since 1.5.3
-	 */
-	public ?int $feedbackCount;
-
-	/**
-	 * @var integer|null
-	 * commentsCount
-	 * The number of comments for the event.
-	 * @since 1.5.3
-	 */
-	public ?int $commentsCount;
-
-	/**
-	 * @var string|null
-	 * accessLevel
-	 * The access level of the event.
-	 * @since 1.5.3
-	 */
-	public ?string $accessLevel;
+	public ?CommentsCollection $comments;
 
 	/**
 	 * @var array|null
@@ -120,6 +72,20 @@ class Event extends EventTableItem
 	 * @since 1.5.3
 	 */
 	public ?array $svgs = [];
+
+	/**
+	 * @var AttendingsCollection|null
+	 * interests/ attendings to the event
+	 * @since version 2.1.0
+	 */
+	public ?AttendingsCollection $interests;
+
+	/**
+	 * @var FittingsCollection|null
+	 * fittings for the event
+	 * @since version 2.1.0
+	 */
+	public ?FittingsCollection $eventFittings;
 
 	/**
 	 * @since 1.4.0
@@ -132,137 +98,58 @@ class Event extends EventTableItem
 	{
 		$item = parent::createFromArray($data);
 
-		$item->eventStatusEnum       = EventStatusEnum::from($data['eventStatus']);
-		$item->paramsRegistry        = new Registry($data['params']);
-		$item->locationName          = (isset($data['locationName'])) ? $data['locationName'] : '';
-		$item->postalCode            = (isset($data['postalCode'])) ? $data['postalCode'] : '';
-		$item->attendeeCount         = $data['attendeeCount'];
-		$item->guestCount            = $data['guestCount'];
-		$item->attendeeFeedbackCount = $data['attendeeFeedbackCount'];
-		$item->interestCount         = $data['interestCount'];
-		$item->feedbackCount         = $data['feedbackCount'];
-		$item->commentsCount = $data['commentsCount'];
-		$item->svgs = (isset($data['svg'])) ? (array) json_decode($data['svg']) : [];
+		$params = ComponentHelper::getParams('com_sdajem');
+
+		$item->eventStatusEnum = (isset($data['eventStatus'])) ? EventStatusEnum::from($data['eventStatus']) : EventStatusEnum::from($item->eventStatus);
+		$item->paramsRegistry = (isset($data['params'])) ? new Registry($data['params']) : new Registry($item->params);
+
+		if (isset($data['location']))
+		{
+			$item->location = new Location($data['location']);
+		}
+		else
+		{
+			$locMod = new LocationModel();
+
+			if (isset($data['sdajem_location_id']))
+			{
+				$item->location = $locMod->getItem($data['sdajem_location_id']);
+			}
+			elseif (isset($item->sdajem_location_id))
+			{
+				$locMod->getItem($item->sdajem_location_id);
+			}
+		}
 
 		if (isset($data['organizerId']))
 		{
 			$item->organizer = new UserModel($data['organizerId']);
 		}
+		elseif (isset($item->organizerId))
+		{
+			$item->organizer = new UserModel($item->organizerId);
+		}
+
+		if ($params->get('sda_events_use_comments'))
+		{
+			$commentsModel  = new CommentsModel();
+			$item->comments = $commentsModel->getCommentsToEvent($item->id);
+		}
+
+		if ($params->get('sda_use_attending'))
+		{
+			$attendingsModel = new AttendingsModel();
+			$item->interests = $attendingsModel->getAttendingsToEvent($item->id);
+
+			if ($params->get('sda_events_use_fittings'))
+			{
+				$fittingsModel = new FittingsModel();
+				$item->eventFittings = $fittingsModel->getFittingsForEvent($item->id);
+			}
+		}
+
+		$item->svgs = (isset($data['svg'])) ? (array) json_decode($data['svg']) : [];
 
 		return $item;
-	}
-
-	/**
-	 * Constructs and returns a base query for retrieving event data from the database.
-	 *
-	 * @param   QueryInterface     $query  The query object to build upon.
-	 * @param   DatabaseInterface  $db     The database connection object.
-	 *
-	 * @return \JDatabaseQuery          The modified query object with the constructed query.
-	 * @since 1.5.3
-	 */
-	public static function getBaseQuery(QueryInterface $query,DatabaseInterface $db): QueryInterface
-	{
-		$query = parent::getBaseQuery($query, $db);
-
-		// Join over locations
-		$query->select([
-			$db->quoteName('loc.title', 'locationName'),
-			$db->quoteName('loc.postalCode', 'postalCode')
-		])
-			->join(
-				'LEFT',
-				$db->quoteName('#__sdajem_locations', 'loc') . ' ON ' . $db->quoteName(
-					'loc.id'
-				) . ' = ' . $db->quoteName('a.sdajem_location_id')
-			);
-
-		// Get the Attendee count
-		$attendees = $db->getQuery(true)
-			->select('COUNT(' . $db->quoteName('att.id') . ')')
-			->from($db->quoteName('#__sdajem_attendings', 'att'))
-			->where(
-				[
-					$db->quoteName('att.event_id') . ' = ' . $db->quoteName('a.id'),
-					$db->quoteName('att.status') . ' = ' . IntAttStatusEnum::POSITIVE->value,
-					$db->quoteName('att.is_interest') . ' = 0',
-					$db->quoteName('att.users_user_id') . ' IS NOT NULL'
-				]
-			);
-		$query->select('(' . $attendees . ') AS ' . $db->quoteName('attendeeCount'));
-
-		// Get the guest count
-		$guests = $db->getQuery(true)
-			->select('COUNT(' . $db->quoteName('g.id') . ')')
-			->from($db->quoteName('#__sdajem_attendings', 'g'))
-			->where(
-				[
-					$db->quoteName('g.event_id') . ' = ' . $db->quoteName('a.id'),
-					$db->quoteName('g.status') . ' = ' . IntAttStatusEnum::GUEST->value,
-					$db->quoteName('g.is_interest') . ' = 0',
-					$db->quoteName('g.users_user_id') . ' IS NOT NULL'
-				]
-			);
-		$query->select('(' . $guests . ') AS ' . $db->quoteName('guestCount'));
-
-		// Get the Attendee feedback count
-		$attendeesf = $db->getQuery(true)
-			->select('COUNT(' . $db->quoteName('atte.id') . ')')
-			->from($db->quoteName('#__sdajem_attendings', 'atte'))
-			->where(
-				[
-					$db->quoteName('atte.event_id') . ' = ' . $db->quoteName('a.id'),
-					$db->quoteName(
-						'atte.status'
-					) . ' IN( ' . IntAttStatusEnum::POSITIVE->value . ',
-							 ' . IntAttStatusEnum::NEGATIVE->value . ',
-							  ' . IntAttStatusEnum::GUEST->value . ')',
-					$db->quoteName('atte.is_interest') . ' = 0',
-					$db->quoteName('atte.users_user_id') . ' IS NOT NULL'
-				]
-			);
-		$query->select('(' . $attendeesf . ') AS ' . $db->quoteName('attendeeFeedbackCount'));
-
-		$interestCount = $db->getQuery(true)
-			->select('COUNT(' . $db->quoteName('int.id') . ')')
-			->from($db->quoteName('#__sdajem_attendings', 'int'))
-			->where(
-				[
-					$db->quoteName('int.event_id') . ' = ' . $db->quoteName('a.id'),
-					$db->quoteName('int.status') . ' = ' . IntAttStatusEnum::POSITIVE->value,
-					$db->quoteName('int.is_interest') . ' = 1',
-					$db->quoteName('int.users_user_id') . ' IS NOT NULL'
-				]
-			);
-		$query->select('(' . $interestCount . ') AS ' . $db->quoteName('interestCount'));
-
-		$feedback = $db->getQuery(true)
-			->select('COUNT(' . $db->quoteName('i.id') . ')')
-			->from($db->quoteName('#__sdajem_attendings', 'i'))
-			->where(
-				[
-					$db->quoteName('i.event_id') . ' = ' . $db->quoteName('a.id'),
-					$db->quoteName('i.is_interest') . ' = 1',
-					$db->quoteName('i.users_user_id') . ' IS NOT NULL'
-				]
-			);
-		$query->select('(' . $feedback . ') AS ' . $db->quoteName('feedbackCount'));
-
-		$commentsCount = $db->getQuery(true)
-			->select('COUNT(' . $db->quoteName('com.id') . ')')
-			->from($db->quoteName('#__sdajem_comments', 'com'))
-			->where($db->quoteName('com.sdajem_event_id') . ' = ' . $db->quoteName('a.id'));
-		$query->select('(' . $commentsCount . ') AS ' . $db->quoteName('commentsCount'));
-
-		// Join over the asset groups.
-		$query->select($db->quoteName('ag.title', 'accessLevel'))
-			->join(
-				'LEFT',
-				$db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName(
-					'ag.id'
-				) . ' = ' . $db->quoteName('a.access')
-			);
-
-		return $query;
 	}
 }

@@ -68,6 +68,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 * The event location if set
 	 * @var Location|null
 	 * @since 1.5.3
+	 * @deprecated use from event
 	 */
 	protected ?Location $location = null;
 
@@ -75,6 +76,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 * The User object of the organizer if set
 	 * @var UserModel|null
 	 * @since 1.5.3
+	 * @deprecated use from event
 	 */
 	protected ?UserModel $organizer = null;
 
@@ -95,6 +97,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 * Attendings to the event
 	 * @var AttendingsCollection|null
 	 * @since 1.5.3
+	 * @deprecated use from event
 	 */
 	protected ?AttendingsCollection $interests;
 
@@ -109,6 +112,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 * Fittings of the event
 	 * @var FittingsCollection|null
 	 * @since 1.5.3
+	 * @deprecated use from event
 	 */
 	protected ?FittingsCollection $eventFittings = null;
 
@@ -116,6 +120,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 * Comments to the event
 	 * @var CommentsCollection|null
 	 * @since 1.5.3
+	 * @deprecated use from event
 	 */
 	protected ?CommentsCollection $comments = null;
 
@@ -162,11 +167,6 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 
 		$this->params = $params->merge($itemParams);
 
-		if (isset($item->organizerId))
-		{
-			$this->organizer = new UserModel($item->organizerId);
-		}
-
 		if (isset($item->hostId))
 		{
 			/** @var ContactComponent $contactComponent */
@@ -179,26 +179,12 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 			$this->host = ContactItem::createFromObject($temp);
 		}
 
-		if ($this->params->get('sda_events_use_comments'))
-		{
-			$commentsModel  = $this->getModel('comments');
-			$this->comments = $commentsModel->getCommentsToEvent($item->id);
-		}
-
 		if ($this->params->get('sda_use_attending'))
 		{
-			$this->interests = $this->getModel('attendings')->getAttendingsToEvent($item->id);
-
 			if ($this->params->get('sda_events_use_fittings'))
 			{
 				$this->userFittings  = $this->getModel('fittings')->getFittingsForUser();
-				$this->eventFittings = $this->getModel('fittings')->getFittingsForEvent($item->id);
 			}
-		}
-
-		if (isset($item->sdajem_location_id))
-		{
-			$this->location = $this->getModel('location')->getItem($item->sdajem_location_id);
 		}
 
 		$active = Factory::getApplication()->getMenu()->getActive();
@@ -272,7 +258,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 */
 	public function getLocation(): ?Location
 	{
-		return $this->location;
+		return $this->item->location;
 	}
 
 	/**
@@ -283,7 +269,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 */
 	public function getInterests(): ?AttendingsCollection
 	{
-		return $this->interests;
+		return $this->item->interests;
 	}
 
 	/**
@@ -305,7 +291,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 */
 	public function getOrganizer(): ?UserModel
 	{
-		return $this->organizer;
+		return $this->item->organizer;
 	}
 
 	/**
@@ -316,7 +302,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 */
 	public function getEventFittings(): ?FittingsCollection
 	{
-		return $this->eventFittings;
+		return $this->item->eventFittings;
 	}
 
 	/**
@@ -327,7 +313,7 @@ class HtmlView extends BaseHtmlView implements HtmlViewInterface
 	 */
 	public function getComments(): ?CommentsCollection
 	{
-		return $this->comments;
+		return $this->item->comments;
 	}
 
 	/**

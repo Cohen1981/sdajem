@@ -28,9 +28,9 @@ use SimpleXMLElement;
 class HtmlView extends BaseHtmlView implements HtmlListViewInterface
 {
 	/**
-	 * An array of items
+	 * A collection of locations
 	 *
-	 * @var  array
+	 * @var  LocationsCollection
 	 * @since 1.0.0
 	 */
 	protected LocationsCollection $items;

@@ -19,6 +19,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
+use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Site\Model\AttendingModel;
 use Sda\Component\Sdajem\Site\View\Events\HtmlView;
 
@@ -342,8 +343,8 @@ else
 									</div>
 									<div class="col-11">
 										<?php
-										echo ' ' . $this->escape($event->postalCode) . ' ' . $this->escape(
-														$event->locationName
+										echo ' ' . $this->escape($event->location->postalCode) . ' ' . $this->escape(
+														$event->location->title
 												); ?>
 									</div>
 								<?php
@@ -357,18 +358,18 @@ else
 									echo '<div class="col-11">';
 									if ($event->eventStatusEnum <> EventStatusEnum::PLANING)
 									{
-										echo $event->attendeeFeedbackCount . ' ' . Text::_(
+										echo $event->interests->countFeedback() . ' ' . Text::_(
 														'COM_SDAJEM_FEEDBACK_COUNT'
 												) . '<br>';
-										echo $event->attendeeCount . ' ' . Text::_(
+										echo $event->interests->countAttendingStatus(IntAttStatusEnum::POSITIVE) . ' ' . Text::_(
 														'COM_SDAJEM_ATTENDEE_COUNT'
-												) . ' / ' . $event->guestCount . ' ' . Text::_(
+												) . ' / ' . $event->interests->countAttendingStatus(IntAttStatusEnum::GUEST) . ' ' . Text::_(
 														'COM_SDAJEM_GUEST_COUNT'
 												);
 									}
 									else
 									{
-										echo $event->feedbackCount . ' ' . Text::_(
+										echo $event->interests->countFeedback(true) . ' ' . Text::_(
 														'COM_SDAJEM_FEEDBACK_COUNT'
 												) . '<br>';
 										if (
@@ -376,9 +377,9 @@ else
 												($canDo->get('core.edit.own') && $event->created_by == $currentUser->id)
 										)
 										{
-											echo $event->interestCount . ' ' . Text::_(
+											echo $event->interests->countAttendingStatus(IntAttStatusEnum::POSITIVE, true) . ' ' . Text::_(
 															'COM_SDAJEM_INTEREST_COUNT'
-													) . ' / ' . $event->guestCount . ' ' . Text::_(
+													) . ' / ' . $event->interests->countAttendingStatus(IntAttStatusEnum::GUEST, true) . ' ' . Text::_(
 															'COM_SDAJEM_GUEST_COUNT'
 													);
 										}
@@ -437,7 +438,7 @@ else
                                     </div>
                                     <div class="col-11">
                                         <?php
-                                        echo $event->commentsCount;
+                                        echo $event->comments->count()
                                         ?>
                                     </div>
                                 <?php
@@ -500,5 +501,4 @@ else
 			endif; ?>
 		</div>
 	</div>
-	</form>
 </div>

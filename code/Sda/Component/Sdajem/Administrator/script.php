@@ -145,6 +145,7 @@ return new class () implements ServiceProviderInterface {
 				 * @param bool  $suppressOutput   Set to true to suppress echoing any errors, and just return the $status array
 				 *
 				 * @return  array
+				 * @since 2.0.2
 				 */
 				public function deleteUnexistingFiles($dryRun = false, $suppressOutput = false)
 				{

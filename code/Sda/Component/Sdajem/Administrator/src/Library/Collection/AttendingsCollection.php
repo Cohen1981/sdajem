@@ -6,6 +6,7 @@
 
 namespace Sda\Component\Sdajem\Administrator\Library\Collection;
 
+use Sda\Component\Sdajem\Administrator\Library\Enums\IntAttStatusEnum;
 use Sda\Component\Sdajem\Administrator\Library\Interface\CollectionInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\Attending;
 use Sda\Component\Sdajem\Administrator\Library\Trait\ItemsTrait;
@@ -35,5 +36,56 @@ class AttendingsCollection extends \ArrayObject implements CollectionInterface
 		{
 			$this->items[] = Attending::createFromObject($item);
 		}
+	}
+
+	/**
+	 * @param   IntAttStatusEnum  $status       the status of the attending to count
+	 * @param   bool              $isInterest   if the attending is interest (true if interest, false if attending)
+	 *
+	 * @return int  the count of attendings
+	 *
+	 * @since version 2.1.0
+	 */
+	public function countAttendingStatus(IntAttStatusEnum $status, bool $isInterest = false)
+	{
+		$count =  0;
+
+		/** @var Attending $item */
+		foreach ($this->items as $item)
+		{
+			if ($item->statusEnum == $status
+				&& (bool)$item->is_interest == $isInterest
+				&& isset($item->users_user_id))
+			{
+				$count++;
+			}
+		}
+
+		return $count;
+	}
+
+	/**
+	 * @param   bool  $isInterest
+	 *
+	 * @return int
+	 *
+	 * @since version 2.1.0
+	 */
+	public function countFeedback(bool $isInterest = false)
+	{
+		$count = 0;
+
+		/** @var Attending $item */
+		foreach ($this->items as $item)
+		{
+			if ((bool)$item->is_interest == $isInterest
+				&& isset($item->users_user_id)
+				&& $item->status !== IntAttStatusEnum::NA)
+			{
+				$count++;
+			}
+		}
+
+		return $count;
 	}
 }

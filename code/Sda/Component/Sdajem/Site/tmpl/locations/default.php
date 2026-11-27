@@ -17,13 +17,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Registry\Registry;
-use Sda\Component\Sdajem\Administrator\Model\Items\LocationsItemModel;
 
 /** @var \Sda\Component\Sdajem\Site\View\Locations\HtmlView $this */
 
 defined('_JEXEC') or die();
 
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('bootstrap.dropdown');
 $wa->useScript('bootstrap.collapse');
 $wa->useScript('table.columns');

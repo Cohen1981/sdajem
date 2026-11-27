@@ -257,7 +257,7 @@ class Router extends RouterView
 	}
 
 	/**
-	 * @param   mixed  $id
+	 * @param   mixed  $segment
 	 * @param   mixed  $query
 	 *
 	 * @return int
@@ -281,7 +281,7 @@ class Router extends RouterView
 	}
 
 	/**
-	 * @param   mixed  $id
+	 * @param   mixed  $segment
 	 * @param   mixed  $query
 	 *
 	 * @return int
@@ -305,7 +305,7 @@ class Router extends RouterView
 	}
 
 	/**
-	 * @param   mixed  $id
+	 * @param   mixed  $segment
 	 * @param   mixed  $query
 	 *
 	 * @return int
@@ -329,7 +329,7 @@ class Router extends RouterView
 	}
 
 	/**
-	 * @param   mixed  $id
+	 * @param   mixed  $segment
 	 * @param   mixed  $query
 	 *
 	 * @return integer
@@ -353,7 +353,7 @@ class Router extends RouterView
 	}
 
 	/**
-	 * @param   mixed  $id
+	 * @param   mixed  $segment
 	 * @param   mixed  $query
 	 *
 	 * @return integer

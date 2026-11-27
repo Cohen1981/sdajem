@@ -48,7 +48,7 @@ class EventAttendeeModel extends UserModel
 	public ?IntAttStatusEnum $status;
 
 	/**
-	 * @var EventStatusEnum
+	 * @var int
 	 * @since 1.5.3
 	 */
 	public int $is_interest;
