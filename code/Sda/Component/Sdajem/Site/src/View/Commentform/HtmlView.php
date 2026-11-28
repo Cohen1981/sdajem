@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
+use Sda\Component\Sdajem\Administrator\Library\Interface\HtmlViewInterface;
+use Sda\Component\Sdajem\Administrator\Library\Interface\ItemInterface;
 use Sda\Component\Sdajem\Administrator\Library\Item\CommentTableItem;
 use Sda\Component\Sdajem\Administrator\Library\Trait\HtmlViewTrait;
 use Sda\Component\Sdajem\Site\Model\CommentformModel;
@@ -30,7 +32,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements HtmlViewInterface
 {
 	use HtmlViewTrait;
 
@@ -144,5 +146,39 @@ class HtmlView extends BaseHtmlView
 		$this->getDocument()->setTitle($title);
 		$pathway = $app->getPathWay();
 		$pathway->addItem($title, '');
+	}
+
+	/**
+	 * Prepares the document
+	 *
+	 * @return ItemInterface
+	 *
+	 * @since  2.1.0
+	 */
+	public function getItem(): ItemInterface
+	{
+		return $this->item;
+	}
+
+	/**
+	 *
+	 * @return string teh return page
+	 *
+	 * @since 2.1.0
+	 */
+	public function getReturnPage(): string
+	{
+		return $this->return_page;
+	}
+
+	/**
+	 *
+	 * @return Form
+	 *
+	 * @since 2.1.0
+	 */
+	public function getForm(): Form
+	{
+		return $this->form;
 	}
 }

@@ -19,12 +19,14 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 use Sda\Component\Sdajem\Site\Model\LocationModel;
+use Sda\Component\Sdajem\Administrator\Library\Trait\AuthentificationTrait;
 
 /**
  * @since   __DEPLOY_VERSION__
  */
 class LocationController extends FormController
 {
+	use AuthentificationTrait;
 	/**
 	 * The URL view item variable.
 	 *
@@ -53,62 +55,6 @@ class LocationController extends FormController
 	public function getModel($name = 'locationform', $prefix = '', $config = ['ignore_request' => true])
 	{
 		return parent::getModel($name, $prefix, ['ignore_request' => false]);
-	}
-
-	/**
-	 * Method override to check if you can add a new record.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @throws \Exception
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function allowAdd($data = [])
-	{
-		$user = Factory::getApplication()->getIdentity();
-
-		return $user->authorise('core.create', 'com_sdajem');
-
-	}
-
-	/**
-	 * Method override to check if you can edit an existing record.
-	 *
-	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key; default is id.
-	 *
-	 * @return  boolean
-	 *
-	 * @throws \Exception
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function allowEdit($data = [], $key = 'id')
-	{
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-
-		if (!$recordId)
-		{
-			return false;
-		}
-
-		// Need to do a lookup from the model.
-		$record     = $this->getModel()->getItem($recordId);
-
-		$user = Factory::getApplication()->getIdentity();
-
-		if ($user->authorise('core.edit', 'com_sdajem'))
-		{
-			return true;
-		}
-
-		if ($user->authorise('core.edit.own', 'com_sdajem'))
-		{
-			return ($record->created_by == $user->id);
-		}
-
-		return false;
 	}
 
 	/**

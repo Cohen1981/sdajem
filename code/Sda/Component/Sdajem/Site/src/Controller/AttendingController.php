@@ -326,13 +326,12 @@ class AttendingController extends FormController
 	 * @param   Event  $event
 	 * @param   User   $user
 	 *
-	 *
-	 * @throws Exception
 	 * @since 2.0.1
 	 *
 	 * Sends an email to all current participants of an event
 	 */
 	private function sendMail(Event $event, User $user, string $cancelMailText = ''): void {
+
 		$mailer = Factory::getContainer()->get(MailerFactoryInterface::class)
 			->createMailer();
 
@@ -409,8 +408,7 @@ class AttendingController extends FormController
 			}
 			catch (Exception $e)
 			{
-				Factory::getApplication()->enqueueMessage(
-					$e->getMessage(), 'error'
+				$this->app->enqueueMessage($e->getMessage(), 'error'
 				);
 			}
 		}

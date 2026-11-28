@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_sdajem
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
@@ -7,8 +13,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var Sda\Component\Sdajem\Site\View\Locations\HtmlView $this */
 $app = Factory::getApplication();
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('modal-content-select');
 $function  = $app->input->getCmd('function', 'jSelectLocation');
 $onclick   = $this->escape($function);
@@ -17,7 +24,7 @@ $onclick   = $this->escape($function);
 <div class="container-popup">
     <form action="<?php echo Route::_('?option=com_sdajem&view=locations&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>"
           method="post" name="adminForm" id="adminForm" class="form-inline">
-		<?php if (empty($this->items)) : ?>
+		<?php if (empty($this->getItems())) : ?>
 			<div class="alert alert-warning">
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
@@ -40,7 +47,7 @@ $onclick   = $this->escape($function);
 					2  => 'icon-archive',
 				];
 				?>
-				<?php foreach ($this->items as $i => $item) : ?>
+				<?php foreach ($this->getItems() as $i => $item) : ?>
                     <?php $lang = '';
                     $attribs = 'data-content-select'
                             . ' data-id="' . $item->id . '"'

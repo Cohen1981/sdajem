@@ -13,27 +13,31 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/** @var Sda\Component\Sdajem\Site\View\Commentform\HtmlView $this */
+
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 $this->tab_name  = 'com-comment-form';
 $this->ignore_fieldsets = ['details', 'item_associations', 'language'];
 $this->useCoreUI = true;
 
-$wa = $this->document->getWebAssetManager();
+$wa = $this->getDocument()->getWebAssetManager();
+
+$item = $this->getItem();
 
 ?>
 <div class="sdajem_content_container">
-    <form action="<?php echo Route::_('?option=com_sdajem&id=' . (int) $this->item->id); ?>" method="post"
+    <form action="<?php echo Route::_('?option=com_sdajem&id=' . (int) $item->id); ?>" method="post"
           name="adminForm" id="adminForm" class="form-validate form-vertical">
         <fieldset>
             <?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, ['active' => 'details']); ?>
-            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'details', empty($this->item->id) ? Text::_('COM_SDAJEM_NEW_LOCATION') : Text::_('COM_SDAJEM_EDIT_LOCATION')); ?>
-            <?php echo $this->form->renderFieldset('comment'); ?>
+            <?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'details', empty($item->id) ? Text::_('COM_SDAJEM_NEW_LOCATION') : Text::_('COM_SDAJEM_EDIT_LOCATION')); ?>
+            <?php echo $this->getForm()->renderFieldset('comment'); ?>
             <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
             <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
             <input type="hidden" name="task" value=""/>
-            <input type="hidden" name="return" value="<?php echo $this->return_page; ?>"/>
+            <input type="hidden" name="return" value="<?php echo $this->getReturnPage(); ?>"/>
             <?php echo HTMLHelper::_('form.token'); ?>
         </fieldset>
         <div class="mb-2 row g-4">

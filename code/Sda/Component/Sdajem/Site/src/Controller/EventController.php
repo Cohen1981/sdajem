@@ -21,6 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Sda\Component\Sdajem\Administrator\Library\Enums\EventStatusEnum;
+use Sda\Component\Sdajem\Administrator\Library\Trait\AuthentificationTrait;
 use Sda\Component\Sdajem\Administrator\Model\AttendingsModel;
 use Sda\Component\Sdajem\Site\Model\AttendingformModel;
 use Sda\Component\Sdajem\Site\Model\EventformModel;
@@ -34,6 +35,7 @@ use Sda\Component\Sdajem\Site\Model\EventModel;
  */
 class EventController extends FormController
 {
+	use AuthentificationTrait;
 	/**
 	 * The URL view item variable.
 	 *
@@ -62,62 +64,6 @@ class EventController extends FormController
 	public function getModel($name = 'eventform', $prefix = '', $config = ['ignore_request' => true]): BaseDatabaseModel
 	{
 		return parent::getModel($name, $prefix, ['ignore_request' => false]);
-	}
-
-	/**
-	 * Method override to check if you can add a new record.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 * @throws Exception
-	 */
-	protected function allowAdd($data = []): bool
-	{
-		$user = Factory::getApplication()->getIdentity();
-
-		return $user->authorise('core.create', 'com_sdajem');
-	}
-
-	/**
-	 * Method override to check if you can edit an existing record.
-	 *
-	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key; default is id.
-	 *
-	 * @return  boolean
-	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 */
-	protected function allowEdit($data = [], $key = 'id'): bool
-	{
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-
-		if (!$recordId)
-		{
-			return false;
-		}
-
-		// Need to do a lookup from the model.
-		$record = $this->getModel()->getItem($recordId);
-
-		$user = Factory::getApplication()->getIdentity();
-
-		if ($user->authorise('core.edit', 'com_sdajem'))
-		{
-			return true;
-		}
-
-		// Fallback on edit.own.
-		if ($user->authorise('core.edit.own', 'com_sdajem'))
-		{
-			return ($record->created_by == $user->id);
-		}
-
-		return false;
 	}
 
 	/**
@@ -339,6 +285,12 @@ class EventController extends FormController
 		}
 	}
 
+	/**
+	 * @param   int  $access
+	 * @return  void
+	 *
+	 * @since v1.2.0
+	 */
 	protected function setAccessLevel(int $access): void
 	{
 		$eventId = $this->input->get('eventId');
@@ -347,7 +299,14 @@ class EventController extends FormController
 		{
 			/* @var EventformModel $event */
 			$event = $this->getModel();
-			$event->updateEventAccess($eventId, $access);
+			try
+			{
+				$event->updateEventAccess($eventId, $access);
+			}
+			catch (Exception $e)
+			{
+				$this->app->enqueueMessage($e->getMessage(), 'error');
+			}
 		}
 	}
 
@@ -355,7 +314,6 @@ class EventController extends FormController
 	 * Saves a working state of the planingTool
 	 *
 	 * @since 1.2.0
-	 * @return void
 	 */
 	public function savePlan(): void
 	{
@@ -381,18 +339,16 @@ class EventController extends FormController
 		}
 		catch (Exception $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 		}
 	}
 
 	/**
 	 * Deletes a fitting from the event
 	 *
-	 * @return void
-	 * @throws Exception
 	 * @since 1.2.0
 	 */
-	public function deleteFitting()
+	public function deleteFitting(): void
 	{
 		$input     = $this->input;
 		$fittingId = $input->getInt('id');
@@ -419,7 +375,7 @@ class EventController extends FormController
 
 				if (!$attendingForm->save($attending->toArray()))
 				{
-					Factory::getApplication()->enqueueMessage(Text::_('COM_SDAJEM_ATTENDING_SAVE_ERROR'), 'error');
+					$this->app->enqueueMessage(Text::_('COM_SDAJEM_ATTENDING_SAVE_ERROR'), 'error');
 				}
 			}
 		}
@@ -464,7 +420,7 @@ class EventController extends FormController
 	 * @throws Exception
 	 * @since 1.6.2
 	 */
-	public function saveBoxForm()
+	public function saveBoxForm(): void
 	{
 		$input = $this->input;
 
@@ -476,7 +432,14 @@ class EventController extends FormController
 		{
 			$eventFormModel = new EventformModel();
 
-			$eventData = $eventFormModel->getItem($input->get('eventId'));
+			try
+			{
+				$eventData = $eventFormModel->getItem($input->get('eventId'));
+			}
+			catch (Exception $e)
+			{
+				throw new Exception(Text::_($e->getMessage()), 404);
+			}
 
 			// Get the component parameters for later use as defaults
 			$compParams = ComponentHelper::getParams('com_sdajem');
@@ -493,7 +456,14 @@ class EventController extends FormController
 			$eventData->svg = '';
 
 			// Save the event data
-			$eventFormModel->save($eventData->toArray());
+			try
+			{
+				$eventFormModel->save($eventData->toArray());
+			}
+			catch (Exception $e)
+			{
+				$this->app->enqueueMessage(Text::_($e->getMessage()), 'error');
+			}
 
 			$this->setRedirect(Route::_($this->getReturnPage(), false));
 		}

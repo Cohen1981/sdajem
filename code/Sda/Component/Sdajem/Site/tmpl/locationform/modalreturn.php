@@ -1,9 +1,18 @@
 <?php
-$wa = $this->document->getWebAssetManager();
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_sdajem
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/** @var Sda\Component\Sdajem\Site\View\Locationform\HtmlView $this */
+
+$wa = $this->getDocument()->getWebAssetManager();
 $wa->useScript('modal-content-select');
 
-if ($this->item) {
-	$data['id']    = $this->item->id;
-	$data['title'] = $this->item->title;
+if ($this->getItem()) {
+	$data['id']    = $this->getItem()->id;
+	$data['title'] = $this->getItem()->title;
 }
-$this->document->addScriptOptions('content-select-on-load', $data, false);
+$this->getDocument()->addScriptOptions('content-select-on-load', $data, false);
