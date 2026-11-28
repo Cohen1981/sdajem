@@ -1,0 +1,73 @@
+<?php
+/**
+ * @copyright (c) 2025 Alexander Bahlo <abahlo@hotmail.de>
+ * @license   GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Sda\Component\Sdajem\Administrator\Controller;
+
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use Sda\Component\Sdajem\Administrator\Model\EventModel;
+use function defined;
+
+// phpcs:disable PSR1.Files.SideEffects
+defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
+/**
+ * EventsController class handles administrative functionalities related to the Events component.
+ *
+ * @since 1.0.0
+ */
+class EventsController extends AdminController
+{
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @since   1.0
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   array   $config  Array of configuration parameters.
+	 *
+	 * @return  BaseDatabaseModel
+	 */
+	public function getModel($name = 'Event', $prefix = 'Administrator', $config = ['ignore_request' => true]): BaseDatabaseModel
+	{
+		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * @return bool
+	 * @throws \Exception
+	 * @since 1.0.8
+	 */
+	public function delete(): bool
+	{
+		$pks = $this->input->get('cid');
+
+		$eventFormModel = new EventModel;
+		try
+		{
+			$result = $eventFormModel->delete($pks);
+		}
+		catch (\Exception $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		$this->setRedirect(
+			Route::_(
+				'?option=' . $this->option . '&view=' . $this->view_list
+				. $this->getRedirectToListAppend(),
+				false
+			)
+		);
+
+		return $result;
+	}
+}
